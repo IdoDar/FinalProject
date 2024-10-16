@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="index.js"></script>
+<title>Dog DB</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<div>
+ <div class="input-group">
+<input type="text" class="form-control" placeholder="Enter Your Dog's Name" id="Dogname" name="Dogname" autofocus>
+    <div class="input-group-btn">
+<button onclick="postMethod()" class="btn btn-default" type="button">Submit</button>
+</div>
+</div>
+<label class="form-control" for="Dogtype">Choose Your Dog's Type:</label>
+<select class="form-control" name="Dogtype" id="Dogtype">
+  <option value="Husky">Husky</option>
+  <option value="Poodle">Poodle</option>
+  <option value="Pomeranian">Pomeranian</option>
+  <option value="Yorkshire Terrier">Yorkshire Terrier</option>
+</select>
+</div>	
+<p id="res"></p>
+<a href="http://localhost/CRUDAPI.html">For CRUD API Click Here</a>
+</body>
+</html>
