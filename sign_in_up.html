@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="sign_in_up.css" />
+</head>
+<body dir="rtl">
+    <button class="sign_up_button" onclick="show_sign_up()">הרשמה</button>
+    <div id="sign_up_id" class="sign_up_class">
+        <form class="inside_up">
+            <div class="container">
+                <h1>הרשמה</h1>
+                <p>בבקשה מלאו את הפרטים הבאים על מנת להירשם לאתר</p>
+
+                <div class="row">
+                    <div class="half">
+                        <label>שם פרטי</label>
+                        <input type="text" id="fname" placeholder="Enter First Name" required />
+                        <label>שם משפחה</label>
+                        <input type="text" id="lname" placeholder="Enter Last Name" required />
+                        <label>כתובת מייל</label>
+                        <input type="text" id="email" placeholder="Enter Email" required />
+                        <label>מספר טלפון</label>
+                        <input type="text" id="phone" placeholder="Enter Phone Number" required />
+                    </div>
+                    <div class="half">
+                        <label>תאריך לידה</label>
+                        <input type="date" id="bdate" required />
+                        <label>מין</label>
+                        <select id="gender">
+                            <option>גבר</option>
+                            <option>אישה</option>
+                            <option>אחר</option>
+                            <option>אני לא מעוניין לשתף</option>
+                        </select>
+                        <label>סיסמה</label>
+                        <input type="password" id="password1" placeholder="Enter Password" required />
+                        <label>אימות סיסמה</label>
+                        <input type="password" id="password2" placeholder="Repeat Password" required />
+                    </div>
+
+                </div>
+                <input type="checkbox" required /> אני מאשר/ת את <a href="#" style="color:dodgerblue">תנאי השימוש </a> באתר
+                <div class="my_buttons">
+                    <div class="row">
+                        <div class="half">
+                            <button type="button" onclick='func_close_up()' class="cancel_button">ביטול</button>
+                        </div>
+                        <div class="half">
+                            <button type="submit" onclick="check_input_up()" class="finish_sign_button">רישום</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <!-------------------------------------------------------------------------->
+    <button class="sign_in_button" onclick="show_sign_in()">התחברות</button>
+    <div id="sign_in_id" class="sign_in_class">
+        <form class="inside_in">
+            <div >
+                <img src="image/dog.png"/>
+            </div>
+            <div class="container">
+                <label class="label_email">כתובת מייל</label>
+                <input type="text" id="email_id" class="email_in" placeholder="Enter Email" required />
+                <label class="label_password">סיסמה</label>
+                <input type="password" id="password_id" class="password_in" placeholder="Enter Password" required />
+                <div class="row">
+                    <div class="half">
+                        <button type="button" onclick="func_close_in()" class="cancel_button">ביטול</button>
+                    </div>
+                    <div class="half">
+                        <button type="submit" onclick="check_input_in()" class="finish_sign_button">התחברות</button>
+                        </div>
+                    </div>
+                </div>
+</form>
+    </div>
+    <script src="sign_in_up.js"></script>
+</body>
+</html>
