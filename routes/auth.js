@@ -1,10 +1,11 @@
 const express = require("express");
 const path = require("path");
 const router = express.Router();
-const authController = require('../controllers/authController');
+const authController = require('../controllers/authJWTController');
+const verifyJWT = require('../middleware/verifyJWT')
 
-
-router.get("/test", (req, res) => {
+//the test is my secret route for testing JWT 
+router.get("/test", verifyJWT, (req, res) => {
   res.sendFile(path.join(__dirname, '../views/auth', 'sign_in_up.html'));
 });
 
