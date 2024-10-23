@@ -1,21 +1,23 @@
 const express = require("express")
+const path = require("path")
 const router = express.Router()
 
-//define logging for the command prompt of searching url
-router.use(logger)
 
-router.get("/", (req, res) => {
-  res.render("auth/login")
-})
+router.get("/test", (req, res) => {
+  res.sendFile(path.join(__dirname, '../views/auth', 'sign_in_up.html'));
+});
 
-router.get("/new", (req, res) => {
-  res.render("auth/register")
-})
+router.get("^/$|/login(.html)?", (req, res) => {
+  res.sendFile(path.join(__dirname, '../views/auth', 'login.html'));
+});
+
+router.get("^/new$|/register(.html)?", (req, res) => {
+  res.sendFile(path.join(__dirname, '../views/auth', 'login.html'));
+});
+
+router.all('*', (req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '../views', '404.html'));
+});
 
 
-function logger(req, res, next) {
-  console.log(req.originalUrl)
-  next()
-}
-
-module.exports = router
+module.exports  = router;
