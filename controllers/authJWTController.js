@@ -19,9 +19,15 @@ const handleLogIn = async (req, res) => {
     //check password
     const match = await bcrypt.compare(password, foundUser.password);
     if(match){
+        const roles = Object.values(foundUser.roles);
         // Create JWT while Auth
-        const accessToken = jwt.sign(
-            {"username": foundUser.username },
+        const accessToken = jwt.sign(  
+            { 
+                "UserInfo": {
+                    "username": foundUser.username,
+                    "roles": roles
+                }
+            },
             process.env.ACCESS_TOKEN_SECRET,
             {expiresIn: '30s'}
         );
@@ -37,7 +43,7 @@ const handleLogIn = async (req, res) => {
             path.join(__dirname, "../model", 'users.json'),
             JSON.stringify(usersDB.users)
         );
-        res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 15 * 60 * 1000})
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 15 * 60 * 1000})
         res.json({ accessToken })
     }
     else{
@@ -57,23 +63,28 @@ const handleNewUser = async (req, res) => {
         const hashpwd = await bcrypt.hash(password, 10);
 
         //store new user
-        const newUser = { "username" : user, "password" : hashpwd, "email": email, "phoneNumber": phoneNumber };
+        const newUser = { 
+            "username" : user, 
+            "roles" : { "user" : 100 },
+            "password" : hashpwd, 
+            "email": email, 
+            "phoneNumber": phoneNumber };
         usersDB.setUsers([...usersDB.users, newUser]);
         await fsPromises.writeFile(
             path.join(__dirname, "../model", 'users.json'),
         JSON.stringify(usersDB.users)
     );
     console.log(usersDB.users);
-    res.status(201).json({'success' : `New User ${user} created`})
+    res.status(201).json({'success' : `New User ${user} created`});
     }
     catch(err){
-        res.status(500).json({'Message' : err.Message })
+        res.status(500).json({'Message' : err.Message });
     }
 }
 
 const handleRefreshToken = async (req, res) => {
     const cookies = req.cookies;
-    if (!cookies?.jwt) return res.status(401);
+    if (!cookies?.jwt) return res.sendStatus(401);
     console.log(cookies.jwt);
     const refreshToken = cookies.jwt;
     const foundUser = usersDB.users.find(user1 => user1.refreshToken === refreshToken);
@@ -84,8 +95,14 @@ const handleRefreshToken = async (req, res) => {
         process.env.REFRESH_TOKEN_SECRET,
         (err, decoded) => {
             if(err || foundUser.username != decoded.username) return res.sendStatus(403); // Invalid Token
-            const accessToken = jwt.sign(
-                {"username": foundUser.username },
+            const roles = Object.values(foundUser.roles);
+            const accessToken = jwt.sign(  
+                { 
+                    "UserInfo": {
+                        "username": foundUser.username,
+                        "roles": roles
+                    }
+                },
                 process.env.ACCESS_TOKEN_SECRET,
                 {expiresIn: '30s'}
             );
@@ -94,4 +111,29 @@ const handleRefreshToken = async (req, res) => {
     )
 }
 
-module.exports = { handleNewUser, handleLogIn, handleRefreshToken};
+const handleLogout = async (req, res) => {
+    //On client, also delete the accessToken
+    const cookies = req.cookies;
+    if (!cookies?.jwt) return res.status(204); //No Content
+    const refreshToken = cookies.jwt;
+
+    //Is RefreshToken in DB
+    const foundUser = usersDB.users.find(user1 => user1.refreshToken === refreshToken);
+    if (!foundUser) {
+        res.clearCookie('jwt', { httpOnly: true });
+        return res.sendStatus(204); //No Content
+    } 
+    //delete the refreshToken From DB
+    const otherUsers = usersDB.users.filter(user1 => user1.username != foundUser.username)
+    const cuurentUser = {...foundUser, refreshToken: '' };
+    usersDB.setUsers([...otherUsers, cuurentUser])
+    await fsPromises.writeFile(
+        path.join(__dirname, "../model", 'users.json'),
+        JSON.stringify(usersDB.users)
+    );
+
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None' }); 
+    return res.sendStatus(204); //No Content
+};
+
+module.exports = { handleNewUser, handleLogIn, handleRefreshToken, handleLogout};
