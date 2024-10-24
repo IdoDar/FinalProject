@@ -71,7 +71,20 @@ function ReadData(req, res, collection) {
     console.log('Find users from', dbClient.name);
     dbClient.model(collection).find()
         .then(function (data) {
-            res.send(data)
+            var resdata = ` <table class="table">
+<thead>
+  <tr>
+  <th>json</th>
+  </tr>
+</thead>`
+            data.forEach((model) => {
+                resdata = resdata + `<tbody>
+    <tr>
+      <td>${model}</td>
+    </tr>
+  </tbody>`
+            })
+            res.send(resdata)
         })
         .catch((err) => { console.log(err); res.status(404).json(err) })
 
@@ -118,13 +131,6 @@ crud.get("/", (req, res) => {
     ReadData(req, res, "users")
 })
 
-//What happends when method GET (get all info) used to CRUD
-crud.get("/suppliers", (req, res) => {
-    ReadData(req, res, "suppliers")
-})
-crud.post("/suppliers", (req, res) => {
-    CreateData(req, res, "suppliers")
-})
 //What happends when method POST (to add more data) used to CRUD
 crud.post("/", (req, res) => {
     CreateData(req, res, "users")
