@@ -1,11 +1,18 @@
-//Express Module
+//Import Modules
+require('dotenv').config();
 const express = require('express');
 const logger = require('./middleware/logger');
 const cookieParser = require('cookie-parser');
 const ROLES_LIST = require('./config/roles_list');
 const verifyRoles = require('./middleware/verifyRoles');
-const verifyJWT = require('./middleware/verifyJWT')
+const verifyJWT = require('./middleware/verifyJWT');
+const mongoose = require('mongoose');
+const connectDB = require('./config/dbconn')
 const PORT = process.env.PORT || 8080;
+
+//connect the DB
+connectDB();
+
 //Init app http
 const app = express();
 
@@ -24,7 +31,10 @@ app.use("/supplier", verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.supplie
 
 app.use("/admin", verifyJWT, verifyRoles(ROLES_LIST.Admin), require("./routes/admin"));
 
-app.listen(PORT, () => console.log('Server Running'));
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB');
+    app.listen(PORT, () => console.log(`Server running `));
+});
 
 
 
