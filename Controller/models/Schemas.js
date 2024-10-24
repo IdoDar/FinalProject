@@ -77,7 +77,10 @@ var supplierSchema = new Schema({
     },
     phoneNum: {
       type: Number
-    }
+    },
+    locations: {
+        type: Array
+      }
   });
 
   //export to use in diff .js
