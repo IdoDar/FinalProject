@@ -1,0 +1,20 @@
+  #res span {
+      position: absolute;	
+      display: inline-block;
+      background-color: white;
+  width:25%;
+  }
+  gmp-map{
+      position: absolute;	
+  width:50%;
+  }
+#mission{
+  left: 25%;
+  width:50%;
+}
+body{
+  position: absolute;	
+  top:20%;
+  left: 35%;
+  width:50%;
+}
