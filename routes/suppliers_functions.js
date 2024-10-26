@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const bodyParser=require('body-parser')
 
-router.get("/suppliers",async (req,res) => {
+router.get("/",async (req,res) => {
     const out= await mongoose_api.ReadData("suppliers",{},{_id: 0})
     var err=out[0]
     var data=out[1]
@@ -12,8 +12,8 @@ router.get("/suppliers",async (req,res) => {
     else
         res.send(data)
 })
-router.post("/suppliers",async (req,res) =>{
-    const  out= await mongoose_api.CreateData("suppliers",req.json)
+router.post("/",async (req,res) =>{
+    const  out= await mongoose_api.CreateData("suppliers",req.body)
     var err=out[0]
     var data=out[1]
     if (err)
@@ -21,7 +21,7 @@ router.post("/suppliers",async (req,res) =>{
     else
         res.send(data)
 })
-router.put("/suppliers",async (req,res) =>
+router.put("/",async (req,res) =>
 {
     var search=JSON.parse(`{"${req.body.fieldsearch}":"${req.body[req.body.fieldsearch]}"}`)
     delete req.body.fieldsearch
@@ -33,7 +33,7 @@ router.put("/suppliers",async (req,res) =>
     else
         res.send(data)
 })
-router.delete("/suppliers",async (req,res) =>
+router.delete("/",async (req,res) =>
 {
     const out= await mongoose_api.DeleteData("suppliers",req.body)
     var err=out[0]
@@ -44,7 +44,7 @@ router.delete("/suppliers",async (req,res) =>
         res.send(data)
 })
 
-router.get("/suppliers/locations",async (req,res) =>{
+router.get("/locations",async (req,res) =>{
     const  out= await mongoose_api.ReadData("suppliers",{},{locations:1,_id: 0})
     var err=out[0]
     var data=out[1]

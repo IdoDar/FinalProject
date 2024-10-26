@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const bodyParser=require('body-parser')
 
-router.get("/baskethistory",async (req,res) => {
+router.get("/",async (req,res) => {
     const out= await mongoose_api.ReadData("baskethistory",{},{_id: 0})
     var err=out[0]
     var data=out[1]
@@ -12,8 +12,8 @@ router.get("/baskethistory",async (req,res) => {
     else
         res.send(data)
 })
-router.post("/baskethistory",async (req,res) =>{
-    const  out= await mongoose_api.CreateData("baskethistory",req.json)
+router.post("/",async (req,res) =>{
+    const  out= await mongoose_api.CreateData("baskethistory",req.body)
     var err=out[0]
     var data=out[1]
     if (err)
@@ -21,7 +21,7 @@ router.post("/baskethistory",async (req,res) =>{
     else
         res.send(data)
 })
-router.put("/baskethistory",async (req,res) =>
+router.put("/",async (req,res) =>
 {
     var search=JSON.parse(`{"${req.body.fieldsearch}":"${req.body[req.body.fieldsearch]}"}`)
     delete req.body.fieldsearch
@@ -33,7 +33,7 @@ router.put("/baskethistory",async (req,res) =>
     else
         res.send(data)
 })
-router.delete("/baskethistory",async (req,res) =>
+router.delete("/",async (req,res) =>
 {
     const out= await mongoose_api.DeleteData("baskethistory",req.body)
     var err=out[0]

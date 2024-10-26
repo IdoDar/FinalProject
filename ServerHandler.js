@@ -20,30 +20,12 @@ main.use(bodyParser.urlencoded({ extended: false }))
 main.use(bodyParser.json())
 main.use(bodyParser.text({ type: 'text/plain' }))
 
-main.get("/users",users_functions)
-main.post("/users",users_functions)
-main.put("/users",users_functions)
-main.delete("/users",users_functions)
+main.use("/users",users_functions)
 
-main.get("/suppliers",suppliers_functions)
-main.post("/suppliers",suppliers_functions)
-main.put("/suppliers",suppliers_functions)
-main.delete("/suppliers",suppliers_functions)
+main.use("/suppliers",suppliers_functions)
 
-main.get("/products",products_functions)
-main.post("/products",products_functions)
-main.put("/products",products_functions)
-main.delete("/products",products_functions)
+main.use("/products",products_functions)
 
-main.get("/baskethistory",baskethistory_functions)
-main.post("/baskethistory",baskethistory_functions)
-main.put("/baskethistory",baskethistory_functions)
-main.delete("/baskethistory",baskethistory_functions)
-
-main.get("/suppliers/locations",suppliers_functions)
-
-main.get("/users/MostBought",users_functions)
-
-main.get("/users/ThatBoughtMost",users_functions)
+main.use("/baskethistory",baskethistory_functions)
 
 main.listen(80,function(){console.log("Main Running")})

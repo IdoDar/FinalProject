@@ -66,6 +66,7 @@ async function CreateData(collection,datajson){
         const newCollection = new basketHistoryModel(datajson);
         await newCollection.save()
             .then(function () {
+                console.log(datajson)
                 retdata=`${collection} created: ${datajson}`
                 reterr=0
             })
