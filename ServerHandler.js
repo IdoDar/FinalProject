@@ -8,23 +8,47 @@ const verifyRoles = require('./middleware/verifyRoles');
 const verifyJWT = require('./middleware/verifyJWT');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbconn')
-const PORT = process.env.PORT || 8080;
+const cors = require('cors');
+const corsOptions = require('./config/CorsOptions');
+const credentials = require('./middleware/credentials');
+const PORT = process.env.PORT || 80;
 
-//connect the DB
-connectDB();
 
 //Init app http
 const app = express();
 
+
+// custom middleware logger
+app.use(logger);
+
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentials);
+
+// Cross Origin Resource Sharing
+app.use(cors(corsOptions));
+
+// built-in middleware to handle urlencoded form data
+app.use(express.urlencoded({ extended: false }));
+
+// built-in middleware for json 
+app.use(express.json());
+
+//middleware for cookies
+app.use(cookieParser());
+
+
 //make main use the "public" folder as it's gets and posts
 app.use(express.static('public'));
 
-app.use(logger);
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+//API Routes
+app.use("/API", require("./routes/API/products"));
+app.use("/API", require("./routes/API/suppliers"));
+app.use("/API", require("./routes/API/users"));
 
-app.use(cookieParser());
-//routes
+
+app.use
+//Default Routes
 app.use("/auth", require("./routes/auth"));
 
 app.use("/supplier", verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.supplier), require("./routes/supplier"));
