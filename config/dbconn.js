@@ -10,4 +10,7 @@ const connectDB = async () => {
         console.error(err);
     }
 };
-module.exports = connectDB
+
+const dbName = "testing_tables";
+
+module.exports = { connectDB, dbName }
