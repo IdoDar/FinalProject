@@ -10,7 +10,7 @@ const userSchema = new Schema({
   roles: {
     User: {
       type: Number,
-      default: 200
+      default: 100
     },
     Supplier: Number,
     Admin: Number
