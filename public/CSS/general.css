@@ -1,0 +1,29 @@
+*{
+    background-color:linen;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.headline{
+    font-size:34px;
+    font-weight:bold;
+    text-align:center;
+}
+.text{
+    font-size:24px;
+}
+.images {
+    border-radius: 7px;
+    max-width: 25%;
+    height: auto;
+    display: block;
+}
+.mylogo {
+    border-radius: 10px;
+    max-width: 15%;
+    height: auto;
+    display: block;
+    object-position:center top;
+    
+    
+    
+}
+/*if you want to add another color  use lightsteelblue*/

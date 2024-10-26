@@ -1,0 +1,11 @@
+  #res span {
+      position: absolute;	
+      display: inline-block;
+  }
+
+body{
+  position: absolute;	
+  left: 35%;
+  width:25%;
+  background-color:linen;
+}
