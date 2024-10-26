@@ -22,8 +22,8 @@ if (!dbClient.models['users']) {
   if (!dbClient.models['products']) {
     var productModel = dbClient.model('products', Schemas.productSchema);
   }
-  if (!dbClient.models['bascketHistory']) {
-    var bascketHistoryModel = dbClient.model('bascketHistory', Schemas.bascketHistorySchema);
+  if (!dbClient.models['baskethistory']) {
+    var basketHistoryModel = dbClient.model('baskethistory', Schemas.basketHistorySchema);
   }
 
   //Create New data in a collection from req
@@ -62,8 +62,8 @@ async function CreateData(collection,datajson){
             .catch((err) => {
                 reterr=err
             });}
-    if (collection=="bascketHistory"){
-        const newCollection = new bascketHistoryModel(datajson);
+    if (collection=="baskethistory"){
+        const newCollection = new basketHistoryModel(datajson);
         await newCollection.save()
             .then(function () {
                 retdata=`${collection} created: ${datajson}`
@@ -136,4 +136,4 @@ exports.dbClient=dbClient
 exports.userModel=userModel
 exports.suppModel=suppModel
 exports.productModel=productModel
-exports.bascketHistoryModel=bascketHistoryModel
+exports.basketHistoryModel=basketHistoryModel

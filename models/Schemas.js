@@ -31,11 +31,7 @@ var userSchema = new Schema({
     currentBasket: [{
       type: mongoose.Schema.Types.ObjectId,
       ref:"products"
-    }],
-    basketHistory: [[{
-      type: mongoose.Schema.Types.ObjectId,
-      ref:"products"
-    }]]
+    }]
   });
 
   var productSchema = new Schema({
@@ -94,7 +90,7 @@ var supplierSchema = new Schema({
         type: Array
       }
   });
-var bascketHistorySchema = new Schema({
+var basketHistorySchema = new Schema({
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref:"users"
@@ -113,4 +109,4 @@ var bascketHistorySchema = new Schema({
   exports.userSchema = userSchema;
   exports.productSchema = productSchema;
   exports.supplierSchema = supplierSchema;
-  exports.bascketHistorySchema = bascketHistorySchema;
+  exports.basketHistorySchema = basketHistorySchema;
