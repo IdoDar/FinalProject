@@ -1,38 +1,41 @@
 * {
     box-sizing: border-box;
 }
-body{
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+
+
+
 .row {
     display: flex;
     margin: 0 -16px;
 }
+
 .half {
     padding: 0 16px;
     width: 50%;
 }
 
-input[type=text], input[type=password], input[type=date], select{
+input[type=text], input[type=password], input[type=date], select {
     width: 100%;
     padding: 15px;
     margin: 5px 0 22px 0;
     display: inline-block;
     border: none;
     background: whitesmoke;
-    font-size:16px;
+    font-size: 16px;
 }
 
-    
+
     input[type=text]:focus, input[type=password]:focus, input[type=date]:focus, select:focus {
         background-color: lightgray;
         outline: none;
     }
+
 input[type=checkbox] {
     padding: 15px;
     margin: 5px 0 22px 0;
     display: inline-block;
 }
+
 .email_in {
     width: 50%;
 }
@@ -48,6 +51,7 @@ button {
     font-size: 20px;
     border-radius: 4px;
 }
+
     button:hover {
         opacity: 1;
     }
@@ -66,7 +70,7 @@ button {
     padding: 14px 20px;
     margin: 8px 0;
 }
-    
+
 .cancel_button {
     padding: 14px 20px;
     background-color: indianred;
@@ -82,9 +86,10 @@ button {
     border: 2px solid cornflowerblue;
     padding: 10px 16px
 }
+
     .sign_in_button:hover {
         background-color: cornflowerblue;
-        color:white;
+        color: white;
     }
 
 
@@ -94,37 +99,35 @@ button {
 
 .sign_up_class, .sign_in_class {
     display: none; /* Hidden by default */
-    position: fixed; 
+    position: fixed;
     z-index: 1; /* Sit on top */
-    width: 100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     overflow: auto; /* Enable scroll if needed */
-    background-color: slategray;
+    background-color: lightsteelblue;
 }
-.sign_in_class {
-    background-color:cornsilk;
-}
+
+
+
 img {
     border-radius: 50%;
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 25%;
-    
 }
 
 
 
 
 .inside_up, .inside_in {
-    background-color: lightsteelblue;
-    margin: 5% auto 15% auto; 
+    margin: 5% auto 15% auto;
     border: 1px solid gray;
-    width: 80%; 
+    width: 80%;
 }
+
 .inside_in {
-    background-color:lightseagreen;
-    width: 50%; 
+    width: 50%;
 }
 
 /* Change styles for cancel button and signup button on extra small screens */
@@ -133,5 +136,3 @@ img {
         width: 100%;
     }
 }
-
-
