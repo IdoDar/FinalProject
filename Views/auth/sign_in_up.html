@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="/css/general.css" />
     <link rel="stylesheet" href="/css/sign_in_up.css" />
 </head>
-<body dir="rtl">
+<body>
     <button class="sign_up_button" onclick="show_sign_up()">Sign Up</button>
     <div id="sign_up_id" class="sign_up_class">
         <form class="inside_up">
@@ -39,7 +40,7 @@
                     </div>
 
                 </div>
-                <input type="checkbox" required /> I agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a> .
+                <input type="checkbox" required /> I agree to our <a href="Terms_and_privacy.html" target="_blank" style="color:dodgerblue">Terms & Privacy</a> .
                 <div class="my_buttons">
                     <div class="row">
                         <div class="half">
@@ -55,27 +56,27 @@
 
     </div>
     <!-------------------------------------------------------------------------->
-    <button class="sign_in_button" onclick="show_sign_in()">�������</button>
+    <button class="sign_in_button" onclick="show_sign_in()">Sign In</button>
     <div id="sign_in_id" class="sign_in_class">
         <form class="inside_in">
-            <div >
-                <img src="image/dog.png"/>
+            <div>
+                <img src="image/dog.png" />
             </div>
             <div class="container">
-                <label class="label_email">����� ����</label>
+                <label class="label_email">Email</label>
                 <input type="text" id="email_id" class="email_in" placeholder="Enter Email" required />
-                <label class="label_password">�����</label>
+                <label class="label_password">Paaword</label>
                 <input type="password" id="password_id" class="password_in" placeholder="Enter Password" required />
                 <div class="row">
                     <div class="half">
-                        <button type="button" onclick="func_close_in()" class="cancel_button">�����</button>
+                        <button type="button" onclick="func_close_in()" class="cancel_button">Cancel</button>
                     </div>
                     <div class="half">
-                        <button type="submit" onclick="check_input_in()" class="finish_sign_button">�������</button>
-                        </div>
+                        <button type="submit" onclick="check_input_in()" class="finish_sign_button">Sign In</button>
                     </div>
                 </div>
-</form>
+            </div>
+        </form>
     </div>
     <script src="/JavaScript/sign_in_up.js"></script>
 </body>
