@@ -1,21 +1,32 @@
-const express = require("express")
-const router = express.Router()
-
-//define logging for the command prompt of searching url
-router.use(logger)
-
-router.get("/", (req, res) => {
-  res.render("auth/login")
-})
-
-router.get("/new", (req, res) => {
-  res.render("auth/register")
-})
+const express = require("express");
+const path = require("path");
+const router = express.Router();
+const authController = require('../controllers/authJWTController');
+const verifyJWT = require('../middleware/verifyJWT')
 
 
-function logger(req, res, next) {
-  console.log(req.originalUrl)
-  next()
-}
 
-module.exports = router
+router.get("^/$|/login(.html)?", (req, res) => {
+  res.sendFile(path.join(__dirname, '../views/auth', 'login.html'));
+});
+router.post("^/$|/login(.html)?", authController.handleLogIn);
+
+router.get("^/new$|/register(.html)?", (req, res) => {
+  res.sendFile(path.join(__dirname, '../views/auth', 'login.html'));
+});
+
+router.post('^/new$|/register(.html)?', authController.handleNewUser);
+
+router.get('/logout', authController.handleLogout);
+
+//the test is my secret route for testing JWT user
+router.get("/test", verifyJWT, (req, res) => {
+  res.sendFile(path.join(__dirname, '../views/auth', 'sign_in_up.html'));
+});
+
+router.all('*', (req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '../views', '404.html'));
+});
+
+
+module.exports  = router;
