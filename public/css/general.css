@@ -16,4 +16,14 @@
     height: auto;
     display: block;
 }
+.mylogo {
+    border-radius: 10px;
+    max-width: 15%;
+    height: auto;
+    display: block;
+    object-position:center top;
+    
+    
+    
+}
 /*if you want to add another color  use lightsteelblue*/
