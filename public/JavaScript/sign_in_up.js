@@ -1,8 +1,8 @@
-const name_pattern = /^[\u0590-\u05FFa-z\sA-Z ,.'-]+$/;
+const name_pattern = /^[a-z\sA-Z ,.'-]+$/;
 const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phone_pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 
-function show_sign_up(){
+function show_sign_up() {
     document.getElementById('sign_up_id').style.display = 'block';
 }
 
@@ -28,23 +28,23 @@ function check_input_up() {
     let pass2 = document.getElementById("password2").value;
     if (!name_pattern.test(f_name)) {
         problem = true;
-        my_message = my_message + "השם הפרטי לא תקין\n";
+        my_message = my_message + "First Name is Invalid\n";
     }
     if (!name_pattern.test(l_name)) {
         problem = true;
-        my_message = my_message + "השם משפחה לא תקין\n";
+        my_message = my_message + "Last Name is Invalid\n";
     }
     if (!email_pattern.test(a_email)) {
         problem = true;
-        my_message = my_message + "כתובת המייל לא תקינה\n";
+        my_message = my_message + "Email is Invalid\n";
     }
     if (!phone_pattern.test(n_phone)) {
         problem = true;
-        my_message = my_message + "מספר הטלפון לא תקין\n";
+        my_message = my_message + "Phone Number is Invalid\n";
     }
     if (pass1 != pass2) {
         problem = true;
-        my_message = my_message + "הסיסמאות לא זהות\n";
+        my_message = my_message + "Passwords do not match\n";
     }
     if (problem) {
         alert(my_message);
@@ -60,8 +60,8 @@ function check_input_in() {
     console.log("clicked");
     let my_email = document.getElementById("email_id").value;
     if (!email_pattern.test(my_email)) {
-        
-        alert("כתובת המייל לא תקינה");
+
+        alert("Email is Invalid");
     }
     else {
         let pass = document.getElementById("password_id").value;
