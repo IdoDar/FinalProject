@@ -64,7 +64,7 @@ async function editData(data){
           method: "PUT",
           body: JSON.stringify({
               fieldsearch:"email",
-              roles:field_value,
+              roles:{User:field_value},
               email:data
             }),
             headers: {
