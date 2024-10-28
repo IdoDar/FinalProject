@@ -3,7 +3,30 @@ const express = require("express");
 const router = express.Router();
 const bodyParser = require('body-parser')
 
+router.get("/ProductsFields", async (req, res) => {
+    const out = await mongoose_api.GetProductsFields()
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data)
+})
+
 router.get("/products", async (req, res) => {
+    if (req.body.length != 2) res.sendStatus(400);
+    else {
+        const out = await mongoose_api.ReadData("products", req.body[0], { ...{ _id: 0 }, ...req.body[1] })
+        var err = out[0]
+        var data = out[1]
+    }
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data)
+})
+
+router.get("/Allproducts", async (req, res) => {
     const out = await mongoose_api.ReadData("products", {}, { _id: 0 })
     var err = out[0]
     var data = out[1]
