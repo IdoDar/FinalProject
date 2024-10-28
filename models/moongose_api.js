@@ -2,9 +2,6 @@ const mongoose = require('mongoose')
 const Schemas = require('./Schemas')
 const DBcon = require('../config/dbconn')
 
-var yourConnectionURI = "Manger:YARDEN1noam2IDO3@ourshop.ijtge.mongodb.net/?retryWrites=true&w=majority&appName=OurShop"
-var dbName = "testing_tables"
-
 //Connects to our mongo
 DBcon.connectDB()
 
