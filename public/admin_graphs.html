@@ -6,28 +6,38 @@
     body{
         position: absolute;	
         top:5%;
-        left: 35%;
+        left: 25%;
         width:50%;
+        background-color:linen;
       }
       div{
         top:10%;
+        background-color:linen;
       }
       </style>
 <title>Graphs</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://localhost/CSS/general.css">
 <script src="https://d3js.org/d3.v4.js"></script>
-<script src="Admin_graphs.js"></script>
+<script src="javascript/Admin_graphs.js"></script>
 </head>
 <body onload="loadlolipopProducts();loadlolipopUsers();">
-    <h class="modal-header modal-title"><b>Statistics</b></h>
-    <p>
+  <ul class="nav navbar-nav">
+    <li class="active text"><a href="admin_users.html">Users</a></li>
+    <li class="active text"><a href="admin_products.html">Products</a></li>
+    <li class="active text"><a href="admin_suppliers.html">Suppliers</a></li>
+    <li class="active text"><a href="admin_graphs.html">Statistics</a></li>
+  </ul>
+  <br></br>
+    <h class="modal-header modal-title headline"><b>Statistics</b></h>
+    <p class="text">
         Count of bought products by users by product:
         </p>
     <div id="productviz">  
     </div>
-    <p>
+    <p class="text">.
         Count of buys ber user:
         </p>
     <div id="usersviz">
