@@ -99,7 +99,7 @@ async function GetProductsFields() {
     const Fields = rdata[0].allFields;
     let FinalJson = {};
     for (const field of Fields) {
-        if (field == '_id' || field == '__v') continue;
+        if (field == '_id' || field == '__v' || field == 'picture_link') continue;
         let SubJson = {};
         await dbClient.model("products").distinct(field, {}).then(function (data) {
             NewData = data

@@ -14,12 +14,22 @@ router.get("/ProductsFields", async (req, res) => {
 })
 
 router.get("/products", async (req, res) => {
-    if (req.body.length != 2) res.sendStatus(400);
-    else {
-        const out = await mongoose_api.ReadData("products", req.body[0], { ...{ _id: 0 }, ...req.body[1] })
-        var err = out[0]
-        var data = out[1]
-    }
+    console.log(req.body);
+    const out = await mongoose_api.ReadData("products", req.body, { ...{ _id: 0 } })
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data)
+})
+router.get("/p/:Product", async (req, res) => {
+    const jsonreq = { "product_name": req.params.Product };
+    console.log(jsonreq);
+    const out = await mongoose_api.ReadData("products", jsonreq, { ...{ _id: 0 } })
+    console.log(out);
+    var err = out[0]
+    var data = out[1]
     if (err)
         res.status(500).json(err)
     else

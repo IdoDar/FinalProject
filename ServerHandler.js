@@ -11,6 +11,7 @@ const connectDB = require('./config/dbconn')
 const cors = require('cors');
 const corsOptions = require('./config/CorsOptions');
 const credentials = require('./middleware/credentials');
+const path = require('path');
 const PORT = process.env.PORT || 80;
 
 
@@ -41,13 +42,21 @@ app.use(cookieParser());
 //make main use the "public" folder as it's gets and posts
 app.use(express.static('public'));
 
+app.get("/test", (req, res) => {
+    res.sendFile(path.join(__dirname, './Views', 'connect_to_user.html'));
+});
+
+app.get("/home", (req, res) => {
+    res.sendFile(path.join(__dirname, './Views', 'test2.html'));
+});
+
 //API Routes
 app.use("/API", require("./routes/API/products"));
 app.use("/API", require("./routes/API/suppliers"));
 app.use("/API", require("./routes/API/users"));
 
 
-app.use
+
 //Default Routes
 app.use("/auth", require("./routes/auth"));
 
