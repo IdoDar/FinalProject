@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="/css/general.css" />
+    <style>
+        .product {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .product img {
+            max-width: 300px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .product-details {
+            text-align: left;
+            max-width: 600px;
+        }
+
+        .product-details p {
+            margin: 5px 0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="product">
+        <img id="product-image" src="" alt="Product Image">
+        <div id="product-details" class="product-details"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            // Function to get product name from URL path
+            function getProductFromPath() {
+                const pathArray = window.location.pathname.split('/');
+                return pathArray[pathArray.length - 1];
+            }
+
+            // Use the function to get the product name
+            const product = getProductFromPath();
+
+
+            function fetchProductData() {
+                $.ajax({
+                    url: `/API/product/${product}`, // Use the parsed URL parameter
+                    method: 'GET',
+                    success: function (product) {
+                        $('#product-image').attr('src', product.picture_link);
+                        const detailsContainer = $('#product-details');
+                        detailsContainer.empty();
+                        $.each(product, function (key, value) {
+                            if (key !== 'picture_link') {
+                                const detail = $('<p></p>').html(`<strong>${key.replace(/_/g, ' ')}:</strong> ${value}`);
+                                detailsContainer.append(detail);
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching product data:', error);
+                    }
+                });
+            }
+
+            if (product) {
+                fetchProductData();
+            } else {
+                console.error('Product parameter not found in URL');
+            }
+        });
+    </script>
+</body>
+
+</html>

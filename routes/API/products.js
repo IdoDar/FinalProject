@@ -23,17 +23,18 @@ router.get("/products", async (req, res) => {
     else
         res.send(data)
 })
-router.get("/p/:Product", async (req, res) => {
-    const jsonreq = { "product_name": req.params.Product };
-    console.log(jsonreq);
-    const out = await mongoose_api.ReadData("products", jsonreq, { ...{ _id: 0 } })
+router.get("/product/:Product", async (req, res) => {
+    const productName = req.params.Product.replace(/"/g, '');
+    const jsonreq = { product_name: productName };
+
+    const out = await mongoose_api.ReadData("products", jsonreq, { ...{ _id: 0, __v: 0 } })
     console.log(out);
     var err = out[0]
     var data = out[1]
     if (err)
         res.status(500).json(err)
     else
-        res.send(data)
+        res.send(data[0])
 })
 
 router.get("/Allproducts", async (req, res) => {

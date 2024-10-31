@@ -42,13 +42,15 @@ app.use(cookieParser());
 //make main use the "public" folder as it's gets and posts
 app.use(express.static('public'));
 
+
+app.use("/", require("./routes/main"));
+
+
 app.get("/test", (req, res) => {
     res.sendFile(path.join(__dirname, './Views', 'connect_to_user.html'));
 });
 
-app.get("/home", (req, res) => {
-    res.sendFile(path.join(__dirname, './Views', 'test2.html'));
-});
+
 
 //API Routes
 app.use("/API", require("./routes/API/products"));
@@ -60,7 +62,6 @@ app.use("/API", require("./routes/API/users"));
 //Default Routes
 app.use("/auth", require("./routes/auth"));
 
-app.use("/supplier", verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.supplier), require("./routes/supplier"));
 
 app.use("/admin", verifyJWT, verifyRoles(ROLES_LIST.Admin), require("./routes/admin"));
 
