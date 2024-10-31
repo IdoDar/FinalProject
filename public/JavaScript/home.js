@@ -42,10 +42,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             productEl.className = 'product';
             productEl.innerHTML = `
           <img src="${product.picture_link}" alt="${product.product_name}">
-          <h2>${product.product_name}</h2>
+          <h2 class="product-name" data-product="${product.product_name}">${product.product_name}</h2>
           <p>Price: $${product.price}</p>
           <p>${product.description}</p>
         `;
+            productEl.querySelector('.product-name').addEventListener('click', () => redirectToProduct(product.product_name));
             productContainer.appendChild(productEl);
         });
     }
@@ -103,6 +104,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         const filteredProducts = await fetchJson(productsUrl, filtersToSend);
         loadProducts(filteredProducts);
     });
+
+    function redirectToProduct(productName) {
+        // Send an AJAX request (just for the sake of the example)
+        $.ajax({
+            url: `/product/${productName}`, // Assuming this is your endpoint
+            method: 'GET',
+            success: function () {
+                // Redirect to the product page
+                window.location.href = `/product/${productName}`;
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching product page:', error);
+            }
+        });
+    }
 
     // Fetch initial products and filters data
     const initialProducts = await fetchJson(productsUrl);
