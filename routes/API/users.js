@@ -2,6 +2,28 @@ const mongoose_api = require('../../models/moongose_api')
 const express = require("express");
 const router = express.Router();
 const bodyParser = require('body-parser')
+const verifyJWT = require('../../middleware/verifyJWT');
+
+router.post("/Basket/Add/:id", verifyJWT, async (req, res) => {
+    const productID = req.params.id.replace(/"/g, '');
+    const out = await mongoose_api.addToCurrentBasket(req.email, productID);
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data)
+})
+router.post("/Basket/Remove/:id", verifyJWT, async (req, res) => {
+    const productID = req.params.id.replace(/"/g, '');
+    const out = await mongoose_api.RemoveFromCurrentBasket(req.email, productID);
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data)
+})
 
 router.get("/Allusers", async (req, res) => {
     const out = await mongoose_api.ReadData("users", {}, { _id: 0 })
