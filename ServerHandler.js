@@ -12,6 +12,7 @@ const cors = require('cors');
 const corsOptions = require('./config/CorsOptions');
 const credentials = require('./middleware/credentials');
 const path = require('path');
+const bodyParser = require('body-parser')
 const PORT = process.env.PORT || 80;
 
 
@@ -30,10 +31,9 @@ app.use(credentials);
 app.use(cors(corsOptions));
 
 // built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: false }));
-
 // built-in middleware for json 
-app.use(express.json());
+app.use(bodyParser.json()); // Parse JSON bodies
+app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 //middleware for cookies
 app.use(cookieParser());

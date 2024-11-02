@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const productsUrl = 'http://localhost/API/Products';
+    const AllproductsUrl = 'http://localhost/API/AllProducts';
     const filtersUrl = 'http://localhost/API/ProductsFields';
 
     const productContainer = document.getElementById('productContainer');
@@ -12,10 +13,10 @@ document.addEventListener('DOMContentLoaded', async () => {
      * @param {Object|null} body - The body of the request to send as JSON
      * @returns {Promise<Object>} - The JSON data from the response
      */
-    function fetchJson(url, body) {
+    function fetchJson(url, req_type = 'GET', body = {}) {
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
+            xhr.open(req_type, url, true);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function () {
                 if (xhr.status >= 200 && xhr.status < 300) {
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         console.log(filtersToSend);
-        const filteredProducts = await fetchJson(productsUrl, filtersToSend);
+        const filteredProducts = await fetchJson(productsUrl, 'POST', filtersToSend);
         loadProducts(filteredProducts);
     });
 
@@ -121,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Fetch initial products and filters data
-    const initialProducts = await fetchJson(productsUrl);
+    const initialProducts = await fetchJson(AllproductsUrl);
     const filters = await fetchJson(filtersUrl);
 
     // Load initial data

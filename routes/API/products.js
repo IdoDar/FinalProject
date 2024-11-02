@@ -1,7 +1,6 @@
 const mongoose_api = require('../../models/moongose_api')
 const express = require("express");
 const router = express.Router();
-const bodyParser = require('body-parser')
 
 router.get("/ProductsFields", async (req, res) => {
     const out = await mongoose_api.GetProductsFields()
@@ -13,7 +12,7 @@ router.get("/ProductsFields", async (req, res) => {
         res.send(data)
 })
 
-router.get("/products", async (req, res) => {
+router.post("/products", async (req, res) => {
     console.log(req.body);
     const out = await mongoose_api.ReadData("products", req.body, { ...{ _id: 0 } })
     var err = out[0]
