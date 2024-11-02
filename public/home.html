@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+    <link rel="stylesheet" href="CSS/general.css">
+    <link rel="stylesheet" href="CSS/connect_to_user.css" />
+    <link rel="stylesheet" href="CSS/home.css">
+</head>
+
+<body>
+    <header>
+        <div class="dropdown">
+            <button class="drop_button"><img class="images" src="image/dog.png" />
+            </button>
+
+            <div class="dropdown_content" id="myDropdown">
+                <a class="text" onclick="call_the_page('user_info.html')">Personal Information</a>
+                <a class="text" onclick="call_the_page('old_orders.html')">Old Orders</a>
+                <a class="text" onclick="call_the_page('about_us.html')">About Us</a>
+            </div>
+        </div>
+        <button id="filterBtn">Filter</button>
+    </header>
+    <aside id="filterPanel">
+        <!-- Filter options will be dynamically loaded here -->
+    </aside>
+    <main id="productContainer">
+        <!-- Products will be dynamically loaded here -->
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="javascript/home.js"></script>
+    <script src="javascript/connect_to_user.js"></script>
+</body>
+
+</html>

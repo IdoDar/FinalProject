@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="/css/general.css" />
+    <link rel="stylesheet" href="/css/connect_to_user.css" />
+    <link rel="stylesheet" href="/css/ProductPage.css" />
+
+</head>
+
+<body>
+    <header>
+        <div class="dropdown">
+            <button class="drop_button"><img class="images" src="image/dog.png" />
+            </button>
+
+            <div class="dropdown_content" id="myDropdown">
+                <a class="text" href="user_info.html">Personal Information</a>
+                <a class="text" href="old_orders.html">Old Orders</a>
+            </div>
+        </div>
+    </header>
+    <div class="product">
+        <img id="product-image" src="" alt="Product Image">
+        <div id="product-details" class="product-details"></div>
+        <button id="add-to-cart-button" class="add-to-cart">
+            <img src="/image/cart.png" alt="Add to Cart">
+        </button>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/Javascript/ProductPage.js"></script>
+</body>
+
+</html>

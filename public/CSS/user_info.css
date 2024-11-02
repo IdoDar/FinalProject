@@ -1,0 +1,107 @@
+* {
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    margin: 0 -16px;
+}
+
+.half {
+    padding: 0 16px;
+    width: 50%;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: whitesmoke;
+    font-size: 16px;
+}
+
+
+    input[type=text]:focus {
+        background-color: lightgray;
+        outline: none;
+    }
+
+button {
+    color: cornflowerblue;
+    padding: 12px 18px;
+    margin: 8px 3px;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 4px;
+}
+
+    button:hover {
+        opacity: 1;
+    }
+.finish_sign_button {
+    background-color: mediumseagreen;
+    color:white;
+    width: 100%;
+    opacity: 0.9;
+    padding: 14px 20px;
+    margin: 8px 0;
+}
+
+.cancel_button {
+    padding: 14px 20px;
+    color:white;
+    background-color: indianred;
+    width: 100%;
+    opacity: 0.9;
+    padding: 14px 20px;
+    margin: 8px 0;
+}
+.fname_change_class {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    
+}
+.first_name_class, .last_name_class, .phone_class {
+    display: none; /* Hidden by default */
+}
+.container {
+    padding: 16px;
+}
+.inside {
+    margin: 5% auto 15% auto;
+    width: 70%;
+}
+
+.back {
+    background-color: cornflowerblue;
+    
+    color: white;
+    padding: 12px 18px;
+    margin: 8px 3px;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 4px;
+    justify-content: space-between;
+}
+    .back:hover {
+        opacity: 1;
+    }
+
+
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+    .cancel_button, .finish_sign_button {
+        width: 100%;
+    }
+}
+
+

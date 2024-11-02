@@ -1,65 +1,33 @@
-//Import Modules
+//Express Module
 require('dotenv').config();
-const express = require('express');
-const logger = require('./middleware/logger');
-const cookieParser = require('cookie-parser');
-const ROLES_LIST = require('./config/roles_list');
-const verifyRoles = require('./middleware/verifyRoles');
-const verifyJWT = require('./middleware/verifyJWT');
-const mongoose = require('mongoose');
-const connectDB = require('./config/dbconn')
-const cors = require('cors');
-const corsOptions = require('./config/CorsOptions');
-const credentials = require('./middleware/credentials');
-const PORT = process.env.PORT || 80;
+const express = require('express')
 
+const mongoose_api = require('./models/mongoose_api')
+const users_functions = require('./routes/users_functions')
+const suppliers_functions = require('./routes/suppliers_functions')
+const products_functions = require('./routes/products_functions')
+const baskethistory_functions = require('./routes/baskethistory_functions')
 
-//Init app http
-const app = express();
+//body-parser Module
+const bodyParser=require('body-parser')
 
-
-// custom middleware logger
-app.use(logger);
-
-// Handle options credentials check - before CORS!
-// and fetch cookies credentials requirement
-app.use(credentials);
-
-// Cross Origin Resource Sharing
-app.use(cors(corsOptions));
-
-// built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: false }));
-
-// built-in middleware for json 
-app.use(express.json());
-
-//middleware for cookies
-app.use(cookieParser());
-
+//Init main http
+const main=express()
 
 //make main use the "public" folder as it's gets and posts
-app.use(express.static('public'));
+main.use(express.static('public'))
 
-//API Routes
-app.use("/API", require("./routes/API/products"));
-app.use("/API", require("./routes/API/suppliers"));
-app.use("/API", require("./routes/API/users"));
+main.use(bodyParser.urlencoded({ extended: false }))
+main.use(bodyParser.json())
+main.use(bodyParser.text({ type: 'text/plain' }))
 
-
-app.use
-//Default Routes
-app.use("/auth", require("./routes/auth"));
-
-app.use("/supplier", verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.supplier), require("./routes/supplier"));
-
-app.use("/admin", verifyJWT, verifyRoles(ROLES_LIST.Admin), require("./routes/admin"));
-
-mongoose.connection.once('open', () => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => console.log(`Server running `));
-});
+main.use("/users",users_functions)
 
 
+main.use("/suppliers",suppliers_functions)
 
+main.use("/products",products_functions)
 
+main.use("/baskethistory",baskethistory_functions)
+
+main.listen(80,function(){console.log("Main Running")})
