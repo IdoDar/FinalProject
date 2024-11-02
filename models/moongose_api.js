@@ -128,7 +128,38 @@ async function GetProductsFields() {
     }
     return [0, FinalJson];
 }
+//Add a product to current basket
+async function addToCurrentBasket(email, productId) {
+    try {
+        const collection = 'User';
+        const searchjson = { email: email };
+        const fieldsjson = { $push: { currentBasket: productId } }; // Using $push to allow duplicates
 
+        const [reterr, retdata] = await UpdateData(collection, searchjson, fieldsjson);
+        if (reterr) {
+            throw new Error(reterr);
+        }
+        console.log(retdata);
+    } catch (error) {
+        console.error('Error updating currentBasket:', error);
+    }
+}
+//Remove a product from current basket
+async function RemoveFromCurrentBasket(email, productId) {
+    try {
+        const collection = 'User';
+        const searchjson = { email: email };
+        const fieldsjson = { $pull: { currentBasket: productId } }; // Using $push to allow duplicates
+
+        const [reterr, retdata] = await UpdateData(collection, searchjson, fieldsjson);
+        if (reterr) {
+            throw new Error(reterr);
+        }
+        console.log(retdata);
+    } catch (error) {
+        console.error('Error updating currentBasket:', error);
+    }
+}
 //Get all of data in a collection
 //var collection is the name of the collection
 //sends in jsons the data
@@ -189,6 +220,8 @@ exports.ReadData = ReadData
 exports.UpdateData = UpdateData
 exports.DeleteData = DeleteData
 exports.GetProductsFields = GetProductsFields
+exports.RemoveFromCurrentBasket = RemoveFromCurrentBasket;
+exports.addToCurrentBasket = addToCurrentBasket;
 exports.mongoose = mongoose
 exports.dbClient = dbClient
 exports.userModel = userModel
