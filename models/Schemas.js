@@ -7,6 +7,10 @@ var userSchema = new Schema({
       type: String,
       required: true
     },
+    sex: {
+      type: String,
+      required: true
+    },
     roles: {
         User: {
           type: Number,
@@ -21,6 +25,14 @@ var userSchema = new Schema({
       required: true,
       unique: true
     },
+    phoneNum: {
+      type: Number,
+      required: true
+    },
+    dateBirth:{
+      type: Date,
+      required: true
+  },
     password: {
       type: String,
       required: true
@@ -37,7 +49,8 @@ var userSchema = new Schema({
   var productSchema = new Schema({
     product_name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   company_name: {
     type: mongoose.Schema.Types.ObjectId,
@@ -48,10 +61,6 @@ var userSchema = new Schema({
     required: true
   },
   weight: {
-    type: Number,
-    required: true
-  },
-  quantity: {
     type: Number,
     required: true
   },
@@ -75,7 +84,7 @@ var supplierSchema = new Schema({
       required: true
     },
     numCompany: {
-      type: Number,
+      type:Number,
       required: true,
       unique: true
     },
@@ -84,7 +93,8 @@ var supplierSchema = new Schema({
       required: true
     },
     phoneNum: {
-      type: Number
+      type: Number,
+      required: true
     },
     locations: {
         type: Array

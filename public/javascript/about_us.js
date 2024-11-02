@@ -1,5 +1,5 @@
-function weatherapi(){
-    var weatherapiurl="https://api.open-meteo.com/v1/forecast?latitude=31.97126336775306&longitude=34.770927751827784&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
+function weatherapi(lat,lng){
+    var weatherapiurl=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m`
    
     fetch(weatherapiurl, {
     method: "GET"
@@ -35,14 +35,12 @@ function weatherapi(){
     marker = L.marker([lat, lon]).addTo(map);
 
 // add popup to the marker
-marker.bindPopup("<b>PET Care<b>,IL").openPopup();
+marker.bindPopup("<b>Furry Tail Tales<b>,IL").openPopup();
 fetch(dburl, {
          method: "GET"
          }).then(function (response) {
          return response.json()}).then(function (data) {
              data.forEach(element => {
-                 
-           
                  element["locations"].forEach(location =>{
                     marker = L.marker([location.lat, location.lng]).addTo(map);
                     // add popup to the marker
@@ -50,4 +48,8 @@ fetch(dburl, {
                  })
              });
          })
-    } 
+         
+         map.on('click', function (e) {
+            weatherapi(e.latlng.lat,e.latlng.lng)
+         })
+} 

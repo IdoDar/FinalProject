@@ -14,6 +14,7 @@ router.get("/",async (req,res) => {
 })
 router.post("/",async (req,res) =>{
     const  out= await mongoose_api.CreateData("products",req.body)
+    console.log(out)
     var err=out[0]
     var data=out[1]
     if (err)

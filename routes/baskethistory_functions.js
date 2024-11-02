@@ -12,6 +12,22 @@ router.get("/",async (req,res) => {
     else
         res.send(data)
 })
+router.get("/:baskethistory",async (req,res) => {
+    const user = req.params.baskethistory.replace(/"/g, '');
+    const id = await mongoose_api.dbClient.model("users").find({email:user}, {})
+    const products = await mongoose_api.dbClient.model("baskethistory").find({user:id[0]._id })
+    var data=[]
+    for (const product of products) {
+        var product_names = []
+        for (const basket of product.basket){
+            var product_detailes=await mongoose_api.productModel.findById(`${basket}`,"product_name")
+            product_names.push(product_detailes.product_name)
+        }
+        data.push({date:product.date,product_names:product_names})
+        
+    }
+    res.send(data)
+})
 router.post("/",async (req,res) =>{
     const  out= await mongoose_api.CreateData("baskethistory",req.body)
     var err=out[0]

@@ -18,23 +18,33 @@ async function GetSuppliers(){
               <th class="text">Edits</th>
               </tr>
             </thead>`
-                        data.forEach((model) => {
-                            userstable = userstable + `<tbody>
+            data.forEach((model) => {
+                userstable = userstable + `
                 <tr>
-                  <td class="text">${model.companyName}</td>
-                  <td class="text">${model.numCompany}</td>
-                  <td class="text">${model.contact}</td>
-                  <td class="text">${model.phoneNum}</td>
-                  <td class="text">${Array(model.locations).toString()}</td>
-                  <td>
+                  <td class="text" rowspan=${model.locations.length}>${model.companyName}</td>
+                  <td class="text" rowspan=${model.locations.length}>${model.numCompany}</td>
+                  <td class="text" rowspan=${model.locations.length}>${model.contact}</td>
+                  <td class="text" rowspan=${model.locations.length}>${model.phoneNum}</td>`
+                  var index=0
+                  console.log(model.locations)
+                  for (const loc of model.locations){
+                    latlng=`[${loc.lat},${loc.lng}]`
+                    if(index==0)
+                      userstable = userstable + `<td class="text">${latlng}</td>
+                  <td rowspan=${model.locations.length}>
 <button onclick="editData(${model.numCompany})" class="btn btn-default" type="button"><i class="glyphicon glyphicon-pencil"></i></button>
 <button onclick="deleteData(${model.numCompany})" class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button><td>
-                </tr>
-              </tbody>`
+                </tr>`
+                    else
+                    {
+                      userstable = userstable + `<tr><td class="text">${latlng}</td></tr>`
+                    }
+                    index++
+                  }       
                         })
             var parser = new DOMParser()
             var doc = parser.parseFromString(userstable, 'text/html')
-            document.getElementById("userstable").innerHTML = doc.body.outerHTML
+            document.getElementById("supplierstable").innerHTML = doc.body.outerHTML
         })
           }
 async function editData(data){
@@ -104,6 +114,37 @@ async function editData(data){
     else {
         alert(`No Field Named ${field_name}`);
     }
+}
+
+async function addData(){
+  var dburl=`http://localhost/suppliers`
+  let companyName = prompt('Enter The Company Name:');
+  let numCompany = prompt('Enter The Number Company:');
+  let contact = prompt('Enter The Name Of Your Contact:');
+  let phoneNum = prompt('Enter The Phone Number:');
+  let locations=[]
+  let latlng = prompt('Enter The locations (In This Format lat,lng) (When You Are Done Enter Done):');
+  while(latlng.toLowerCase() !="done"){
+    locations.push({lat:parseFloat(latlng.split(",")[0]),lng:parseFloat(latlng.split(",")[1])})
+    latlng = prompt('Enter The locations (In This Format lat,lng) (When You Are Done Enter Done):');
+  }
+  await fetch(dburl, {
+    method: "POST",
+    body: JSON.stringify({
+      companyName:companyName,
+      numCompany:numCompany,
+      contact:contact,
+      phoneNum:phoneNum,
+      locations:locations
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    }).then(function (response) {
+    return response}).then(function () {
+        alert(`Added ${numCompany} Successfully`);
+        location.reload()
+    }).catch((err)=>{alert(`Failed To Add ${err}`);})
 }
 
 async function deleteData(data){

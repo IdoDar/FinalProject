@@ -75,7 +75,7 @@ function loadlolipopUsers(){
     width = 600 - margin_for_the_lollipop.left - margin_for_the_lollipop.right,
     height = 500 - margin_for_the_lollipop.top - margin_for_the_lollipop.bottom;
     
-    var svg = d3.select("#productviz")
+    var svg = d3.select("#usersviz")
                    .append("svg")
                    .attr("width", width + margin_for_the_lollipop.left +margin_for_the_lollipop.right)
                    .attr("height", height + margin_for_the_lollipop.top +margin_for_the_lollipop.bottom)
