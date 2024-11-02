@@ -3,7 +3,38 @@ const express = require("express");
 const router = express.Router();
 const bodyParser=require('body-parser')
 
+
+
 router.get("/",async (req,res) => {
+    const out= await mongoose_api.ReadData("users",{},{_id: 0})
+    var err=out[0]
+    var data=out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data)
+})
+
+router.get("/:user",async (req,res) => {
+    const user = req.params.user.replace(/"/g, '');
+    //console.log(user);
+    const id = await mongoose_api.dbClient.model("users").find({email:user}, {});
+    //console.log(id);
+    //const products = await mongoose_api.dbClient.model("baskethistory").find({user:id[0]._id })
+    var data=[]
+    /*for (const product of products) {
+        var product_names = []
+        for (const basket of product.basket){
+            var product_detailes=await mongoose_api.productModel.findById(`${basket}`,"product_name")
+            product_names.push(product_detailes.product_name)
+        }
+        data.push({date:product.date,product_names:product_names})
+        
+    }*/
+    res.send(id)
+})
+
+router.get(":id",async (req,res) => {
     const out= await mongoose_api.ReadData("users",{},{_id: 0})
     var err=out[0]
     var data=out[1]
