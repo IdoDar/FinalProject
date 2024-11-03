@@ -50,17 +50,16 @@ app.get("/test", (req, res) => {
     res.sendFile(path.join(__dirname, './Views', 'connect_to_user.html'));
 });
 
-
-
-//API Routes
-app.use("/API", require("./routes/API/products"));
-app.use("/API", require("./routes/API/suppliers"));
-app.use("/API", require("./routes/API/users"));
-
-
-
 //Default Routes
 app.use("/auth", require("./routes/auth"));
+
+//API Routes
+app.use("/API/products", require("./routes/API/products"));
+app.use("/API/suppliers", require("./routes/API/suppliers"));
+app.use("/API/users", require("./routes/API/users"));
+app.use("/API/basket", require("./routes/API/basket"));
+
+
 
 
 app.use("/admin", verifyJWT, verifyRoles(ROLES_LIST.Admin), require("./routes/admin"));

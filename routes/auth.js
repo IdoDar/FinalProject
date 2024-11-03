@@ -17,6 +17,8 @@ router.get("^/new$|/register(.html)?", (req, res) => {
 
 router.post('^/new$|/register(.html)?', authController.handleNewUser);
 
+router.post('/RefreshJWT', authController.handleRefreshToken);
+
 router.get('/logout', authController.handleLogout);
 
 //the test is my secret route for testing JWT user
@@ -29,4 +31,4 @@ router.all('*', (req, res) => {
 });
 
 
-module.exports  = router;
+module.exports = router;
