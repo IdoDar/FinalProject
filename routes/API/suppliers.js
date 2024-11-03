@@ -54,9 +54,9 @@ router.get("/locations", async (req, res) => {
         res.send(data)
 })
 
-router.get("/:suppliernum", async (req, res) => {
-    const suppliernum = req.params.suppliernum.replace(/"/g, '')
-    const out = await mongoose_api.ReadData("suppliers", { numCompany: suppliernum }, { _id: 1 })
+
+router.get("/All", async (req, res) => {
+    const out = await mongoose_api.ReadData("suppliers", {}, {})
     var err = out[0]
     var data = out[1]
     if (err)
@@ -65,8 +65,9 @@ router.get("/:suppliernum", async (req, res) => {
         res.send(data)
 })
 
-router.get("/All", async (req, res) => {
-    const out = await mongoose_api.ReadData("suppliers", {}, {})
+router.get("/:suppliernum", async (req, res) => {
+    const suppliernum = req.params.suppliernum.replace(/"/g, '')
+    const out = await mongoose_api.ReadData("suppliers", { numCompany: suppliernum }, { _id: 1 })
     var err = out[0]
     var data = out[1]
     if (err)

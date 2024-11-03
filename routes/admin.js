@@ -4,9 +4,8 @@ const router = express.Router();
 const authController = require('../controllers/authJWTController');
 const verifyJWT = require('../middleware/verifyJWT')
 
-//the test is my secret route for testing JWT for admin
-router.get("/test", (req, res) => {
-  res.send("Success");
+router.get('/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, '../Views/admin', `admin_${req.params.file}.html`));
 });
 
 router.all('*', (req, res) => {
@@ -14,4 +13,4 @@ router.all('*', (req, res) => {
 });
 
 
-module.exports  = router;
+module.exports = router;

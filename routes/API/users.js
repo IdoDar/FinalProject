@@ -4,7 +4,15 @@ const router = express.Router();
 const bodyParser = require('body-parser')
 const verifyJWT = require('../../middleware/verifyJWT');
 
-
+router.get("/", async (req, res) => {
+    const out = await mongoose_api.ReadData("users", {}, { _id: 0 })
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data)
+})
 router.post("/", async (req, res) => {
     const out = await mongoose_api.CreateData("users", req.json)
     var err = out[0]
@@ -35,34 +43,7 @@ router.delete("/", async (req, res) => {
         res.send(data)
 })
 
-router.get("/:user", async (req, res) => {
-    const user = req.params.user.replace(/"/g, '');
-    //console.log(user);
-    const id = await mongoose_api.dbClient.model("users").find({ email: user }, {});
-    //console.log(id);
-    //const products = await mongoose_api.dbClient.model("baskethistory").find({user:id[0]._id })
-    var data = []
-    /*for (const product of products) {
-        var product_names = []
-        for (const basket of product.basket){
-            var product_detailes=await mongoose_api.productModel.findById(`${basket}`,"product_name")
-            product_names.push(product_detailes.product_name)
-        }
-        data.push({date:product.date,product_names:product_names})
-        
-    }*/
-    res.send(id)
-})
 
-router.get("/:id", async (req, res) => {
-    const out = await mongoose_api.ReadData("users", {}, { _id: 0 })
-    var err = out[0]
-    var data = out[1]
-    if (err)
-        res.status(500).json(err)
-    else
-        res.send(data)
-})
 
 router.get("/MostBought", async (req, res) => {
     const out = await mongoose_api.ReadData("baskethistory", {}, { basket: 1 })
@@ -120,4 +101,24 @@ router.get("/All", async (req, res) => {
     else
         res.send(data)
 })
+
+router.get("/:user", async (req, res) => {
+    const user = req.params.user.replace(/"/g, '');
+    //console.log(user);
+    const id = await mongoose_api.dbClient.model("users").find({ email: user }, {});
+    //console.log(id);
+    //const products = await mongoose_api.dbClient.model("baskethistory").find({user:id[0]._id })
+    var data = []
+    /*for (const product of products) {
+        var product_names = []
+        for (const basket of product.basket){
+            var product_detailes=await mongoose_api.productModel.findById(`${basket}`,"product_name")
+            product_names.push(product_detailes.product_name)
+        }
+        data.push({date:product.date,product_names:product_names})
+        
+    }*/
+    res.send(id)
+})
+
 module.exports = router;

@@ -61,7 +61,7 @@ app.use("/API/basket", require("./routes/API/basket"));
 //Default Routes
 app.use("/auth", require("./routes/auth"));
 
-app.use("/admin", verifyJWT, verifyRoles(ROLES_LIST.Admin), require("./routes/admin"));
+app.use("/admin", require("./routes/admin"));
 
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');

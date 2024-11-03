@@ -3,6 +3,15 @@ const express = require("express");
 const router = express.Router();
 
 
+router.get("/", async (req, res) => {
+    const out = await mongoose_api.ReadData("products", {}, { _id: 0 })
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data)
+})
 
 router.post("/", async (req, res) => {
     const out = await mongoose_api.CreateData("products", req.json)
