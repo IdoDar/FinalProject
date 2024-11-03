@@ -79,6 +79,23 @@ button {
     width: 70%;
 }
 
+.back {
+    background-color: cornflowerblue;
+    
+    color: white;
+    padding: 12px 18px;
+    margin: 8px 3px;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 4px;
+    justify-content: space-between;
+}
+    .back:hover {
+        opacity: 1;
+    }
+
+
 
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 300px) {

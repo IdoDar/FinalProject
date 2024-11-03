@@ -1,6 +1,9 @@
 *{
-    background-color:linen;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body{
+    background-color:linen;
+    
 }
 .headline{
     font-size:34px;

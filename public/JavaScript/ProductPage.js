@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     function fetchProductData() {
         $.ajax({
-            url: `/API/product/${product}`, // Use the parsed URL parameter
+            url: `/API/products/${product}`, // Use the parsed URL parameter
             method: 'GET',
             success: function (product) {
                 console.log("Response:", product); // Log the response to check its content

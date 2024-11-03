@@ -12,7 +12,7 @@ router.get('/cart/:file', (req, res) => {
 });
 
 router.get("/product/:id", (req, res) => {
-  res.sendFile(path.join(__dirname, '../Views', 'productPage.html'));
+  res.sendFile(path.join(__dirname, '../Views/main', 'productPage.html'));
 });
 router.get('/:file', (req, res) => {
   res.sendFile(path.join(__dirname, '../Views/main', `${req.params.file}.html`));

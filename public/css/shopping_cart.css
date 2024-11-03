@@ -1,5 +1,6 @@
 body{
     font-family: 'Segoe UI Symbol';
+    background-color:linen;
     margin: 0;
 }
 .shopping-cart {
@@ -19,6 +20,8 @@ body{
 
 .cart-icon {
     position: relative;
+    cursor: pointer;
+
     
 }
 
@@ -72,6 +75,9 @@ body.show-cart .shopping-cart {
 .cart-tab .my-buttons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    height: 60px;
+    
+
 }
 
 .cart-tab button {
@@ -129,6 +135,11 @@ body.show-cart .shopping-cart {
 .cart-list::-webkit-scrollbar {
     width: 0;
 
+}
+
+.sum_all{
+    font-size: 28px;
+    
 }
 
 
