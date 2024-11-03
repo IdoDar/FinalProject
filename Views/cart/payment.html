@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="he">
+
 <head>
-    <link rel="stylesheet" href="/css/payment.css" />
-    
+    <link rel="stylesheet" href="CSS/general.css" />
+    <link rel="stylesheet" href="CSS/payment.css" />
+
 </head>
 
 
-<body dir="rtl">
+<body>
     <div class="row">
         <div class="col-75">
             <div class="container">
-                <h1>Checkout</h1>
+                <h1 class="headline">Checkout</h1>
                 <div class="row">
                     <div class="half">
                         <h3>Delivery Address</h3>
@@ -110,18 +112,20 @@
                         </div>
                     </div>
                 </div>
-                <input type="submit" value="������" onclick="check_input()" class="pay">
-                <img class="credit_cards" src="/image/credit_cards.png" />
+                <input type="submit" value="Pay" onclick="check_input()" class="pay">
+                <img class="credit_cards" src="\image\credit_cards.png" />
             </div>
+        </div>
+        <div class="col-25">
+            <div class="container">
+                <h4>Shopping Cart</h4>
+                <div class="cart-list"></div>
+                <div class="sum-all"></div>
+            </div>
+        </div>
+
     </div>
-            <div class="col-25">
-                <div class="container">
-                    <h4>Shopping Cart</h4>
-                    <h2>add here shopping cart + total here is an exampel</h2>
-                </div>
-            </div>
-        
-</div>
-    <script src="/javascript/payment.js"></script>
+    <script src="javascript/payment.js"></script>
 </body>
+
 </html>

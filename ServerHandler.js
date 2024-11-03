@@ -43,14 +43,14 @@ app.use(cookieParser());
 app.use(express.static('public'));
 
 
-app.use("/", require("./routes/main"));
+
 
 
 app.get("/test", (req, res) => {
     res.sendFile(path.join(__dirname, './Views', 'connect_to_user.html'));
 });
 
-
+app.use("/", require("./routes/main"));
 //API Routes
 app.use("/API/products", require("./routes/API/products"));
 app.use("/API/suppliers", require("./routes/API/suppliers"));
@@ -62,6 +62,8 @@ app.use("/API/basket", require("./routes/API/basket"));
 app.use("/auth", require("./routes/auth"));
 
 app.use("/admin", require("./routes/admin"));
+
+
 
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');

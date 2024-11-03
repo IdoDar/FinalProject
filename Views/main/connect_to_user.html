@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html >
-<head>
-    <link rel="stylesheet" href="/css/general.css" />
-    <link rel="stylesheet" href="/css/connect_to_user.css" />
-</head>
-<body>
-        <div class="dropdown">
-            <button class="drop_button"><img class="images" src="image/dog.png" />
-            </button>
+<html>
 
-            <div class="dropdown_content" id="myDropdown">
-                <a class="text" href="user_info.html">Personal Information</a>
-                <a class="text" href="old_orders.html">Old Orders</a>
-            </div>
+<head>
+    <link rel="stylesheet" href="CSS/general.css" />
+    <link rel="stylesheet" href="CSS/connect_to_user.css" />
+</head>
+
+<body>
+    <div class="dropdown">
+        <button class="drop_button"><img class="images" src="image/dog.png" />
+        </button>
+
+        <div class="dropdown_content" id="myDropdown">
+            <a class="text" onclick="call_the_page('user_info')">Personal Information</a>
+            <a class="text" onclick="call_the_page('old_orders')">Old Orders</a>
+            <a class="text" onclick="call_the_page('about_us')">About Us</a>
         </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="javascript/connect_to_user.js"></script>
 </body>
+
 </html>
