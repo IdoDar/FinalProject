@@ -5,7 +5,7 @@ let show_cart = document.querySelector('body');
 
 cart_icon.addEventListener('click', show);
 close_cart.addEventListener('click', show);
-payment_cart.addEventListener('click', function () { window.location.href = "./payment.html"});
+payment_cart.addEventListener('click', function () { window.location.href = "../cart/payment" });
 
 
 

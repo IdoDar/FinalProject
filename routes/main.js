@@ -7,13 +7,20 @@ const router = express.Router();
   res.sendFile(path.join(__dirname, '../Views/main', 'home.html'));
 });*/
 
-router.get('/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, '../Views/main', `${req.params.file}.html`));
+router.get('/cart/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, '../Views/cart', `${req.params.file}.html`));
 });
 
 router.get("/product/:id", (req, res) => {
   res.sendFile(path.join(__dirname, '../Views', 'productPage.html'));
 });
+router.get('/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, '../Views/main', `${req.params.file}.html`));
+});
+
+
+
+
 
 
 
