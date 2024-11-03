@@ -7,7 +7,6 @@ const ROLES_LIST = require('./config/roles_list');
 const verifyRoles = require('./middleware/verifyRoles');
 const verifyJWT = require('./middleware/verifyJWT');
 const mongoose = require('mongoose');
-const connectDB = require('./config/dbconn')
 const cors = require('cors');
 const corsOptions = require('./config/CorsOptions');
 const credentials = require('./middleware/credentials');
@@ -34,6 +33,7 @@ app.use(cors(corsOptions));
 // built-in middleware for json 
 app.use(bodyParser.json()); // Parse JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(bodyParser.text({ type: 'text/plain' }))
 
 //middleware for cookies
 app.use(cookieParser());
@@ -50,8 +50,6 @@ app.get("/test", (req, res) => {
     res.sendFile(path.join(__dirname, './Views', 'connect_to_user.html'));
 });
 
-//Default Routes
-app.use("/auth", require("./routes/auth"));
 
 //API Routes
 app.use("/API/products", require("./routes/API/products"));
@@ -60,7 +58,8 @@ app.use("/API/users", require("./routes/API/users"));
 app.use("/API/basket", require("./routes/API/basket"));
 
 
-
+//Default Routes
+app.use("/auth", require("./routes/auth"));
 
 app.use("/admin", verifyJWT, verifyRoles(ROLES_LIST.Admin), require("./routes/admin"));
 

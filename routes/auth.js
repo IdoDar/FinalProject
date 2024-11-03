@@ -5,7 +5,9 @@ const authController = require('../controllers/authJWTController');
 const verifyJWT = require('../middleware/verifyJWT')
 
 
-
+router.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, '../views/auth', 'sign_in_up.html'));
+});
 router.get("^/$|/login(.html)?", (req, res) => {
   res.sendFile(path.join(__dirname, '../views/auth', 'login.html'));
 });
@@ -21,13 +23,10 @@ router.post('/RefreshJWT', authController.handleRefreshToken);
 
 router.get('/logout', authController.handleLogout);
 
-//the test is my secret route for testing JWT user
-router.get("/test", verifyJWT, (req, res) => {
-  res.sendFile(path.join(__dirname, '../views/auth', 'sign_in_up.html'));
-});
+
 
 router.all('*', (req, res) => {
-  res.status(404).sendFile(path.join(__dirname, '../views', '404.html'));
+  res.sendStatus(404)
 });
 
 

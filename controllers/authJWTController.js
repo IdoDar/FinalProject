@@ -1,4 +1,4 @@
-const User = require('../models/Users');
+const User = require('../models/Schemas');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -41,8 +41,8 @@ const handleLogIn = async (req, res) => {
 }
 
 const handleNewUser = async (req, res) => {
-    const { user, password, rpwd, email, phoneNumber } = req.body;
-    if (!user || !password || !rpwd || !email || !phoneNumber) return res.status(400).json({ 'Message': 'you must fill all the fields bellow' });
+    const { FirstName, LastName, email, phoneNumber, sex, Bdate, password, rpwd } = req.body;
+    if (!FirstName || !LastName || !email || !phoneNumber || !sex || !Bdate || !password || !rpwd) return res.status(400).json({ 'Message': 'you must fill all the fields bellow' });
     if (password != rpwd) return res.status(400).json({ 'Message': 'check your password' });
     //check for duplicate usernames
     const duplicate = await User.findOne({ email: email }).exec();
@@ -53,9 +53,11 @@ const handleNewUser = async (req, res) => {
 
         //Create store new user
         const result = await User.create({
-            "name": user,
+            "name": FirstName + LastName,
+            "sex": sex,
             "email": email,
             "phoneNumber": phoneNumber,
+            "dateBirth": Bdate,
             "password": hashpwd
         });
 

@@ -1,21 +1,8 @@
-const mongoose_api = require('../../models/moongose_api')
+const mongoose_api = require('../../controllers/moongose_api')
 const express = require("express");
 const router = express.Router();
 
 
-router.get("/:Product", async (req, res) => {
-    const productName = req.params.Product.replace(/"/g, '');
-    const jsonreq = { product_name: productName };
-
-    const out = await mongoose_api.ReadData("products", jsonreq, { ...{ _id: 0, __v: 0 } })
-    console.log(out);
-    var err = out[0]
-    var data = out[1]
-    if (err)
-        res.status(500).json(err)
-    else
-        res.send(data[0])
-})
 
 router.post("/", async (req, res) => {
     const out = await mongoose_api.CreateData("products", req.json)
@@ -51,6 +38,7 @@ router.get("/All", async (req, res) => {
     const out = await mongoose_api.ReadData("products", {}, { _id: 0 })
     var err = out[0]
     var data = out[1]
+    console.log(data)
     if (err)
         res.status(500).json(err)
     else
@@ -65,6 +53,20 @@ router.get("/Fields", async (req, res) => {
         res.status(500).json(err)
     else
         res.send(data)
+})
+
+router.get("/:Product", async (req, res) => {
+    const productName = req.params.Product.replace(/"/g, '');
+    const jsonreq = { product_name: productName };
+
+    const out = await mongoose_api.ReadData("products", jsonreq, { ...{ _id: 0, __v: 0 } })
+    console.log(out);
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data[0])
 })
 module.exports = router;
 

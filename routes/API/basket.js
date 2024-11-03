@@ -1,7 +1,7 @@
-const mongoose_api = require('../models/mongoose_api')
+const mongoose_api = require('../../controllers/moongose_api')
 const express = require("express");
+const verifyJWT = require('../../middleware/verifyJWT');
 const router = express.Router();
-const bodyParser = require('body-parser')
 
 router.get("/", async (req, res) => {
     const out = await mongoose_api.ReadData("baskethistory", {}, { _id: 0 })

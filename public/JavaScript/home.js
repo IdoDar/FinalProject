@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const productsUrl = 'http://localhost/API/Products';
-    const AllproductsUrl = 'http://localhost/API/AllProducts';
-    const filtersUrl = 'http://localhost/API/ProductsFields';
+    const productsUrl = 'http://localhost/API/products';
+    const AllproductsUrl = 'http://localhost/API/products/All';
+    const filtersUrl = 'http://localhost/API/products/Fields';
 
     const productContainer = document.getElementById('productContainer');
     const filterPanel = document.getElementById('filterPanel');
@@ -123,8 +123,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Fetch initial products and filters data
     const initialProducts = await fetchJson(AllproductsUrl);
+    console.log("done 1");
     const filters = await fetchJson(filtersUrl);
-
+    console.log("done 2");
     // Load initial data
     loadProducts(initialProducts);
     loadFilters(filters);

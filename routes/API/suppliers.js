@@ -1,4 +1,4 @@
-const mongoose_api = require('../../models/moongose_api')
+const mongoose_api = require('../../controllers/moongose_api')
 const express = require("express");
 const router = express.Router();
 const bodyParser = require('body-parser')

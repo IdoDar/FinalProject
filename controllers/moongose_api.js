@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Schemas = require('./Schemas')
+const Schemas = require('../models/Schemas')
 const DBcon = require('../config/dbconn')
 
 
