@@ -33,7 +33,7 @@ const handleLogIn = async (req, res) => {
         foundUser.refreshToken = refreshToken;
         await foundUser.save();
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 15 * 60 * 1000 })
-        res.json({ 'accessToken': accessToken, 'Usernmae': foundUser.username })
+        res.json({ 'accessToken': accessToken, 'Email': foundUser.email })
     }
     else {
         return res.sendStatus(401); // Unauthorized
@@ -53,7 +53,7 @@ const handleNewUser = async (req, res) => {
 
         //Create store new user
         const result = await User.create({
-            "username": user,
+            "name": user,
             "email": email,
             "phoneNumber": phoneNumber,
             "password": hashpwd
@@ -90,7 +90,7 @@ const handleRefreshToken = async (req, res) => {
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '1m' }
             );
-            res.json({ 'accessToken': accessToken, 'Usernmae': foundUser.username });
+            res.json({ 'accessToken': accessToken, 'Email': foundUser.email });
         }
     )
 }

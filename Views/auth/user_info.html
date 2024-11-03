@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/general.css" />
+    <link rel="stylesheet" href="/css/user_info.css" />
+</head>
+<body>
+    <div class="p_information">
+        <div id="show_change_fname" class="fname_change_class">
+            <form class="inside">
+                <div class="container">
+                    <div id="first_name_id" class="first_name_class">
+                        <label>What will you like to change your First Name to in our system?</label>
+                        <input type="text" id="my_input" placeholder="Enter Your New First Name" required />
+                    </div>
+                    <div id="last_name_id" class="last_name_class">
+                        <label>What will you like to change your last Name to in our system?</label>
+                        <input type="text" id="my_input" placeholder="Enter Your New Last Name" required />
+                    </div>
+                    <div id="phone_id" class="phone_class">
+                        <label>What will you like to change your Phone Number to in our system?</label>
+                        <input type="text" id="my_input" placeholder="Enter Your New Phone Number" required />
+                    </div>
+                    <div class="my_buttons">
+                        <div class="row">
+                            <div class="half">
+                                <button type="button" onclick='func_close_up()' class="cancel_button">Cancel</button>
+                            </div>
+                            <div class="half">
+                                <button type="submit" onclick="check_info()" class="finish_sign_button">Change</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <h1 class="headline">Personal Information:</h1>
+        <div class=" text">
+            <div>
+                <label>First Name: </label>
+                <!--get info from db and present it here-->
+                <!-- 1 represent its first name-->
+                <button onclick="change_info(1)" class="change_info"> Change First Name </button>
+            </div>
+            <div>
+                <label>Last Name: </label>
+                <!--get info from db and present it here-->
+                <!-- 2 represent its last name-->
+                <button type="button" onclick="change_info(2)" class="change_info"> Change Last Name </button>
+            </div>
+            <div>
+                <label>Email Address: </label>
+                <!--get info from db and present it here-->
+            </div>
+            <div>
+                <label>Phone Number: </label>
+                <!--get info from db and present it here-->
+                <!-- 3 represent its phone number-->
+                <button type="button" onclick="change_info(3)" class="change_info"> Change Phone Number </button>
+            </div>
+            <div>
+                <label>Birth Date: </label>
+                <!--get info from db and present it here-->
+            </div>
+            <div>
+                <label>Gender: </label>
+                <!--get info from db and present it here-->
+            </div>
+        </div>
+    </div>
+
+    <script src="/JavaScript/user_info.js"></script>
+</body>
+</html>

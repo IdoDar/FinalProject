@@ -1,9 +1,42 @@
 const mongoose_api = require('../../models/moongose_api')
 const express = require("express");
 const router = express.Router();
-const bodyParser = require('body-parser')
 
-router.get("/products", async (req, res) => {
+router.get("/ProductsFields", async (req, res) => {
+    const out = await mongoose_api.GetProductsFields()
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data)
+})
+
+router.post("/products", async (req, res) => {
+    console.log(req.body);
+    const out = await mongoose_api.ReadData("products", req.body, { ...{ _id: 0 } })
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data)
+})
+router.get("/product/:Product", async (req, res) => {
+    const productName = req.params.Product.replace(/"/g, '');
+    const jsonreq = { product_name: productName };
+
+    const out = await mongoose_api.ReadData("products", jsonreq, { ...{ _id: 0, __v: 0 } })
+    console.log(out);
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data[0])
+})
+
+router.get("/Allproducts", async (req, res) => {
     const out = await mongoose_api.ReadData("products", {}, { _id: 0 })
     var err = out[0]
     var data = out[1]

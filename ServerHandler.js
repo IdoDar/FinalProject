@@ -11,6 +11,8 @@ const connectDB = require('./config/dbconn')
 const cors = require('cors');
 const corsOptions = require('./config/CorsOptions');
 const credentials = require('./middleware/credentials');
+const path = require('path');
+const bodyParser = require('body-parser')
 const PORT = process.env.PORT || 80;
 
 
@@ -29,10 +31,9 @@ app.use(credentials);
 app.use(cors(corsOptions));
 
 // built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: false }));
-
 // built-in middleware for json 
-app.use(express.json());
+app.use(bodyParser.json()); // Parse JSON bodies
+app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 //middleware for cookies
 app.use(cookieParser());
@@ -41,17 +42,26 @@ app.use(cookieParser());
 //make main use the "public" folder as it's gets and posts
 app.use(express.static('public'));
 
+
+app.use("/", require("./routes/main"));
+
+
+app.get("/test", (req, res) => {
+    res.sendFile(path.join(__dirname, './Views', 'connect_to_user.html'));
+});
+
+
+
 //API Routes
 app.use("/API", require("./routes/API/products"));
 app.use("/API", require("./routes/API/suppliers"));
 app.use("/API", require("./routes/API/users"));
 
 
-app.use
+
 //Default Routes
 app.use("/auth", require("./routes/auth"));
 
-app.use("/supplier", verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.supplier), require("./routes/supplier"));
 
 app.use("/admin", verifyJWT, verifyRoles(ROLES_LIST.Admin), require("./routes/admin"));
 

@@ -3,8 +3,8 @@ const express = require("express");
 const router = express.Router();
 const bodyParser = require('body-parser')
 
-router.get("/suppliers", async (req, res) => {
-    const out = await mongoose_api.ReadData("suppliers", {}, { _id: 0 })
+router.get("/Allsuppliers", async (req, res) => {
+    const out = await mongoose_api.ReadData("suppliers", {}, {})
     var err = out[0]
     var data = out[1]
     if (err)
