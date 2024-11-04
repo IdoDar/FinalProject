@@ -51,8 +51,8 @@ router.get("/history/:baskethistory", async (req, res) => {
     for (const product of products) {
         var product_names = []
         for (const basket of product.basket) {
-            var product_detailes = await mongoose_api.productModel.findById(`${basket}`, "product_name")
-            product_names.push(product_detailes.product_name)
+            var product_detailes = await mongoose_api.productModel.findById(`${basket}`, "product_name price")
+            product_names.push({product_name:product_detailes.product_name,price:product_detailes.price})
         }
         data.push({ date: product.date, product_names: product_names })
 
