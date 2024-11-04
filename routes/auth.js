@@ -8,6 +8,10 @@ const verifyJWT = require('../middleware/verifyJWT')
 router.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, '../views/auth', 'sign_in_up.html'));
 });
+router.get("/Terms_and_privacy", (req, res) => {
+  res.sendFile(path.join(__dirname, '../views/auth', 'Terms_and_privacy.html'));
+});
+
 router.get("^/$|/login(.html)?", (req, res) => {
   res.sendFile(path.join(__dirname, '../views/auth', 'login.html'));
 });

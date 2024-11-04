@@ -53,6 +53,35 @@ function check_input_up() {
         let m_gender = document.getElementById("gender").value;
         let b_date = document.getElementById("bdate").value;
         //send all the information to DB of customers
+        const jsondata = {
+            "FirstName": f_name,
+            "LastName": l_name,
+            "email": a_email,
+            "phoneNumber": n_phone,
+            "sex": m_gender,
+            "Bdate": b_date,
+            "password": pass1,
+            "rpwd": pass2
+        };
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost/auth/register', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log('User registered successfully:', xhr.responseText);
+            } else {
+                console.error('Request failed with status:', xhr.status);
+            }
+        };
+
+        xhr.onerror = function () {
+            console.error('Network error');
+        };
+        console.log(JSON.stringify(jsondata));
+        xhr.send(JSON.stringify(jsondata));
+
+        loginUser(a_email, pass1)
     }
 }
 
@@ -66,14 +95,57 @@ function check_input_in() {
     else {
         let pass = document.getElementById("password_id").value;
         //check password and email to DB of customers
+
+        loginUser(my_email, pass)
     }
 }
+
+function loginUser(email, password) {
+    const jsondata = {
+        "email": email,
+        "password": password
+    };
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost/auth/login', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onload = function () {
+        console.log('XHR loaded:', xhr.status, xhr.responseText);
+        if (xhr.status >= 200 && xhr.status < 300) {
+            const response = JSON.parse(xhr.responseText);
+            console.log('Parsed Response:', response);
+            // Save the accessToken and email
+            saveAccessToken(response.accessToken);
+            sessionStorage.setItem('Email', response.Email);
+            console.log('User logged in successfully:', response);
+            console.log('Access Token:', response.accessToken);
+        } else {
+            console.error('Request failed with status:', xhr.status);
+        }
+    };
+
+    xhr.onerror = function () {
+        console.error('Network error');
+    };
+
+    console.log('Sending JSON data:', JSON.stringify(jsondata));
+    xhr.send(JSON.stringify(jsondata));
+}
+
+// Save the accessToken in a local storage
+function saveAccessToken(accessToken) {
+    console.log('Saving Access Token:', accessToken);
+    localStorage.setItem('accessToken', accessToken); // Use a secure method in production
+    console.log('Access Token saved:', accessToken);
+}
+
 
 // Get the form
 var sign_up = document.getElementById('sign_up_id');
 var sign_in = document.getElementById('sign_in_id');
 
 // When the user clicks anywhere outside of the form - close it
+
 window.onclick = function (event) {
     if (event.target == sign_up) {
         sign_up.style.display = "none";

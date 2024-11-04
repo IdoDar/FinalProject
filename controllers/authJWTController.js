@@ -1,7 +1,13 @@
-const User = require('../models/Schemas');
+const mongoose = require('mongoose')
+const Schemas = require('../models/Schemas');
+const DBcon = require('../config/dbconn')
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
+const dbClient = mongoose.connection.useDb(DBcon.dbName)
+const User = dbClient.model('users', Schemas.userSchema);
+
 
 const handleLogIn = async (req, res) => {
     const { email, password } = req.body;
@@ -21,19 +27,20 @@ const handleLogIn = async (req, res) => {
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '1m' }
+            { expiresIn: '20m' }
         );
         const refreshToken = jwt.sign(
             { "email": foundUser.email },
             process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: '15m' }
+            { expiresIn: '1d' }
         );
 
         // Saving refreshToken with current user
         foundUser.refreshToken = refreshToken;
         await foundUser.save();
-        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 15 * 60 * 1000 })
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
         res.json({ 'accessToken': accessToken, 'Email': foundUser.email })
+        console.log("User Login");
     }
     else {
         return res.sendStatus(401); // Unauthorized
@@ -49,19 +56,20 @@ const handleNewUser = async (req, res) => {
     if (duplicate) return res.sendStatus(409); //conflict
     try {
         //encrypt password
-        const hashpwd = await bcrypt.hash(password, 10);
 
+        const hashpwd = await bcrypt.hash(password, 10);
         //Create store new user
         const result = await User.create({
-            "name": FirstName + LastName,
+            "name": FirstName + " " + LastName,
             "sex": sex,
             "email": email,
-            "phoneNumber": phoneNumber,
+            "phoneNum": phoneNumber,
             "dateBirth": Bdate,
             "password": hashpwd
         });
 
-        res.status(201).json({ 'success': `New User ${user} created with email ${email}` });
+        res.status(201).json({ 'success': `New User ${user} created with email ${email}` });;
+        console.log("User Created");
     }
     catch (err) {
         res.status(500).json({ 'Message': err.Message });
@@ -90,7 +98,7 @@ const handleRefreshToken = async (req, res) => {
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '1m' }
+                { expiresIn: '20m' }
             );
             res.json({ 'accessToken': accessToken, 'Email': foundUser.email });
         }
