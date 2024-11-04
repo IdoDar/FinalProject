@@ -38,7 +38,6 @@ $(document).ready(function () {
     // Function to get the value of a cookie by name
     function getCookie(name) {
         const value = `; ${document.cookie}`;
-        console.log(document.cookie)
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }

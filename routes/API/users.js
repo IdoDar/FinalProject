@@ -18,7 +18,8 @@ router.post("/", async (req, res) => {
     var err = out[0]
     var data = out[1]
     if (err)
-        res.status(500).json(err)
+        {console.log(err);
+        res.status(500).json(err);}
     else
         res.send(data)
 })
