@@ -3,22 +3,30 @@ $(document).ready(function () {
 
 
     // Use the function to get the product name
-    const product = getProductFromPath();
+    let product = getProductFromPath();
 
     function fetchProductData() {
         $.ajax({
             url: `/API/products/${product}`,
             method: 'GET',
-            success: function (product) {
+            success: function (productinfo) {
+                product = productinfo.data;
                 console.log("Response:", product); // Log the response to check its content
                 $('#product-image').attr('src', product.picture_link);
                 const detailsContainer = $('#product-details');
                 detailsContainer.empty();
                 $.each(product, function (key, value) {
                     if (key !== 'picture_link') {
-                        const detail = $('<p></p>').html(`<strong>${key.replace(/_/g, ' ')}:</strong> ${value}`);
-                        detailsContainer.append(detail);
+                        if (key == 'company_name') {
+                            const detail = $('<p></p>').html(`<strong>${key.replace(/_/g, ' ')}:</strong> ${productinfo.conpanyName}`);
+                            detailsContainer.append(detail);
+                        }
+                        else {
+                            const detail = $('<p></p>').html(`<strong>${key.replace(/_/g, ' ')}:</strong> ${value}`);
+                            detailsContainer.append(detail);
+                        }
                     }
+
                 });
             },
             error: function (xhr, status, error) {

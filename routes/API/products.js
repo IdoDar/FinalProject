@@ -84,8 +84,10 @@ router.get("/:Product", async (req, res) => {
     var data = out[1]
     if (err)
         res.status(500).json(err)
-    else
-        res.send(data[0])
+    else {
+        const companyname = await mongoose_api.ReadData("suppliers", { _id: data[0].company_name }, { ...{ _id: 0, companyName: 1 } })
+        res.send({ data: data[0], "conpanyName": companyname[1][0].companyName });
+    }
 })
 module.exports = router;
 
