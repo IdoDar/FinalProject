@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <p>Price: $${product.price}</p>
           <p>${product.description}</p>
         `;
-            productEl.querySelector('.product-name').addEventListener('click', () => redirectToProduct(product.product_name));
+            productEl.querySelector('.product-name').addEventListener('click', () => redirectToProduct(product._id));
             productContainer.appendChild(productEl);
         });
     }

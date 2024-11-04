@@ -43,7 +43,16 @@ router.delete("/", async (req, res) => {
         res.send(data)
 })
 
-
+router.get("/CurrentUser", async (req, res) => {
+    const query = { "refreshToken": req.cookies.refreshToken };
+    const out = await mongoose_api.ReadData("users", query, { ...{} })
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else
+        res.send(data)
+})
 
 router.get("/MostBought", async (req, res) => {
     const out = await mongoose_api.ReadData("baskethistory", {}, { basket: 1 })

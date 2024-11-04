@@ -44,7 +44,6 @@ router.delete("/", async (req, res) => {
 })
 
 router.post("/search", async (req, res) => {
-    console.log(req.body);
     const out = await mongoose_api.ReadData("products", req.body, { ...{} })
     var err = out[0]
     var data = out[1]
@@ -77,7 +76,7 @@ router.get("/Fields", async (req, res) => {
 
 router.get("/:Product", async (req, res) => {
     const productName = req.params.Product.replace(/"/g, '');
-    const jsonreq = { product_name: productName };
+    const jsonreq = { _id: productName };
 
     const out = await mongoose_api.ReadData("products", jsonreq, { ...{ _id: 0, __v: 0 } })
     console.log(out);

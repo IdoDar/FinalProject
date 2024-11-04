@@ -38,8 +38,9 @@ const handleLogIn = async (req, res) => {
         // Saving refreshToken with current user
         foundUser.refreshToken = refreshToken;
         await foundUser.save();
-        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
-        res.json({ 'accessToken': accessToken, 'Email': foundUser.email })
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 20 * 60 * 1000 });
+        res.json(accessToken);
         console.log("User Login");
     }
     else {
@@ -100,7 +101,7 @@ const handleRefreshToken = async (req, res) => {
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '20m' }
             );
-            res.json({ 'accessToken': accessToken, 'Email': foundUser.email });
+            res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 20 * 60 * 1000 })
         }
     )
 }
