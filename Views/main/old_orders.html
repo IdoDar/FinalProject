@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <link rel="stylesheet" href="/css/general.css" />
-    <link rel="stylesheet" href="/css/old_orders.css" />
+    <style>
+        body {
+            position: absolute;
+            top: 5%;
+            left: 15%;
+            width: 70%;
+        }
+
+        div {
+            top: 10%;
+        }
+    </style>
+    <title>Old Orders</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost/CSS/general.css">
+    <script src="javascript/old_orders.js"></script>
 </head>
-<body>
-    <h1 class="headline">Old Orders:</h1>
 
-
-    <script src="/JavaScript/old_orders.js"></script>
+<body onload="GetOrders();">
+    <h class="modal-header modal-title headline"><b>Old Orders</b></h>
+    <a id="orderstable"></a>
+    </div>
 </body>
+
 </html>

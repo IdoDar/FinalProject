@@ -149,22 +149,33 @@ async function addToCurrentBasket(email, productId) {
 }
 //Remove a product from current basket
 async function RemoveFromCurrentBasket(email, productId) {
-    var reterr = 0
-    var retdata = 0
+    var reterr = 0;
+    var retdata = 0;
     try {
-        await userModel.findOneAndUpdate(
-            { email: email }, // Search criteria
-            { $pull: { currentBasket: productId } }, // Update operation
-            { new: true, useFindAndModify: false } // Options
-        );
-        console.log('Product added to currentBasket successfully');
-        reterr = 0;
-        retdata = `'Product Removed to currentBasket successfully'`;
+        // Find the user document
+        const user = await userModel.findOne({ email: email });
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        // Remove one instance of productId from currentBasket
+        const index = user.currentBasket.indexOf(productId);
+        if (index > -1) {
+            user.currentBasket.splice(index, 1);
+            await user.save();
+            console.log('Product removed from currentBasket successfully');
+            retdata = 'Product removed from currentBasket successfully';
+        } else {
+            console.log('Product not found in currentBasket');
+            retdata = 'Product not found in currentBasket';
+        }
     } catch (error) {
+        console.error('Error removing product from currentBasket:', error);
         reterr = error;
     }
-    return [reterr, retdata]
+    return [reterr, retdata];
 }
+
 //Get all of data in a collection
 //var collection is the name of the collection
 //sends in jsons the data

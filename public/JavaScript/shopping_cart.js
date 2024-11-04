@@ -18,7 +18,7 @@ function show() { show_cart.classList.toggle('show-cart'); }
 
 //shows number of items in cart on the top of the page
 async function get_cart_len() {
-  var dburl = `http://localhost/users/${user_email}`;
+  var dburl = `http://localhost/API/users/${user_email}`;
   await fetch(dburl, {
     method: "GET"
   }).then(function (response) {
@@ -49,7 +49,7 @@ function times_in_array(data) {
 // gets cart and put it in the html 
 async function get_cart() {
   //get user cart - current basket
-  var dburl = `http://localhost/users/${user_email}`;
+  var dburl = `http://localhost/API/users/${user_email}`;
   list_cart_html.innerHTML = '';
   await fetch(dburl, {
     method: "GET"
@@ -64,7 +64,7 @@ async function get_cart() {
     if (my_cart.length > 0) {
       for (const my_id in times) {
         //gets info on each item in cart
-        let sdburl = `http://localhost/products/${my_id}`;
+        let sdburl = `http://localhost/API/products/${my_id}`;
         fetch(sdburl, {
           method: "GET"
         }).then(function (response) {
