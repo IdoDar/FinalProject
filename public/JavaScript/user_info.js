@@ -7,7 +7,7 @@ let per_info_html = document.querySelector('.info');
 
 
 
-
+//gets user info from db and puts it html
 async function get_user_info() {
     var dburl = `http://localhost/API/users/${user_email}`
     await fetch(dburl, {
@@ -15,17 +15,14 @@ async function get_user_info() {
     }).then(function (response) {
         return response.json()
     }).then(function (data) {
-        console.log(data)
         let my_usr = data[0];
-        console.log(data[0].name)
         per_info_html.innerHTML = '';
+        //create item in html
         let my_info = document.createElement('div');
         my_info.classList.add('me');
         let Bdate = my_usr.dateBirth.substring(0, 10)
-        //create item in html
         my_info.innerHTML =
             `
-            
            <div >
                 <label>First Name: </label> <small>${my_usr.name}</small>
                 <!--get info from db and present it here-->
@@ -68,7 +65,7 @@ async function get_user_info() {
 }
 get_user_info();
 
-
+//changes info - name or phone
 async function editData(kind, change, data) {
     var dburl = "http://localhost/API/users"
     if (kind == 1) {
@@ -138,17 +135,17 @@ async function editData(kind, change, data) {
 
 
 
-
+//opens change info tab - 1 is name and 3 is phone number
 function change_info(get_kind) {
     if (get_kind == 1) {
         document.getElementById('show_change_fname').style.display = 'block';
         document.getElementById('first_name_id').style.display = 'block';
 
     }
-    if (get_kind == 2) {
+    /*if (get_kind == 2) {
         document.getElementById('show_change_fname').style.display = 'block';
         document.getElementById('last_name_id').style.display = 'block';
-    }
+    }*/
     if (get_kind == 3) {
         document.getElementById('show_change_fname').style.display = 'block';
         document.getElementById('phone_id').style.display = 'block';
@@ -157,6 +154,7 @@ function change_info(get_kind) {
 
 }
 
+//closes all change info 
 function func_close_up() {
     document.getElementById('show_change_fname').style.display = 'none';
     document.getElementById('first_name_id').style.display = 'none';
@@ -164,6 +162,7 @@ function func_close_up() {
     document.getElementById('phone_id').style.display = 'none';
 }
 
+//checks input with regex and add to db
 function check_info() {
     let my_input;
     if (document.getElementById('first_name_id').style.display == 'block') {
@@ -206,6 +205,7 @@ function check_info() {
 
 }
 
+//delete user
 async function delete_user() {
     var dburl = "http://localhost/API/users";
     let data = user_email;
