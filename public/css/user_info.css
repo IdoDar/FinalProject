@@ -81,7 +81,6 @@ button {
 
 .back {
     background-color: cornflowerblue;
-    
     color: white;
     padding: 12px 18px;
     margin: 8px 3px;
@@ -89,13 +88,23 @@ button {
     cursor: pointer;
     font-size: 20px;
     border-radius: 4px;
-    justify-content: space-between;
 }
     .back:hover {
-        opacity: 1;
+        background-color: rgb(174, 196, 238);;
     }
 
-
+.change_info{
+    background-color: white;
+    color: cornflowerblue;
+    border: 2px solid cornflowerblue;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.change_info:hover{
+    background-color: cornflowerblue;
+    color: white;
+}
 
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 300px) {
