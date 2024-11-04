@@ -23,12 +23,14 @@ async function get_user_info() {
         let Bdate = my_usr.dateBirth.substring(0, 10)
         my_info.innerHTML =
             `
+            &nbsp;
            <div >
                 <label>First Name: </label> <small>${my_usr.name}</small>
                 <!--get info from db and present it here-->
                 <!-- 1 represent its first name-->
                 <button onclick="change_info(1)" class="change_info"> Change Name </button>
             </div>
+            &nbsp;
             <!--<div>
                 <label>Last Name: </label>
                 <!--get info from db and present it here-->
@@ -39,20 +41,24 @@ async function get_user_info() {
                 <label>Email Address: </label><small>${my_usr.email}</small>
                 <!--get info from db and present it here-->
             </div>
+            &nbsp;
             <div>
                 <label>Phone Number: </label><small>${my_usr.phoneNum}</small>
                 <!--get info from db and present it here-->
                 <!-- 3 represent its phone number-->
                 <button type="button" onclick="change_info(3)" class="change_info"> Change Phone Number </button>
             </div>
+            &nbsp;
             <div>
                 <label>Birth Date: </label><small>${Bdate}</small>
                 <!--get info from db and present it here-->
             </div>
+            &nbsp;
             <div>
                 <label>Gender: </label> <small>${my_usr.sex}</small>
                 <!--get info from db and present it here-->
             </div>
+            &nbsp;
         </div>
     </div>
         <div class="my_buttons">
