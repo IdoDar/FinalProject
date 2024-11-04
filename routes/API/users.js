@@ -45,7 +45,7 @@ router.delete("/", async (req, res) => {
 
 router.get("/CurrentUser", async (req, res) => {
     const query = { "refreshToken": req.cookies.refreshToken };
-    const out = await mongoose_api.ReadData("users", query, { ...{} })
+    const out = await mongoose_api.ReadData("users", query, { ...{ _id: 0, email: 1 } })
     var err = out[0]
     var data = out[1]
     if (err)
