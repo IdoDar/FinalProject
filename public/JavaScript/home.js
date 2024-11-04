@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const productsUrl = 'http://localhost/API/products';
+    const productsUrl = 'http://localhost/API/products/search';
     const AllproductsUrl = 'http://localhost/API/products/All';
     const filtersUrl = 'http://localhost/API/products/Fields';
 

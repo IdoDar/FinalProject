@@ -62,6 +62,7 @@ router.get("/history/:baskethistory", async (req, res) => {
 
 router.post("/MyBasket/Add/:id", verifyJWT, async (req, res) => {
     const productID = req.params.id.replace(/"/g, '');
+    console.log(productID);
     const out = await mongoose_api.addToCurrentBasket(req.email, productID);
     var err = out[0]
     var data = out[1]

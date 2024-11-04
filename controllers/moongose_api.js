@@ -130,35 +130,40 @@ async function GetProductsFields() {
 }
 //Add a product to current basket
 async function addToCurrentBasket(email, productId) {
+    var reterr = 0
+    var retdata = 0
     try {
-        const collection = 'User';
-        const searchjson = { email: email };
-        const fieldsjson = { $push: { currentBasket: productId } }; // Using $push to allow duplicates
-
-        const [reterr, retdata] = await UpdateData(collection, searchjson, fieldsjson);
-        if (reterr) {
-            throw new Error(reterr);
-        }
-        console.log(retdata);
+        await userModel.findOneAndUpdate(
+            { email: email }, // Search criteria
+            { $push: { currentBasket: productId } }, // Update operation
+            { new: true, useFindAndModify: false } // Options
+        );
+        console.log('Product added to currentBasket successfully');
+        reterr = 0;
+        retdata = `'Product added to currentBasket successfully'`;
     } catch (error) {
-        console.error('Error updating currentBasket:', error);
+        reterr = error;
+        console.log(error);
     }
+    return [reterr, retdata]
 }
 //Remove a product from current basket
 async function RemoveFromCurrentBasket(email, productId) {
+    var reterr = 0
+    var retdata = 0
     try {
-        const collection = 'User';
-        const searchjson = { email: email };
-        const fieldsjson = { $pull: { currentBasket: productId } }; // Using $push to allow duplicates
-
-        const [reterr, retdata] = await UpdateData(collection, searchjson, fieldsjson);
-        if (reterr) {
-            throw new Error(reterr);
-        }
-        console.log(retdata);
+        await userModel.findOneAndUpdate(
+            { email: email }, // Search criteria
+            { $pull: { currentBasket: productId } }, // Update operation
+            { new: true, useFindAndModify: false } // Options
+        );
+        console.log('Product added to currentBasket successfully');
+        reterr = 0;
+        retdata = `'Product Removed to currentBasket successfully'`;
     } catch (error) {
-        console.error('Error updating currentBasket:', error);
+        reterr = error;
     }
+    return [reterr, retdata]
 }
 //Get all of data in a collection
 //var collection is the name of the collection
