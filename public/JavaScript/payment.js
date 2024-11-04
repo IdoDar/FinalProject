@@ -11,6 +11,7 @@ var user_email = 'yarden@lol';
 let list_cart_html = document.querySelector('.cart-list');
 let total_price = document.querySelector('.sum-all')
 
+//checks input woth regex
 function check_input() {
     console.log("clicked");
     let my_message = '';
@@ -69,17 +70,16 @@ function check_input() {
     }
 }
 
+//gets the users cart from memory (put to memory by shopping cart) 
 let json_cart = sessionStorage.getItem('final_cart');
 let cart = JSON.parse(json_cart);
-console.log(cart);
 
+// puts cart in html
 function cart_html() {
     list_cart_html.innerHTML = '';
-    //quantity for cart
     let total_sum = 0;
     cart.forEach(my_item_info => {
         console.log("my item " + my_item_info.product_name);
-
         let new_cart_item = document.createElement('div');
         new_cart_item.classList.add('item');
         new_cart_item.dataset.id = my_item_info.id;

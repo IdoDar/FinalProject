@@ -1,7 +1,7 @@
+//calls a page
 function call_the_page(page_name){
-        // Send an AJAX request (just for the sake of the example)
     $.ajax({
-        url: `${page_name}`, // Assuming this is your endpoint
+        url: `${page_name}`, 
         method: 'GET',
         success: function () {
             // Redirect to the product page
