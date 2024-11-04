@@ -39,6 +39,7 @@ $(document).ready(function () {
         console.log('Add to Cart button clicked');
         const accessToken = getCookie('accessToken'); // Replace 'yourCookieName' with your actual cookie name
         if (!accessToken) {
+            alert("you need to log in first");
             console.error('Session cookie not found');
             return;
         }
@@ -57,6 +58,8 @@ $(document).ready(function () {
                 // Save the accessToken and email
                 console.log('User logged in successfully:', response);
             } else {
+                if (xhr.status == 401 || xhr.status == 403)
+                    alert("you need to log in first");
                 console.error('Request failed with status:', xhr.status);
             }
         };

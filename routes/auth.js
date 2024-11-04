@@ -12,16 +12,10 @@ router.get("/Terms_and_privacy", (req, res) => {
   res.sendFile(path.join(__dirname, '../views/auth', 'Terms_and_privacy.html'));
 });
 
-router.get("^/$|/login(.html)?", (req, res) => {
-  res.sendFile(path.join(__dirname, '../views/auth', 'login.html'));
-});
-router.post("^/$|/login(.html)?", authController.handleLogIn);
+router.post("/login", authController.handleLogIn);
 
-router.get("^/new$|/register(.html)?", (req, res) => {
-  res.sendFile(path.join(__dirname, '../views/auth', 'login.html'));
-});
 
-router.post('^/new$|/register(.html)?', authController.handleNewUser);
+router.post('/register', authController.handleNewUser);
 
 router.post('/RefreshJWT', authController.handleRefreshToken);
 
