@@ -27,7 +27,7 @@ const handleLogIn = async (req, res) => {
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '20m' }
+            { expiresIn: '30m' }
         );
         const refreshToken = jwt.sign(
             { "email": foundUser.email },
@@ -39,8 +39,8 @@ const handleLogIn = async (req, res) => {
         foundUser.refreshToken = refreshToken;
         await foundUser.save();
         res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 20 * 60 * 1000 });
-        res.json(accessToken);
+        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 30 * 60 * 1000 });
+        res.json("Successful Login");
         console.log("User Login");
     }
     else {
@@ -79,7 +79,7 @@ const handleNewUser = async (req, res) => {
 
 const handleRefreshToken = async (req, res) => {
     const cookies = req.cookies;
-    if (!cookies?.jwt) return res.sendStatus(401);
+    if (!cookies?.refreshToken) return res.sendStatus(401);
     console.log(cookies.jwt);
     const refreshToken = cookies.jwt;
     const foundUser = await User.findOne({ refreshToken }).exec();
@@ -99,9 +99,9 @@ const handleRefreshToken = async (req, res) => {
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '20m' }
+                { expiresIn: '30m' }
             );
-            res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 20 * 60 * 1000 })
+            res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 30 * 60 * 1000 })
         }
     )
 }
@@ -115,7 +115,8 @@ const handleLogout = async (req, res) => {
     //Is RefreshToken in DB
     const foundUser = await User.findOne({ refreshToken }).exec();
     if (!foundUser) {
-        res.clearCookie('jwt', { httpOnly: true });
+        res.clearCookie('accessToken', { httpOnly: true });
+        res.clearCookie('refreshToken', { httpOnly: true });
         return res.sendStatus(204); //No Content
     }
     //delete the refreshToken From DB
