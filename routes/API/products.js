@@ -43,6 +43,7 @@ router.delete("/", async (req, res) => {
         res.send(data)
 })
 
+
 router.get("/All", async (req, res) => {
     const out = await mongoose_api.ReadData("products", {}, { _id: 0 })
     var err = out[0]
