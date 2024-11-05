@@ -12,6 +12,7 @@ let total_quantity = get_cart_len();
 let total_sum = 0;
 
 var user_email = 'idonoam@gmail.com';
+//var user_email = 'yarden@test.test';
 
 //Shows cart
 function show() { show_cart.classList.toggle('show-cart'); }
@@ -61,6 +62,7 @@ async function get_cart() {
     // gets each item how many times
     let times = times_in_array(my_cart);
     final_cart_json = [];
+    total_sum=0;
     if (my_cart.length > 0) {
       for (const my_id in times) {
         //gets info on each item in cart
@@ -138,6 +140,7 @@ close_cart.addEventListener('click', show);
 //opens payment and sends final cart
 payment_cart.addEventListener('click', function () {
   sessionStorage.setItem('final_cart', JSON.stringify(final_cart_json));
+  //sessionStorage.setItem('final_cart_id', JSON.stringify(my_cart_id));
   window.location.href = "./payment";
 
 })

@@ -2,7 +2,7 @@
 const name_pattern = /^[a-z\sA-Z ,.'-]+$/;
 const phone_pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 
-const user_email = 'yarden@lol.main';
+const user_email = 'idonoam@gmail.com';
 let per_info_html = document.querySelector('.info');
 
 
@@ -75,7 +75,6 @@ get_user_info();
 async function editData(kind, change, data) {
     var dburl = "http://localhost/API/users"
     if (kind == 1) {
-        alert('1');
         if (change != null) {
             await fetch(dburl, {
                 method: "PUT",
@@ -117,7 +116,6 @@ async function editData(kind, change, data) {
     }*/
     else if (kind == 3) {
         if (change != null) {
-            alert("went");
             await fetch(dburl, {
                 method: "PUT",
                 body: JSON.stringify({
