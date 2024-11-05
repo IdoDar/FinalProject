@@ -14,11 +14,12 @@ router.get("/", async (req, res) => {
         res.send(data)
 })
 router.post("/", async (req, res) => {
-    const out = await mongoose_api.CreateData("users", req.json)
+    const out = await mongoose_api.CreateData("users", req.body)
     var err = out[0]
     var data = out[1]
     if (err)
-        res.status(500).json(err)
+        {console.log(err);
+        res.status(500).json(err);}
     else
         res.send(data)
 })

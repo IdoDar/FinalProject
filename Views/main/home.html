@@ -15,10 +15,11 @@
         <div class="dropdown">
             <button class="drop_button"><img class="images" src="image/dog.png" />
             </button>
-
+    
             <div class="dropdown_content" id="myDropdown">
-                <a class="text" href="user_info.html">Personal Information</a>
-                <a class="text" href="old_orders.html">Old Orders</a>
+                <a class="text" onclick="call_the_page('user_info')">Personal Information</a>
+                <a class="text" onclick="call_the_page('old_orders')">Old Orders</a>
+                <a class="text" onclick="call_the_page('about_us')">About Us</a>
             </div>
         </div>
         <button id="filterBtn">Filter</button>
@@ -30,6 +31,7 @@
         <!-- Products will be dynamically loaded here -->
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="javascript/connect_to_user.js"></script>
     <script src="/Javascript/home.js"></script>
 </body>
 

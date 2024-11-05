@@ -6,7 +6,8 @@ const zip_pattern = /\b\d{5,10}\b/;
 const card_pattern = /^4[0-9]{12}(?:[0-9]{3})?$/;
 const id_pattern = /\b\d{9}\b/;
 const cvv_pattern = /\b\d{3}\b/;
-var user_email = 'yarden@lol';
+var user_email = 'idonoam@gmail.com';
+
 
 let list_cart_html = document.querySelector('.cart-list');
 let total_price = document.querySelector('.sum-all')
@@ -66,6 +67,7 @@ function check_input() {
         alert(my_message);
     }
     else {
+        delete_and_save_cart();
         alert("Thank you for your purchase! It will arrive soon :)")
     }
 }
@@ -73,6 +75,40 @@ function check_input() {
 //gets the users cart from memory (put to memory by shopping cart) 
 let json_cart = sessionStorage.getItem('final_cart');
 let cart = JSON.parse(json_cart);
+
+// delete cart from current cart and saves cart to history cart
+async function delete_and_save_cart() {
+    var dburl = `http://localhost/API/users/${user_email}`;
+    //gets current cart
+    await fetch(dburl, {
+        method: "GET"
+      }).then(function (response) {
+        return response.json()
+      }).then(function (data) {
+        console.log("stahe 1");
+        let my_usr = data[0];
+        let my_cart = my_usr.currentBasket;
+        let my_user_id = my_usr._id;
+        let today = new Date();
+        console.log(my_cart + today+ my_user_id );
+        let for_post = JSON.stringify({
+            user: my_user_id,
+            date: today,
+            basket: my_cart  
+        })
+        return for_post; 
+      }).then (async function (for_post) {
+        let for_body = JSON.parse(for_post);
+        //adds cart to history
+        let mdburl = "http://localhost/API/basket";
+        $.post(mdburl,for_body,(data, status) =>{console.log(data);});
+        //delete all items in cart
+        for (let i = 0; i < for_body.basket.length; i++){
+            dburl = `http://localhost/API/basket/MyBasket/Remove/${for_body.basket[i]}`
+            await $.post(dburl,{},(data, status)=>{console.log(data);});
+        }
+      })    
+}
 
 // puts cart in html
 function cart_html() {

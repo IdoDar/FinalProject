@@ -183,17 +183,25 @@ async function editData(data) {
 async function addData() {
   var dburl = `http://localhost/API/users`
   let name = prompt('Enter The First And Last Name:');
+  console.log("name "+ name);
   let sex = prompt('Enter The Sex Of The User:');
+  console.log("sex "+ sex);
   let roles = prompt('Enter The Role(Enter 200 If You Want An Admin):');
   if (roles == 200)
-    roles = { Admin: roles }
+    roles = { "Admin": 200 }
   else
-    roles = { User: 100 }
+    roles = { "User": 100 }
+  console.log("role "+ roles);
   let email = prompt('Enter The Email:');
+  console.log("email "+ email);
   let phoneNum = prompt('Enter The Phone Number:');
+  console.log("phone "+ phoneNum);
   let dateBirth = prompt('Enter The Date Of Birth (in the format (DD/MM/YYYY)):');
   dateBirth = new Date(dateBirth);
+  console.log("date "+ dateBirth);
   let password = prompt('Enter The Password:');
+  console.log("pass "+ password);
+  console.log(name + sex + roles + email + phoneNum + dateBirth +password);
   await fetch(dburl, {
     method: "POST",
     body: JSON.stringify({

@@ -157,7 +157,6 @@ async function RemoveFromCurrentBasket(email, productId) {
         if (!user) {
             throw new Error('User not found');
         }
-
         // Remove one instance of productId from currentBasket
         const index = user.currentBasket.indexOf(productId);
         if (index > -1) {
@@ -175,7 +174,6 @@ async function RemoveFromCurrentBasket(email, productId) {
     }
     return [reterr, retdata];
 }
-
 //Get all of data in a collection
 //var collection is the name of the collection
 //sends in jsons the data
