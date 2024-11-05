@@ -9,6 +9,7 @@ $(document).ready(function () {
         $.ajax({
             url: `/API/products/${product}`,
             method: 'GET',
+            withCredentials: true,
             success: function (productinfo) {
                 product = productinfo.data;
                 console.log("Response:", product); // Log the response to check its content
@@ -51,6 +52,10 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error('Error fetching product page:', error);
+                if (xhr.status == 401 || xhr.status == 403)
+                    alert("You need login first");
+                else
+                    alert(`error ${xhr.status}: ${error}`)
             }
         });
 

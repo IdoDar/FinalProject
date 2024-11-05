@@ -7,9 +7,6 @@ const router = express.Router();
   res.sendFile(path.join(__dirname, '../Views/main', 'home.html'));
 });*/
 
-router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../Views/main', `home.html`));
-});
 
 router.get('/cart/:file', (req, res) => {
   res.sendFile(path.join(__dirname, '../Views/cart', `${req.params.file}.html`));

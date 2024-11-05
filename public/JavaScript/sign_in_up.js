@@ -1,6 +1,10 @@
+
 const name_pattern = /^[a-z\sA-Z ,.'-]+$/;
 const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phone_pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+
+
 
 function show_sign_up() {
     document.getElementById('sign_up_id').style.display = 'block';
@@ -63,25 +67,8 @@ function check_input_up() {
             "password": pass1,
             "rpwd": pass2
         };
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost/auth/register', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        xhr.onload = function () {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                console.log('User registered successfully:', xhr.responseText);
-            } else {
-                console.error('Request failed with status:', xhr.status);
-            }
-        };
-
-        xhr.onerror = function () {
-            console.error('Network error');
-        };
-        console.log(JSON.stringify(jsondata));
-        xhr.send(JSON.stringify(jsondata));
-
-        loginUser(a_email, pass1)
+        registerUser(jsondata);
+        loginUser(a_email, pass1);
     }
 }
 
@@ -99,12 +86,39 @@ function check_input_in() {
     }
 }
 
+
+function registerUser(RegisterJson) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost/auth/register', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            console.log('User registered successfully:', xhr.responseText);
+        } else {
+            console.error('Request failed with status:', xhr.status);
+            if (xhr.status == 409)
+                alert("Invalid Credentials");
+            else
+                alert(`error ${xhr.status}: ${error}`)
+        }
+
+    };
+
+    xhr.onerror = function () {
+        console.error('Network error');
+    };
+    console.log(JSON.stringify(RegisterJson));
+    xhr.send(JSON.stringify(RegisterJson));
+}
+
 function loginUser(email, password) {
     const jsondata = {
         "email": email,
         "password": password
     };
-    const xhr = new XMLHttpRequest();
+    alert("test")
+    let xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost/auth/login');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.withCredentials = true;
@@ -115,8 +129,13 @@ function loginUser(email, password) {
             console.log('Parsed Response:', response);
             // Save the accessToken and email
             console.log('User logged in successfully:', response);
+            alert("Success! You Redirect to home page");
         } else {
-            console.error('Request failed with status:', xhr.status);
+            if (xhr.status == 401) {
+                alert("Invalid Credentials");
+            }
+            else
+                console.error('Request failed with status:', xhr.status);
         }
     };
 
@@ -126,6 +145,23 @@ function loginUser(email, password) {
 
     console.log('Sending JSON data:', JSON.stringify(jsondata));
     xhr.send(JSON.stringify(jsondata));
+
+
+    xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost/home');
+    xhr.withCredentials = true;
+    xhr.onload = function () {
+        console.log('XHR loaded:', xhr.status, xhr.responseText);
+    };
+
+    xhr.onerror = function () {
+        console.error('Network error');
+    };
+
+    xhr.send();
+
 }
+
+
 
 

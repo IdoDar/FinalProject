@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const xhr = new XMLHttpRequest();
             xhr.open(req_type, url, true);
             xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.withCredentials = true;
             xhr.onload = function () {
                 if (xhr.status >= 200 && xhr.status < 300) {
                     resolve(JSON.parse(xhr.responseText));
@@ -107,10 +108,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     function redirectToProduct(productName) {
-        // Send an AJAX request (just for the sake of the example)
         $.ajax({
             url: `/product/${productName}`, // Assuming this is your endpoint
             method: 'GET',
+            withCredentials: true,
             success: function () {
                 // Redirect to the product page
                 window.location.href = `/product/${productName}`;

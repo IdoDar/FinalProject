@@ -56,6 +56,9 @@ app.use("/auth", require("./routes/auth"));
 
 app.use("/admin", verifyJWT, verifyRoles(ROLES_LIST.Admin), require("./routes/admin"));
 
+app.get('/', (req, res) => {
+    res.redirect('/auth');
+});
 
 app.use("/", require("./routes/main"));
 
