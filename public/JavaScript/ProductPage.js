@@ -35,37 +35,22 @@ $(document).ready(function () {
         });
     }
 
-    // Function to get the value of a cookie by name
-    function getCookie(name) {
-        let x = document.cookie;
-        console.log(x);
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
 
 
     function addToCart() {
         console.log('Add to Cart button clicked');
-        const accessToken = getCookie('accessToken'); // Replace 'yourCookieName' with your actual cookie name
-        if (!accessToken) {
-            alert("you need to log in first");
-            console.error('Session cookie not found');
-            return;
-        }
+
         const product = getProductFromPath();
         const xhr = new XMLHttpRequest();
         xhr.open('POST', `http://localhost/API/Basket/MyBasket/Add/${product}`);
         xhr.withCredentials = true
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
 
         xhr.onload = function () {
             console.log('XHR loaded:', xhr.status, xhr.responseText);
             if (xhr.status >= 200 && xhr.status < 300) {
                 const response = JSON.parse(xhr.responseText);
                 console.log('Parsed Response:', response);
-                // Save the accessToken and email
                 console.log('User logged in successfully:', response);
             } else {
                 if (xhr.status == 401 || xhr.status == 403)
