@@ -122,20 +122,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    function loadHTML(filename) {
-        fetch(filename)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => console.error('Error loading HTML:', error));
-    }
+
     // Fetch initial products and filters data
     const initialProducts = await fetchJson(AllproductsUrl);
     const filters = await fetchJson(filtersUrl);
 
     // Load initial data
-    loadHTML("/connect_to_user");
     loadProducts(initialProducts);
     loadFilters(filters);
 });

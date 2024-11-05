@@ -1,8 +1,34 @@
+.header {
+    display: flex;
+    margin-top: 50px;
+}
+
+.back {
+    float: right;
+    overflow: hidden;
+    width: 70px;
+    height: 70px;
+}
+
+.back-button {
+    cursor: pointer;
+    padding: 10px 12px;
+    border: none;
+    background-color: inherit;
+}
+
+.back_image {
+    border-radius: 20px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 .product {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
 .product img {
@@ -22,6 +48,10 @@
 
 .add-to-cart {
     margin-top: 20px;
+    cursor: pointer;
+    padding: 70px 7px;
+    border: none;
+    background-color: inherit;
 }
 
 .add-to-cart img {

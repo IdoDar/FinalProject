@@ -36,6 +36,24 @@ $(document).ready(function () {
         });
     }
 
+    function home() {
+        $.ajax({
+            url: `http://localhost/home`,
+            method: 'GET',
+            withCredentials: true,
+            success: function () {
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching product page:', error);
+                if (xhr.status == 401 || xhr.status == 403)
+                    alert("You need login first");
+                else
+                    alert(`error ${xhr.status}: ${error}`)
+            }
+        });
+    }
+
+    $('#back-button').click(home);
 
 
     function addToCart() {
@@ -63,6 +81,7 @@ $(document).ready(function () {
 
     // Set up the add-to-cart button click handler
     $('#add-to-cart-button').click(addToCart);
+
 
     function getProductFromPath() {
         const pathArray = window.location.pathname.split('/');
