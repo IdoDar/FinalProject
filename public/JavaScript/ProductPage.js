@@ -41,30 +41,19 @@ $(document).ready(function () {
         console.log('Add to Cart button clicked');
 
         const product = getProductFromPath();
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', `http://localhost/API/Basket/MyBasket/Add/${product}`);
-        xhr.withCredentials = true
-        xhr.setRequestHeader('Content-Type', 'application/json');
 
-        xhr.onload = function () {
-            console.log('XHR loaded:', xhr.status, xhr.responseText);
-            if (xhr.status >= 200 && xhr.status < 300) {
-                const response = JSON.parse(xhr.responseText);
-                console.log('Parsed Response:', response);
-                console.log('User logged in successfully:', response);
-            } else {
-                if (xhr.status == 401 || xhr.status == 403)
-                    alert("you need to log in first");
-                console.error('Request failed with status:', xhr.status);
+        $.ajax({
+            url: `http://localhost/API/Basket/MyBasket/Add/${product}`,
+            method: 'POST',
+            withCredentials: true,
+            success: function () {
+                alert('Product added to cart!');
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching product page:', error);
             }
-        };
+        });
 
-        xhr.onerror = function () {
-            console.error('Network error');
-        };
-
-        xhr.send();
-        alert('Product added to cart!');
     }
 
     // Set up the add-to-cart button click handler
