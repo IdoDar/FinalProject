@@ -59,6 +59,21 @@ router.get("/history/:baskethistory", async (req, res) => {
     }
     res.send(data)
 })
+router.get("/historys/All", async (req, res) => {
+    const products = await mongoose_api.dbClient.model("baskethistory").find({})
+    var data = []
+    for (const product of products) {
+        var product_names = []
+        for (const basket of product.basket) {
+            var product_detailes = await mongoose_api.productModel.findById(`${basket}`, "product_name price")
+            product_names.push({product_name:product_detailes.product_name,price:product_detailes.price})
+        }
+        var user = await mongoose_api.userModel.findById(`${product.user}`, "email")
+        data.push({ user:user,date: product.date, product_names: product_names })
+
+    }
+    res.send(data)
+})
 
 router.post("/MyBasket/Add/:id", verifyJWT, async (req, res) => {
     const productID = req.params.id.replace(/"/g, '');
