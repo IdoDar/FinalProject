@@ -1,12 +1,12 @@
+$(document).ready(function () {
 var dburl = `http://localhost/API/basket`
 
 async function GetUsers() {
   var dburl = "http://localhost/API/basket/historys/All"
-  await fetch(dburl, {
-    method: "GET"
-  }).then(function (response) {
-    return response.json()
-  }).then(function (data) {
+  await $.ajax({url:dburl, 
+    method: "GET",
+    withCredentials: true,
+    success: function (data) {
     console.log(data)
     var prices=[]
     data.forEach((product)=>{
@@ -86,5 +86,7 @@ async function GetUsers() {
     var parser = new DOMParser()
     var doc = parser.parseFromString(userstable, 'text/html')
     document.getElementById("userstable").innerHTML = doc.body.outerHTML
-  })
+  }})
 }
+GetUsers()
+})

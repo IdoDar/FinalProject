@@ -1,10 +1,16 @@
-var dburl=`http://localhost/basketHistory`
+$(document).ready(function () {
 async function GetOrders(){
-    var dburl="http://localhost/API/basket/history/test@lol.mail"
-    await fetch(dburl, {
-          method: "GET"
-          }).then(function (response) {
-          return response.json()}).then(function (data) {
+    var user=""
+    await $.ajax({url:"http://localhost/API/users/CurrentUser", 
+        method: "GET",
+        withCredentials: true,
+        success: function (data) {
+            user=data[0].email}})
+    var dburl=`http://localhost/API/basket/history/${user}`
+    await $.ajax({url:dburl, 
+        method: "GET",
+        withCredentials: true,
+        success: function (data) {
             console.log(data)
             var prices=[]
             data.forEach((product)=>{
@@ -81,5 +87,7 @@ async function GetOrders(){
             var parser = new DOMParser()
             var doc = parser.parseFromString(userstable, 'text/html')
             document.getElementById("orderstable").innerHTML = doc.body.outerHTML
-        })
+}})
       }
+      GetOrders()
+    })

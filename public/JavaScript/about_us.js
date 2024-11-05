@@ -1,11 +1,11 @@
+$(document).ready(function () {
+
 function weatherapi(lat, lng) {
     var weatherapiurl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m`
 
-    fetch(weatherapiurl, {
-        method: "GET"
-    }).then(function (response) {
-        return response.json()
-    }).then(function (data) {
+    $.ajax({url:weatherapiurl,
+        method: "GET",
+    success: function (data) {
         var parser = new DOMParser()
         temp_unit = data["current_units"]["temperature_2m"]
         wind_unit = data["current_units"]["wind_speed_10m"]
@@ -17,8 +17,12 @@ function weatherapi(lat, lng) {
         if (temp < 18) html = html + "</br>The Tempture is too cold keep your pet warm</b></span>"
         var doc = parser.parseFromString(html, 'text/html')
         document.getElementById("res").innerHTML = doc.body.outerHTML
-    })
+},
+error: function (xhr, status, error) {
+    console.error('Error fetching weather data:', error);
+}})
 }
+
 function mapsapi() {
     var dburl = "http://localhost/API/suppliers/locations"
     // position we will use later
@@ -38,11 +42,10 @@ function mapsapi() {
 
     // add popup to the marker
     marker.bindPopup("<b>Furry Tail Tales<b>,IL").openPopup();
-    fetch(dburl, {
-        method: "GET"
-    }).then(function (response) {
-        return response.json()
-    }).then(function (data) {
+    $.ajax({url:dburl, 
+        method: "GET",
+        withCredentials: true,
+        success: function (data) {
         data.forEach(element => {
             element["locations"].forEach(location => {
                 marker = L.marker([location.lat, location.lng]).addTo(map);
@@ -50,9 +53,14 @@ function mapsapi() {
                 marker.bindPopup(`<b>${element.companyName}<b>,IL`);
             })
         });
-    })
-
+    },
+            error: function (xhr, status, error) {
+                console.error('Error fetching locations data:', error);
+}})
     map.on('click', function (e) {
         weatherapi(e.latlng.lat, e.latlng.lng)
     })
 } 
+mapsapi()
+weatherapi(31.97126336775306,34.770927751827784)
+});

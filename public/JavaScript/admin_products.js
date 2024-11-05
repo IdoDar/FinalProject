@@ -1,13 +1,14 @@
+$(document).ready(function () {
 var dburl = `http://localhost/API/products`
 
 async function GetProducts() {
   var dburl = "http://localhost/API/products"
-  await fetch(dburl, {
-    method: "GET"
-  }).then(function (response) {
-    return response.json()
-  }).then(function (data) {
+  await $.ajax({url:dburl, 
+    method: "GET",
+    withCredentials: true,
+    success: function (data) {
     console.log(data)
+    var index=0
     var userstable = ` <table class="table">
             <thead>
               <tr>
@@ -30,37 +31,41 @@ async function GetProducts() {
                   <td class="text">${model.picture_link}</td>
                   <td class="text">${model.category}</td>
                   <td>
-<button onclick="editData('${model.product_name}')" class="btn btn-default" type="button"><i class="glyphicon glyphicon-pencil"></i></button>
-<button onclick="deleteData('${model.product_name}')" class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button><td>
+<button id='${index}_edit' class="btn btn-default" type="button"><i class="glyphicon glyphicon-pencil"></i></button>
+<button id='${index}_del' class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button><td>
                 </tr>
               </tbody>`
+              index++
     })
     var parser = new DOMParser()
     var doc = parser.parseFromString(userstable, 'text/html')
     document.getElementById("productstable").innerHTML = doc.body.outerHTML
-  })
+    index=0
+    data.forEach((model) => {
+     
+    $(`#${index}_edit`).click(`${model.product_name}`,editData);
+    $(`#${index}_del`).click(`${model.product_name}`,deleteData);
+  index++})
+}})
 }
 async function editData(data) {
   let field_name = prompt('Enter The Field Name That You Want To Change:');
   if (field_name.toLowerCase() == "price") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "product_name",
           price: field_value,
-          product_name: data
+          product_name: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+      }})
     }
     else { alert(`No Value`) }
 
@@ -68,22 +73,19 @@ async function editData(data) {
   else if (field_name.toLowerCase() == "weight") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "product_name",
           weight: field_value,
-          product_name: data
+          product_name: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+      }})
     }
     else { alert(`No Value`) }
 
@@ -91,22 +93,19 @@ async function editData(data) {
   else if (field_name.toLowerCase() == "quantity") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "product_name",
           quantity: field_value,
-          product_name: data
+          product_name: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+      }})
     }
     else { alert(`No Value`) }
 
@@ -114,22 +113,19 @@ async function editData(data) {
   else if (field_name.toLowerCase() == "description") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "product_name",
           description: field_value,
-          product_name: data
+          product_name: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+      }})
     }
     else { alert(`No Value`) }
 
@@ -137,22 +133,19 @@ async function editData(data) {
   else if (field_name.toLowerCase() == "picture_link") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "product_name",
           picture_link: field_value,
-          product_name: data
+          product_name: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+      }})
     }
     else { alert(`No Value`) }
 
@@ -160,22 +153,19 @@ async function editData(data) {
   else if (field_name.toLowerCase() == "category") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "product_name",
           category: field_value,
-          product_name: data
+          product_name: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+      }})
     }
     else { alert(`No Value`) }
 
@@ -189,18 +179,19 @@ async function addData() {
   var dburl = `http://localhost/API/products`
   let product_name = prompt('Enter The Product Name:');
   let company_name = prompt('Enter The Company Number:');
-  await fetch(`http://localhost/API/suppliers/${company_name}`, { method: "GET" }).then(function (response) {
-    return response.json()
-  }).then((data) => { company_name = data[0]._id })
+  await $.ajax({url:`http://localhost/API/suppliers/${company_name}`, method: "GET",withCredentials: true,
+    success: function (data) { company_name = data[0]._id }})
   console.log(company_name)
   let price = prompt('Enter The Price:');
   let weight = prompt('Enter The Weight:');
   let description = prompt('Enter The Description:');
   let picture_link = prompt('Enter The Picture_link:');
   let category = prompt('Enter The Category:');
-  await fetch(dburl, {
+  await $.ajax({url:dburl, 
     method: "POST",
-    body: JSON.stringify({
+    withCredentials: true,
+    contentType: 'application/json',
+    data: JSON.stringify({
       product_name: product_name,
       company_name: company_name,
       price: price,
@@ -209,36 +200,33 @@ async function addData() {
       picture_link: picture_link,
       category: category
     }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
-    }
-  }).then(function (response) {
-    return response
-  }).then(function () {
+    success: function () {
     alert(`Added ${product_name} Successfully`);
     location.reload()
-  }).catch((err) => { alert(`Failed To Add ${err}`); })
+  },
+  error: function (xhr, status, error) {alert(`Failed To Add ${error}`);}})
 }
 
 async function deleteData(data) {
   let confirmation = prompt('To Confirm The Deletion Enter Confirm:');
   if (confirmation.toLowerCase() == "confirm") {
-    await fetch(dburl, {
+    await $.ajax({url:dburl, 
       method: "DELETE",
-      body: JSON.stringify({
-        product_name: data
+      withCredentials: true,
+      contentType: 'application/json',
+      data: JSON.stringify({
+        product_name: data.data
       }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    }).then(function (response) {
-      return response
-    }).then(function () {
-      alert(`Deleted ${data} Successfully`);
+      success: function () {
+      alert(`Deleted ${data.data} Successfully`);
       location.reload()
-    })
+  }})
   }
   else {
     alert(`Did Not Delete`);
   }
 }
+GetProducts()
+
+$('#add_btn').click(addData);
+})

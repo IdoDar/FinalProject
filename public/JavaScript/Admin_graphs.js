@@ -1,3 +1,4 @@
+$(document).ready(function () {
 function loadlolipopProducts() {
       var margin_for_the_lollipop = { top: 20, right: 20, bottom: 60, left: 50 },
 
@@ -14,11 +15,10 @@ function loadlolipopProducts() {
 
       // Input Data - data
       var dburl = "http://localhost/API/users/MostBought"
-      fetch(dburl, {
-            method: "GET"
-      }).then(function (response) {
-            return response.json()
-      }).then(function (data) {
+      $.ajax({url:dburl, 
+            method: "GET",
+            withCredentials: true,
+            success: function (data) {
             var arr_data = []
             var max_count = 0
             for (var k in data) {
@@ -69,7 +69,7 @@ function loadlolipopProducts() {
                   .attr("r", "10")
                   // Also use the style attribute to fill these circles with green color
                   .style("fill", "darkblue")
-      })
+      }})
 }
 function loadlolipopUsers() {
       var margin_for_the_lollipop = { top: 20, right: 20, bottom: 60, left: 50 },
@@ -87,11 +87,10 @@ function loadlolipopUsers() {
 
       // Input Data - data
       var dburl = "http://localhost/API/users/ThatBoughtMost"
-      fetch(dburl, {
-            method: "GET"
-      }).then(function (response) {
-            return response.json()
-      }).then(function (data) {
+      $.ajax({url:dburl, 
+            method: "GET",
+            withCredentials: true,
+            success: function (data) {
             var arr_data = []
             var max_count = 0
             for (var k in data) {
@@ -142,5 +141,8 @@ function loadlolipopUsers() {
                   .attr("r", "10")
                   // Also use the style attribute to fill these circles with green color
                   .style("fill", "darkblue")
-      })
+      }})
 }
+loadlolipopProducts()
+loadlolipopUsers()
+})

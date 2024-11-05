@@ -1,13 +1,13 @@
-var dburl = `http://localhost/API/users`
-
+$(document).ready(function () {
+var dburl = "http://localhost/API/users"
 async function GetUsers() {
   var dburl = "http://localhost/API/users"
-  await fetch(dburl, {
-    method: "GET"
-  }).then(function (response) {
-    return response.json()
-  }).then(function (data) {
+  await $.ajax({url:dburl, 
+    method: "GET",
+    withCredentials: true,
+    success: function (data) {
     console.log(data)
+    var index=0
     var userstable = ` <table class="table">
         <thead>
           <tr>
@@ -33,37 +33,41 @@ async function GetUsers() {
               <td class="text">${model.dateBirth}</td>
               <td class="text">${model.password}</td>
               <td>
-<button onclick="editData('${model.email}')" class="btn btn-default" type="button"><i class="glyphicon glyphicon-pencil"></i></button>
-<button onclick="deleteData('${model.email}')" class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button><td>
+<button id='${index}_edit' class="btn btn-default" type="button"><i class="glyphicon glyphicon-pencil"></i></button>
+<button id='${index}_del' class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button><td>
             </tr>
           </tbody>`
-    })
+    index++
+        })
     var parser = new DOMParser()
     var doc = parser.parseFromString(userstable, 'text/html')
     document.getElementById("userstable").innerHTML = doc.body.outerHTML
-  })
+    index=0
+    data.forEach((model) => {
+     
+    $(`#${index}_edit`).click(`${model.email}`,editData);
+    $(`#${index}_del`).click(`${model.email}`,deleteData);
+  index++})
+}})
 }
 async function editData(data) {
   let field_name = prompt('Enter The Field Name That You Want To Change:');
   if (field_name.toLowerCase() == "name") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "email",
           name: field_value,
-          email: data
+          email: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+      }})
     }
     else { alert(`No Value`) }
   }
@@ -71,39 +75,33 @@ async function editData(data) {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null && (field_value == 100 || field_value == 200)) {
       if (field_value == 100)
-        await fetch(dburl, {
+        await $.ajax({url:dburl, 
           method: "PUT",
-          body: JSON.stringify({
+          withCredentials: true,
+          contentType: 'application/json',
+          data: JSON.stringify({
             fieldsearch: "email",
             roles: { User: field_value },
-            email: data
+            email: data.data
           }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8"
-          }
-        }).then(function (response) {
-          return response
-        }).then(function () {
+          success: function () {
           alert(`Changed ${field_name} Successfully`);
           location.reload()
-        })
+    }})
       else
-        await fetch(dburl, {
+        await $.ajax({url:dburl, 
           method: "PUT",
-          body: JSON.stringify({
+          withCredentials: true,
+          contentType: 'application/json',
+          data: JSON.stringify({
             fieldsearch: "email",
             roles: { Admin: field_value },
-            email: data
+            email: data.data
           }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8"
-          }
-        }).then(function (response) {
-          return response
-        }).then(function () {
+          success: function () {
           alert(`Changed ${field_name} Successfully`);
           location.reload()
-        })
+    }})
     }
     else { alert(`No Value`) }
 
@@ -111,44 +109,38 @@ async function editData(data) {
   else if (field_name.toLowerCase() == "sex") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "email",
           sex: field_value,
-          email: data
+          email: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+    }})
     }
     else { alert(`No Value`) }
   }
   else if (field_name.toLowerCase() == "phonenum") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "email",
           phoneNum: field_value,
-          email: data
+          email: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+    }})
     }
     else { alert(`No Value`) }
   }
@@ -156,22 +148,19 @@ async function editData(data) {
     let field_value = prompt('Enter The Value You Want in the format (DD/MM/YYYY):');
     var dob = new Date(field_value);
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "email",
           dateBirth: dob,
-          email: data
+          email: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+    }})
     }
     else { alert(`No Value`) }
   }
@@ -183,28 +172,22 @@ async function editData(data) {
 async function addData() {
   var dburl = `http://localhost/API/users`
   let name = prompt('Enter The First And Last Name:');
-  console.log("name "+ name);
   let sex = prompt('Enter The Sex Of The User:');
-  console.log("sex "+ sex);
   let roles = prompt('Enter The Role(Enter 200 If You Want An Admin):');
   if (roles == 200)
-    roles = { "Admin": 200 }
+    roles = { Admin: roles }
   else
-    roles = { "User": 100 }
-  console.log("role "+ roles);
+    roles = { User: 100 }
   let email = prompt('Enter The Email:');
-  console.log("email "+ email);
   let phoneNum = prompt('Enter The Phone Number:');
-  console.log("phone "+ phoneNum);
   let dateBirth = prompt('Enter The Date Of Birth (in the format (DD/MM/YYYY)):');
   dateBirth = new Date(dateBirth);
-  console.log("date "+ dateBirth);
   let password = prompt('Enter The Password:');
-  console.log("pass "+ password);
-  console.log(name + sex + roles + email + phoneNum + dateBirth +password);
-  await fetch(dburl, {
+  await $.ajax({url:dburl, 
     method: "POST",
-    body: JSON.stringify({
+    withCredentials: true,
+    contentType: 'application/json',
+    data: JSON.stringify({
       name: name,
       sex: sex,
       roles: roles,
@@ -213,37 +196,34 @@ async function addData() {
       dateBirth: dateBirth,
       password: password
     }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
-    }
-  }).then(function (response) {
-    return response
-  }).then(function () {
+    success: function () {
     alert(`Added ${email} Successfully`);
     location.reload()
-  }).catch((err) => { alert(`Failed To Add ${err}`); })
+},
+error: function (xhr, status, error) {alert(`Failed To Add ${error}`);}})
 }
 
 
 async function deleteData(data) {
   let confirmation = prompt('To Confirm The Deletion Enter Confirm:');
   if (confirmation.toLowerCase() == "confirm") {
-    await fetch(dburl, {
+    await  $.ajax({url:dburl, 
       method: "DELETE",
-      body: JSON.stringify({
-        email: data
+      withCredentials: true,
+      contentType: 'application/json',
+      data: JSON.stringify({
+        email: data.data
       }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    }).then(function (response) {
-      return response
-    }).then(function () {
-      alert(`Deleted ${data} Successfully`);
+      success: function () {
+      alert(`Deleted ${data,data} Successfully`);
       location.reload()
-    })
+    }})
   }
   else {
     alert(`Did Not Delete`);
   }
 }
+GetUsers()
+
+$('#add_btn').click(addData);
+})

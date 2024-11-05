@@ -1,13 +1,13 @@
+$(document).ready(function () {
 var dburl = `http://localhost/API/suppliers`
-
 async function GetSuppliers() {
   var dburl = "http://localhost/API/suppliers"
-  await fetch(dburl, {
-    method: "GET"
-  }).then(function (response) {
-    return response.json()
-  }).then(function (data) {
+  await $.ajax({url:dburl, 
+    method: "GET",
+    withCredentials: true,
+    success: function (data) {
     console.log(data)
+    var index_size=0
     var userstable = ` <table class="table">
             <thead>
               <tr>
@@ -30,66 +30,68 @@ async function GetSuppliers() {
       console.log(model.locations)
       for (const loc of model.locations) {
         latlng = `[${loc.lat},${loc.lng}]`
-        if (index == 0)
+        if (index == 0){
           userstable = userstable + `<td class="text">${latlng}</td>
                   <td rowspan=${model.locations.length}>
-<button onclick="editData(${model.numCompany})" class="btn btn-default" type="button"><i class="glyphicon glyphicon-pencil"></i></button>
-<button onclick="deleteData(${model.numCompany})" class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button><td>
+<button id='${index_size}_edit'  class="btn btn-default" type="button"><i class="glyphicon glyphicon-pencil"></i></button>
+<button id='${index_size}_del' class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button><td>
                 </tr>`
+                }
         else {
           userstable = userstable + `<tr><td class="text">${latlng}</td></tr>`
         }
         index++
       }
+      index_size++
     })
     var parser = new DOMParser()
     var doc = parser.parseFromString(userstable, 'text/html')
     document.getElementById("supplierstable").innerHTML = doc.body.outerHTML
-  })
+    index_size=0
+    data.forEach((model) => {
+     
+    $(`#${index_size}_edit`).click(`${model.numCompany}`,editData);
+    $(`#${index_size}_del`).click(`${model.numCompany}`,deleteData);
+    index_size++})
+  }})
 }
 async function editData(data) {
   let field_name = prompt('Enter The Field Name That You Want To Change:');
   if (field_name.toLowerCase() == "companyname") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "numCompany",
           companyName: field_value,
-          numCompany: data
+          numCompany: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+    }})
     }
     else { alert(`No Value`) }
   }
   else if (field_name.toLowerCase() == "contact") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "numCompany",
           contact: field_value,
-          numCompany: data
+          numCompany: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+    }})
     }
     else { alert(`No Value`) }
 
@@ -97,22 +99,19 @@ async function editData(data) {
   else if (field_name.toLowerCase() == "phonenum") {
     let field_value = prompt('Enter The Value You Want:');
     if (field_value != null) {
-      await fetch(dburl, {
+      await $.ajax({url:dburl, 
         method: "PUT",
-        body: JSON.stringify({
+        withCredentials: true,
+        contentType: 'application/json',
+        data: JSON.stringify({
           fieldsearch: "numCompany",
           phoneNum: field_value,
-          numCompany: data
+          numCompany: data.data
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(function (response) {
-        return response
-      }).then(function () {
+        success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      })
+    }})
     }
     else { alert(`No Value`) }
 
@@ -134,45 +133,43 @@ async function addData() {
     locations.push({ lat: parseFloat(latlng.split(",")[0]), lng: parseFloat(latlng.split(",")[1]) })
     latlng = prompt('Enter The locations (In This Format lat,lng) (When You Are Done Enter Done):');
   }
-  await fetch(dburl, {
+  await $.ajax({url:dburl, 
     method: "POST",
-    body: JSON.stringify({
+    withCredentials: true,
+    contentType: 'application/json',
+    data: JSON.stringify({
       companyName: companyName,
       numCompany: numCompany,
       contact: contact,
       phoneNum: phoneNum,
       locations: locations
     }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
-    }
-  }).then(function (response) {
-    return response
-  }).then(function () {
+    success: function () {
     alert(`Added ${numCompany} Successfully`);
     location.reload()
-  }).catch((err) => { alert(`Failed To Add ${err}`); })
+},error: function (xhr, status, error) {alert(`Failed To Add ${error}`);}})
 }
 
 async function deleteData(data) {
   let confirmation = prompt('To Confirm The Deletion Enter Confirm:');
   if (confirmation.toLowerCase() == "confirm") {
-    await fetch(dburl, {
+    await $.ajax({url:dburl, 
       method: "DELETE",
-      body: JSON.stringify({
-        numCompany: data
+      withCredentials: true,
+      contentType: 'application/json',
+      data: JSON.stringify({
+        numCompany: data.data
       }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    }).then(function (response) {
-      return response
-    }).then(function () {
-      alert(`Deleted ${data} Successfully`);
+      success: function () {
+      alert(`Deleted ${data.data} Successfully`);
       location.reload()
-    })
+  }})
   }
   else {
     alert(`Did Not Delete`);
   }
 }
+GetSuppliers()
+
+$('#add_btn').click(addData);
+})
