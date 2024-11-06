@@ -2,7 +2,14 @@ const mongoose_api = require('../../controllers/moongose_api')
 const express = require("express");
 const router = express.Router();
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const Schemas = require('../../models/Schemas');
+const DBcon = require('../../config/dbconn')
+const bcrypt = require('bcrypt');
 const verifyJWT = require('../../middleware/verifyJWT');
+
+const dbClient = mongoose.connection.useDb(DBcon.dbName)
+const User = dbClient.model('users', Schemas.userSchema);
 
 router.get("/", async (req, res) => {
     const out = await mongoose_api.ReadData("users", {}, { _id: 0 })
@@ -14,14 +21,35 @@ router.get("/", async (req, res) => {
         res.send(data)
 })
 router.post("/", async (req, res) => {
-    const out = await mongoose_api.CreateData("users", req.body)
-    var err = out[0]
-    var data = out[1]
-    if (err)
-        {console.log(err);
-        res.status(500).json(err);}
-    else
-        res.send(data)
+    const { name, sex, roles,email, phoneNum,  dateBirth, password } = req.body;
+    console.log(req.body)
+    console.log(name+" "+roles+" "+email+" "+phoneNum+" "+sex+" "+dateBirth+" "+password)
+    if (!name || !roles || !email || !phoneNum || !sex || !dateBirth || !password ) return res.status(400).json({ 'Message': 'you must fill all the fields bellow' });
+    //check for duplicate usernames
+    const duplicate = await User.findOne({ email: email }).exec();
+    if (duplicate) return res.sendStatus(409); //conflict
+    try {
+        //encrypt password
+
+        const hashpwd = await bcrypt.hash(password, 10);
+        //Create store new user
+        const result = await User.create({
+            "name": name,
+            "sex": sex,
+            "roles":roles,
+            "email": email,
+            "phoneNum": phoneNum,
+            "dateBirth": dateBirth,
+            "password": hashpwd
+        });
+
+        res.status(201).json({ 'success': `New User ${name} created with email ${email}` });;
+        console.log("User Created");
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).json({ 'Message': err.Message });
+    }
 })
 router.put("/", async (req, res) => {
     var search = JSON.parse(`{"${req.body.fieldsearch}":"${req.body[req.body.fieldsearch]}"}`)
