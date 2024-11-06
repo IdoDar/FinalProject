@@ -169,7 +169,73 @@ async function deleteData(data) {
     alert(`Did Not Delete`);
   }
 }
+
+async function queryData(){
+  var dburl = `http://localhost/API/suppliers/query`
+  let contact = prompt('Enter The Regex For Contact:',".*");
+  let phoneNum = prompt('Enter The Regex For Phone Number:',".*");
+  let companyName = prompt('Enter The Regex For Company Name:',".*");
+  await $.ajax({url:dburl, 
+    method: "POST",
+    withCredentials: true,
+    contentType: 'application/json',
+    data: JSON.stringify({
+      companyName: companyName,
+      contact: contact,
+      phoneNum: phoneNum
+    }),
+    success: function (data) {
+      var index_size=0
+      var userstable = ` <table class="table">
+              <thead>
+                <tr>
+                <th class="text">companyName</th>
+                <th class="text">numCompany</th>
+                <th class="text">contact</th>
+                <th class="text">phoneNum</th>
+                <th class="text">locations</th>
+                <th class="text">Edits</th>
+                </tr>
+              </thead>`
+      data.forEach((model) => {
+        userstable = userstable + `
+                  <tr>
+                    <td class="text" rowspan=${model.locations.length}>${model.companyName}</td>
+                    <td class="text" rowspan=${model.locations.length}>${model.numCompany}</td>
+                    <td class="text" rowspan=${model.locations.length}>${model.contact}</td>
+                    <td class="text" rowspan=${model.locations.length}>${model.phoneNum}</td>`
+        var index = 0
+        console.log(model.locations)
+        for (const loc of model.locations) {
+          latlng = `[${loc.lat},${loc.lng}]`
+          if (index == 0){
+            userstable = userstable + `<td class="text">${latlng}</td>
+                    <td rowspan=${model.locations.length}>
+  <button id='${index_size}_edit'  class="btn btn-default" type="button"><i class="glyphicon glyphicon-pencil"></i></button>
+  <button id='${index_size}_del' class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button><td>
+                  </tr>`
+                  }
+          else {
+            userstable = userstable + `<tr><td class="text">${latlng}</td></tr>`
+          }
+          index++
+        }
+        index_size++
+      })
+      var parser = new DOMParser()
+      var doc = parser.parseFromString(userstable, 'text/html')
+      document.getElementById("supplierstable").innerHTML = doc.body.outerHTML
+      index_size=0
+      data.forEach((model) => {
+       
+      $(`#${index_size}_edit`).click(`${model.numCompany}`,editData);
+      $(`#${index_size}_del`).click(`${model.numCompany}`,deleteData);
+      index_size++})
+},error: function (xhr, status, error) {alert(`Failed To Add ${error}`);}})
+}
+
 GetSuppliers()
 
 $('#add_btn').click(addData);
+$('#search_btn').click(queryData);
 })
