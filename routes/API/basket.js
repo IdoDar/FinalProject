@@ -52,7 +52,7 @@ router.get("/history/:baskethistory", async (req, res) => {
         var product_names = []
         for (const basket of product.basket) {
             var product_detailes = await mongoose_api.productModel.findById(`${basket}`, "product_name price")
-            product_names.push({product_name:product_detailes.product_name,price:product_detailes.price})
+            product_names.push({ product_name: product_detailes.product_name, price: product_detailes.price })
         }
         data.push({ date: product.date, product_names: product_names })
 
@@ -66,10 +66,10 @@ router.get("/historys/All", async (req, res) => {
         var product_names = []
         for (const basket of product.basket) {
             var product_detailes = await mongoose_api.productModel.findById(`${basket}`, "product_name price")
-            product_names.push({product_name:product_detailes.product_name,price:product_detailes.price})
+            product_names.push({ product_name: product_detailes.product_name, price: product_detailes.price })
         }
         var user = await mongoose_api.userModel.findById(`${product.user}`, "email")
-        data.push({ user:user,date: product.date, product_names: product_names })
+        data.push({ user: user, date: product.date, product_names: product_names })
 
     }
     res.send(data)
@@ -99,5 +99,9 @@ router.post("/MyBasket/Remove/:id", verifyJWT, async (req, res) => {
     else
         res.send(data)
 })
+
+router.all('*', (req, res) => {
+    res.sendStatus(404);
+});
 module.exports = router;
 
