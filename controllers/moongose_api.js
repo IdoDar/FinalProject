@@ -175,6 +175,51 @@ async function RemoveFromCurrentBasket(email, productId) {
     return [reterr, retdata];
 }
 
+async function addAdminRole(email) {
+    const updateData = {
+        "User": 100,
+        "Admin": 200
+    };
+    var reterr = 0
+    var retdata = 0
+    try {
+        await userModel.findOneAndUpdate(
+            { email: email }, // Search criteria
+            { $push: { roles: updateData } }, // Update operation
+            { new: true, useFindAndModify: false } // Options
+        );
+        console.log('The user Get Admin Role');
+        reterr = 0;
+        retdata = `The User ${email} Got Admin`;
+    } catch (error) {
+        reterr = error;
+        console.log(error);
+    }
+    return [reterr, retdata]
+}
+
+async function removeAdminRole(email) {
+    const updateData = {
+        "User": 100
+    };
+    var reterr = 0
+    var retdata = 0
+    try {
+        await userModel.findOneAndUpdate(
+            { email: email }, // Search criteria
+            { $push: { roles: updateData } }, // Update operation
+            { new: true, useFindAndModify: false } // Options
+        );
+        console.log('The user Remove Admin Role');
+        reterr = 0;
+        retdata = `The User ${email} is no longer Admin`;
+    } catch (error) {
+        reterr = error;
+        console.log(error);
+    }
+    return [reterr, retdata]
+}
+
 //Get all of data in a collection
 //var collection is the name of the collection
 //sends in jsons the data

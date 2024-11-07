@@ -89,9 +89,5 @@ router.get("/:Product", async (req, res) => {
         res.send({ data: data[0], "conpanyName": companyname[1][0].companyName });
     }
 })
-
-router.all('*', (req, res) => {
-    res.sendStatus(404);
-});
 module.exports = router;
 

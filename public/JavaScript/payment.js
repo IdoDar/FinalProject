@@ -6,7 +6,7 @@ const zip_pattern = /\b\d{5,10}\b/;
 const card_pattern = /^4[0-9]{12}(?:[0-9]{3})?$/;
 const id_pattern = /\b\d{9}\b/;
 const cvv_pattern = /\b\d{3}\b/;
-var user_email = 'idonoam@gmail.com';
+//var user_email = 'idonoam@gmail.com';
 
 
 let list_cart_html = document.querySelector('.cart-list');
@@ -78,6 +78,18 @@ let cart = JSON.parse(json_cart);
 
 // delete cart from current cart and saves cart to history cart
 async function delete_and_save_cart() {
+    $(document).ready(function () {
+        async function get_user_info(){
+            var user_email=""
+            await $.ajax({url:"http://localhost/API/users/CurrentUser", 
+                method: "GET",
+                withCredentials: true,
+                success: function (data) {
+                    user_email=data[0].email
+                    console.log("d1 " +data)
+                    console.log("d2 " +data[0])
+                    console.log("d3 " +data[0].email)
+                }})    
     var dburl = `http://localhost/API/users/${user_email}`;
     //gets current cart
     await fetch(dburl, {
@@ -108,7 +120,7 @@ async function delete_and_save_cart() {
             await $.post(dburl,{},(data, status)=>{console.log(data);});
         }
       })    
-}
+}get_user_info()})}
 
 // puts cart in html
 function cart_html() {

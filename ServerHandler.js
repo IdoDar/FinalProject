@@ -42,12 +42,7 @@ app.use(cookieParser());
 //make main use the "public" folder as it's gets and posts
 app.use(express.static('public'));
 
-//Login, Register # RepfreshToken Routes
-app.use("/auth", require("./routes/auth"));
 
-app.get('/', (req, res) => {
-    res.redirect('/auth');
-});
 
 //API Routes
 app.use("/API/products", require("./routes/API/products"));
@@ -56,11 +51,15 @@ app.use("/API/users", require("./routes/API/users"));
 app.use("/API/basket", require("./routes/API/basket"));
 
 
-//Admin Routes
+//Default Routes
+app.use("/auth", require("./routes/auth"));
+
 app.use("/admin", verifyJWT, verifyRoles(ROLES_LIST.Admin), require("./routes/admin"));
 
+app.get('/', (req, res) => {
+    res.redirect('/auth');
+});
 
-//Main Aplication Routes
 app.use("/", require("./routes/main"));
 
 mongoose.connection.once('open', () => {

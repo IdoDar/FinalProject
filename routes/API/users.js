@@ -159,8 +159,4 @@ router.get("/:user", async (req, res) => {
     res.send(id)
 })
 
-router.all('*', (req, res) => {
-    res.sendStatus(404);
-});
-
 module.exports = router;

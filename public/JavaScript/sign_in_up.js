@@ -4,7 +4,9 @@ const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phone_pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 
 
-
+$(function(){
+    $("#include_about").load("about_us"); 
+  });
 
 function show_sign_up() {
     document.getElementById('sign_up_id').style.display = 'block';

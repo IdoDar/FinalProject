@@ -17,9 +17,9 @@ router.post("/login", authController.handleLogIn);
 
 router.post('/register', authController.handleNewUser);
 
-router.post('/RefreshJWT', verifyJWT, authController.handleRefreshToken);
+router.post('/RefreshJWT', authController.handleRefreshToken);
 
-router.get('/logout', verifyJWT, authController.handleLogout);
+router.get('/logout', authController.handleLogout);
 
 
 
