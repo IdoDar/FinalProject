@@ -66,18 +66,18 @@ router.get("/All", async (req, res) => {
 })
 
 router.post("/query", async (req, res) => {
-    var search={}
-    for(var attributename in req.body){
-        if(attributename=="phoneNum")
-            search.$expr={
-            $regexMatch: {
-              input: { $toString: "$phoneNum" },  // Cast number to string
-              regex: new RegExp(req.body["phoneNum"]),  // Regex to match the price starting with '12'
-              options: 'i'   // Case-insensitive search (if necessary)
+    var search = {}
+    for (var attributename in req.body) {
+        if (attributename == "phoneNum")
+            search.$expr = {
+                $regexMatch: {
+                    input: { $toString: "$phoneNum" },  // Cast number to string
+                    regex: new RegExp(req.body["phoneNum"]),  // Regex to match the price starting with '12'
+                    options: 'i'   // Case-insensitive search (if necessary)
+                }
             }
-          }
         else
-            search[`${attributename}`]=new RegExp(req.body[attributename],'i')
+            search[`${attributename}`] = new RegExp(req.body[attributename], 'i')
     }
     const out = await mongoose_api.ReadData("suppliers", search, { _id: 0 })
     var err = out[0]
@@ -98,6 +98,10 @@ router.get("/:suppliernum", async (req, res) => {
     else
         res.send(data)
 })
+
+router.all('*', (req, res) => {
+    res.sendStatus(404);
+});
 
 module.exports = router;
 
