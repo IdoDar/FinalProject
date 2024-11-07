@@ -1,5 +1,6 @@
 .dropdown {
     float: left;
+    left: 10px;
     overflow: hidden;
 }
 

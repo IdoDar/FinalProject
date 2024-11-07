@@ -1,10 +1,17 @@
+#body {
+    min-width: 370px;
+    min-height: 450px;
+}
+
 .header {
     display: flex;
     margin-top: 50px;
 }
 
 .back {
+    position: fixed;
     float: right;
+    right: 10px;
     overflow: hidden;
     width: 70px;
     height: 70px;
