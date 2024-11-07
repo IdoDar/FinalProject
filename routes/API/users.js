@@ -6,7 +6,7 @@ const Schemas = require('../../models/Schemas');
 const DBcon = require('../../config/dbconn')
 const bcrypt = require('bcrypt');
 const verifyJWT = require('../../middleware/verifyJWT');
-const authController = require('../controllers/authJWTController');
+const authController = require('../../controllers/authJWTController');
 
 const dbClient = mongoose.connection.useDb(DBcon.dbName)
 const User = dbClient.model('users', Schemas.userSchema);

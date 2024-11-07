@@ -36,24 +36,7 @@ $(document).ready(function () {
         });
     }
 
-    function home() {
-        $.ajax({
-            url: `http://localhost/home`,
-            method: 'GET',
-            withCredentials: true,
-            success: function () {
-            },
-            error: function (xhr, status, error) {
-                console.error('Error fetching product page:', error);
-                if (xhr.status == 401 || xhr.status == 403)
-                    alert("You need login first");
-                else
-                    alert(`error ${xhr.status}: ${error}`)
-            }
-        });
-    }
 
-    $('#back-button').click(home);
 
 
     function addToCart() {
