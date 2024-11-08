@@ -19,7 +19,14 @@ router.post('/register', authController.handleNewUser);
 
 router.post('/RefreshJWT', verifyJWT, authController.handleRefreshToken);
 
-router.get('/logout', verifyJWT, authController.handleLogout);
+router.get('/logout', (req, res) => {
+  // Clear specific cookies
+  res.clearCookie('accessToken');
+  res.clearCookie('refreshToken');
+
+  // Redirect to the login page or another desired page
+  res.redirect('/auth');
+});
 
 
 

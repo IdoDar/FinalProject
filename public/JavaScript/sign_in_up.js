@@ -3,10 +3,10 @@ const name_pattern = /^[a-z\sA-Z ,.'-]+$/;
 const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phone_pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 
-/*document.getElementById('inside_in').addEventListener('submit', (event) => {
+document.getElementById('inside_in').addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent default form submission behavior  
     check_input_in();
-});*/
+});
 
 
 function show_sign_up() {
@@ -116,17 +116,16 @@ function registerUser(RegisterJson) {
     xhr.send(JSON.stringify(RegisterJson));
 }
 
-function loginUser(email, password) {
+async function loginUser(email, password) {
     const jsondata = {
         "email": email,
         "password": password
     };
-    alert("test")
     let xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost/auth/login');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.withCredentials = true;
-    xhr.onload = function () {
+    xhr.onload = await function () {
         console.log('XHR loaded:', xhr.status, xhr.responseText);
         if (xhr.status >= 200 && xhr.status < 300) {
             const response = JSON.parse(xhr.responseText);
@@ -134,6 +133,19 @@ function loginUser(email, password) {
             // Save the accessToken and email
             console.log('User logged in successfully:', response);
             alert("Success! You Redirect to home page");
+            xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://localhost/home');
+            xhr.withCredentials = true;
+            xhr.onload = function () {
+                console.log('XHR loaded:', xhr.status, xhr.responseText);
+                window.location.href("http://localhost/home")
+            };
+
+            xhr.onerror = function () {
+                console.error('Network error');
+            };
+
+            xhr.send();
         } else {
             if (xhr.status == 401) {
                 alert("Invalid Credentials");
@@ -151,18 +163,7 @@ function loginUser(email, password) {
     xhr.send(JSON.stringify(jsondata));
 
 
-    xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost/home');
-    xhr.withCredentials = true;
-    xhr.onload = function () {
-        console.log('XHR loaded:', xhr.status, xhr.responseText);
-    };
-
-    xhr.onerror = function () {
-        console.error('Network error');
-    };
-
-    xhr.send();
+    /**/
 
 }
 

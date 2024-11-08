@@ -24,6 +24,10 @@ router.get('/users', (req, res) => {
   res.sendFile(path.join(__dirname, '../Views/admin', `admin_users.html`));
 });
 
+router.get('/', (req, res) => {
+  res.redirect('/admin/users')
+});
+
 router.all('*', (req, res) => {
   res.sendStatus(404);
 });

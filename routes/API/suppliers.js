@@ -35,7 +35,17 @@ router.put("/", async (req, res) => {
         res.send(data)
 })
 router.delete("/", async (req, res) => {
-    const out = await mongoose_api.DeleteData("suppliers", req.body)
+    var out = await mongoose_api.ReadData("suppliers", req.body, { _id: 1 })
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    var out = await mongoose_api.productModel.deleteMany({ company_name: data[0]._id });
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    var out = await mongoose_api.DeleteData("suppliers", req.body)
     var err = out[0]
     var data = out[1]
     if (err)
@@ -67,17 +77,23 @@ router.get("/All", async (req, res) => {
 
 router.post("/query", async (req, res) => {
     var search = {}
-    for (var attributename in req.body) {
-        if (attributename == "phoneNum")
-            search.$expr = {
-                $regexMatch: {
-                    input: { $toString: "$phoneNum" },  // Cast number to string
-                    regex: new RegExp(req.body["phoneNum"]),  // Regex to match the price starting with '12'
-                    options: 'i'   // Case-insensitive search (if necessary)
+    try {
+        for (var attributename in req.body) {
+            if (attributename == "phoneNum")
+                search.$expr = {
+                    $regexMatch: {
+                        input: { $toString: "$phoneNum" },  // Cast number to string
+                        regex: new RegExp(req.body["phoneNum"]),  // Regex to match the price starting with '12'
+                        options: 'i'   // Case-insensitive search (if necessary)
+                    }
                 }
-            }
-        else
-            search[`${attributename}`] = new RegExp(req.body[attributename], 'i')
+            else
+                search[`${attributename}`] = new RegExp(req.body[attributename], 'i')
+        }
+    }
+    catch {
+        res.status(500).send("Invallid Regex");
+        return 0;
     }
     const out = await mongoose_api.ReadData("suppliers", search, { _id: 0 })
     var err = out[0]

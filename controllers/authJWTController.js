@@ -110,20 +110,20 @@ const handleLogout = async (req, res) => {
     //On client, also delete the accessToken
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.status(204); //No Content
-    const refreshToken = cookies.jwt;
 
     //Is RefreshToken in DB
-    const foundUser = await User.findOne({ refreshToken }).exec();
+    /*const foundUser = await User.findOne({ refreshToken: refreshToken }).exec();
     if (!foundUser) {
         res.clearCookie('accessToken', { httpOnly: true });
         res.clearCookie('refreshToken', { httpOnly: true });
         return res.sendStatus(204); //No Content
     }
-    //delete the refreshToken From DB
+    delete the refreshToken From DB
     foundUser.refreshToken = '';
-    const result = await foundUser.save();
+    const result = await foundUser.save();*/
 
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+    res.clearCookie('accessToken', { httpOnly: true });
+    res.clearCookie('refreshToken', { httpOnly: true });
     return res.sendStatus(204); //No Content
 };
 

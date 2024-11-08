@@ -294,9 +294,19 @@ async function delete_user() {
                     }
                 }).then(function (response) {
                     return response
-                }).then(function () {
+                }).then(async function () {
                     alert(`Deleted Successfully`);
-                    $.ajax({
+                    await $.ajax({
+                        url: `http://localhost/auth/logout`,
+                        method: 'GET',
+                        success: function () {
+                            // Redirect to the product page
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching product page:', error);
+                        }
+                    });
+                    await $.ajax({
                         url: `http://localhost/auth`,
                         method: 'GET',
                         success: function () {

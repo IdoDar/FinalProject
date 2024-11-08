@@ -62,21 +62,21 @@
     <!-------------------------------------------------------------------------->
     <button class="sign_in_button" onclick="show_sign_in()">Sign In</button>
     <div id="sign_in_id" class="sign_in_class">
-        <form class="inside_in">
+        <form class="inside_in" id="inside_in">
             <div>
                 <img src="/image/dog.png" />
             </div>
             <div class="container">
                 <label class="label_email">Email</label>
                 <input type="text" id="email_id" class="email_in" placeholder="Enter Email" required />
-                <label class="label_password">Paaword</label>
+                <label class="label_password">Password</label>
                 <input type="password" id="password_id" class="password_in" placeholder="Enter Password" required />
                 <div class="row">
                     <div class="half">
                         <button type="button" onclick="func_close_in()" class="cancel_button">Cancel</button>
                     </div>
                     <div class="half">
-                        <button type="submit" onclick="check_input_in()" class="finish_sign_button">Sign In</button>
+                        <button type="submit" class="finish_sign_button">Sign In</button>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
         </form>
     </div>
     <img class="mylogo" src="/image/logo.png" />
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/JavaScript/sign_in_up.js"></script>
     <div>
@@ -97,7 +97,7 @@
             We have premium cages sizes, ranges from a leopard size to guinea pig size.
             <br></br>
             We work with companys like Misterzoo and Bonzo.
-            
+
         </p>
     </div>
 </body>

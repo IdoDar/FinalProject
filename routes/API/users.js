@@ -63,7 +63,17 @@ router.put("/", async (req, res) => {
         res.send(data)
 })
 router.delete("/", async (req, res) => {
-    const out = await mongoose_api.DeleteData("users", req.body)
+    var out = await mongoose_api.ReadData("users", req.body, { _id: 1 })
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    var out = await mongoose_api.basketHistoryModel.deleteMany({ user: data[0]._id });
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    out = await mongoose_api.DeleteData("users", req.body)
     var err = out[0]
     var data = out[1]
     if (err)
