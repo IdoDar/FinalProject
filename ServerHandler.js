@@ -49,15 +49,17 @@ app.get('/', (req, res) => {
     res.redirect('/auth');
 });
 
+
+
 //API Routes
 app.use("/API/products", require("./routes/API/products"));
 app.use("/API/suppliers", require("./routes/API/suppliers"));
 app.use("/API/users", require("./routes/API/users"));
 app.use("/API/basket", require("./routes/API/basket"));
 
-
+app.use(verifyJWT);
 //Admin Routes
-app.use("/admin", verifyJWT, verifyRoles(ROLES_LIST.Admin), require("./routes/admin"));
+app.use("/admin", verifyRoles(ROLES_LIST.Admin), require("./routes/admin"));
 
 
 //Main Aplication Routes

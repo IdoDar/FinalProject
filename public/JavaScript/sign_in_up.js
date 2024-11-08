@@ -3,7 +3,10 @@ const name_pattern = /^[a-z\sA-Z ,.'-]+$/;
 const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phone_pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 
-
+/*document.getElementById('inside_in').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent default form submission behavior  
+    check_input_in();
+});*/
 
 
 function show_sign_up() {
@@ -21,6 +24,7 @@ function func_close_up() {
     document.getElementById('sign_up_id').style.display = 'none';
 }
 function check_input_up() {
+
     console.log("clicked");
     let my_message = '';
     let problem = false;
