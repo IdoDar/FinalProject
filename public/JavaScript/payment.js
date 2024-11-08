@@ -13,7 +13,7 @@ let list_cart_html = document.querySelector('.cart-list');
 let total_price = document.querySelector('.sum-all')
 
 //checks input woth regex
-function check_input() {
+async function check_input() {
     console.log("clicked");
     let my_message = '';
     let problem = false;
@@ -67,7 +67,7 @@ function check_input() {
         alert(my_message);
     }
     else {
-        delete_and_save_cart();
+        await delete_and_save_cart();
         alert("Thank you for your purchase! It will arrive soon :)")
     }
 }
@@ -79,48 +79,64 @@ let cart = JSON.parse(json_cart);
 // delete cart from current cart and saves cart to history cart
 async function delete_and_save_cart() {
     $(document).ready(function () {
-        async function get_user_info(){
-            var user_email=""
-            await $.ajax({url:"http://localhost/API/users/CurrentUser", 
+        async function get_user_info() {
+            var user_email = ""
+            await $.ajax({
+                url: "http://localhost/API/users/CurrentUser",
                 method: "GET",
                 withCredentials: true,
                 success: function (data) {
-                    user_email=data[0].email
-                    console.log("d1 " +data)
-                    console.log("d2 " +data[0])
-                    console.log("d3 " +data[0].email)
-                }})    
-    var dburl = `http://localhost/API/users/${user_email}`;
-    //gets current cart
-    await fetch(dburl, {
-        method: "GET"
-      }).then(function (response) {
-        return response.json()
-      }).then(function (data) {
-        console.log("stahe 1");
-        let my_usr = data[0];
-        let my_cart = my_usr.currentBasket;
-        let my_user_id = my_usr._id;
-        let today = new Date();
-        console.log(my_cart + today+ my_user_id );
-        let for_post = JSON.stringify({
-            user: my_user_id,
-            date: today,
-            basket: my_cart  
-        })
-        return for_post; 
-      }).then (async function (for_post) {
-        let for_body = JSON.parse(for_post);
-        //adds cart to history
-        let mdburl = "http://localhost/API/basket";
-        $.post(mdburl,for_body,(data, status) =>{console.log(data);});
-        //delete all items in cart
-        for (let i = 0; i < for_body.basket.length; i++){
-            dburl = `http://localhost/API/basket/MyBasket/Remove/${for_body.basket[i]}`
-            await $.post(dburl,{},(data, status)=>{console.log(data);});
-        }
-      })    
-}get_user_info()})}
+                    user_email = data[0].email
+                    console.log("d1 " + data)
+                    console.log("d2 " + data[0])
+                    console.log("d3 " + data[0].email)
+                }
+            })
+            var dburl = `http://localhost/API/users/${user_email}`;
+            //gets current cart
+            await fetch(dburl, {
+                method: "GET"
+            }).then(function (response) {
+                return response.json()
+            }).then(function (data) {
+                console.log("stahe 1");
+                let my_usr = data[0];
+                let my_cart = my_usr.currentBasket;
+                let my_user_id = my_usr._id;
+                let today = new Date();
+                console.log(my_cart + today + my_user_id);
+                let for_post = JSON.stringify({
+                    user: my_user_id,
+                    date: today,
+                    basket: my_cart
+                })
+                return for_post;
+            }).then(async function (for_post) {
+                let for_body = JSON.parse(for_post);
+                //adds cart to history
+                let mdburl = "http://localhost/API/basket";
+                $.post(mdburl, for_body, (data, status) => { console.log(data); });
+                //delete all items in cart
+                for (let i = 0; i < for_body.basket.length; i++) {
+                    dburl = `http://localhost/API/basket/MyBasket/Remove/${for_body.basket[i]}`
+                    await $.post(dburl, {}, (data, status) => { console.log(data); });
+                }
+                $.ajax({
+                    url: `http://localhost/home`,
+                    method: 'GET',
+                    success: function () {
+                        // Redirect to the product page
+                        window.location.href = `http://localhost/home`;
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching product page:', error);
+                    }
+                });
+            })
+        } get_user_info()
+    })
+
+}
 
 // puts cart in html
 function cart_html() {
