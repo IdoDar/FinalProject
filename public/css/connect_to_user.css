@@ -2,6 +2,7 @@
     float: left;
     left: 10px;
     overflow: hidden;
+    
 }
 
 .dropdown .drop_button {
@@ -9,6 +10,7 @@
     padding: 10px 12px;
     border: none;
     background-color: inherit;
+    
 }
 
 

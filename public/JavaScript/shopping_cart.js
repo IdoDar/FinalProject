@@ -11,7 +11,7 @@ let final_cart_json = [];
 let total_quantity = get_cart_len();
 let total_sum = 0;
 
-var user_email = 'idonoam@gmail.com';
+//var user_email = 'idonoam@gmail.com';
 //var user_email = 'yarden@test.test';
 
 //Shows cart
@@ -19,17 +19,33 @@ function show() { show_cart.classList.toggle('show-cart'); }
 
 //shows number of items in cart on the top of the page
 async function get_cart_len() {
-  var dburl = `http://localhost/API/users/${user_email}`;
-  await fetch(dburl, {
-    method: "GET"
-  }).then(function (response) {
-    return response.json()
-  }).then(function (data) {
-    let my_usr = data[0];
-    cart = my_usr.currentBasket;
-    total_quantity = cart.length;
-    cart_icon_span.innerText = total_quantity;
+  $(document).ready(function () {
+    async function get_user_info() {
+      var user_email = ""
+      await $.ajax({
+        url: "http://localhost/API/users/CurrentUser",
+        method: "GET",
+        withCredentials: true,
+        success: function (data) {
+          user_email = data[0].email
+          console.log("d1 " + data)
+          console.log("d2 " + data[0])
+          console.log("d3 " + data[0].email)
+        }
+      })
+      var dburl = `http://localhost/API/users/${user_email}`;
+      await fetch(dburl, {
+        method: "GET"
+      }).then(function (response) {
+        return response.json()
+      }).then(function (data) {
+        let my_usr = data[0];
+        cart = my_usr.currentBasket;
+        total_quantity = cart.length;
+        cart_icon_span.innerText = total_quantity;
 
+      })
+    } get_user_info()
   })
 }
 
@@ -49,42 +65,56 @@ function times_in_array(data) {
 
 // gets cart and put it in the html 
 async function get_cart() {
-  //get user cart - current basket
-  var dburl = `http://localhost/API/users/${user_email}`;
-  list_cart_html.innerHTML = '';
-  await fetch(dburl, {
-    method: "GET"
-  }).then(function (response) {
-    return response.json()
-  }).then(function (data) {
-    let my_usr = data[0];
-    my_cart = my_usr.currentBasket;
-    // gets each item how many times
-    let times = times_in_array(my_cart);
-    final_cart_json = [];
-    total_sum=0;
-    if (my_cart.length > 0) {
-      for (const my_id in times) {
-        //gets info on each item in cart
-        let sdburl = `http://localhost/API/products/${my_id}`;
-        fetch(sdburl, {
-          method: "GET"
-        }).then(function (response) {
-          return response.json()
-        }).then(function (my_data) {
-          console.log(data);
-          var obj = JSON.stringify(my_data.data);
-          var my_item = JSON.parse(obj);
-          total_quantity = get_cart_len();
-          //creates cart items
-          let new_cart_item = document.createElement('div');
-          new_cart_item.classList.add('item');
-          // sets the id of the item in html to id of the item(in db)
-          new_cart_item.dataset.id = my_id;
-          total_sum = total_sum + my_item.price * times[my_id];
-          //create item in html
-          new_cart_item.innerHTML =
-            `
+  $(document).ready(function () {
+    async function get_user_info() {
+      var user_email = ""
+      await $.ajax({
+        url: "http://localhost/API/users/CurrentUser",
+        method: "GET",
+        withCredentials: true,
+        success: function (data) {
+          user_email = data[0].email
+          console.log("d1 " + data)
+          console.log("d2 " + data[0])
+          console.log("d3 " + data[0].email)
+        }
+      })
+      //get user cart - current basket
+      var dburl = `http://localhost/API/users/${user_email}`;
+      list_cart_html.innerHTML = '';
+      await fetch(dburl, {
+        method: "GET"
+      }).then(function (response) {
+        return response.json()
+      }).then(function (data) {
+        let my_usr = data[0];
+        my_cart = my_usr.currentBasket;
+        // gets each item how many times
+        let times = times_in_array(my_cart);
+        final_cart_json = [];
+        total_sum = 0;
+        if (my_cart.length > 0) {
+          for (const my_id in times) {
+            //gets info on each item in cart
+            let sdburl = `http://localhost/API/products/${my_id}`;
+            fetch(sdburl, {
+              method: "GET"
+            }).then(function (response) {
+              return response.json()
+            }).then(function (my_data) {
+              console.log(data);
+              var obj = JSON.stringify(my_data.data);
+              var my_item = JSON.parse(obj);
+              total_quantity = get_cart_len();
+              //creates cart items
+              let new_cart_item = document.createElement('div');
+              new_cart_item.classList.add('item');
+              // sets the id of the item in html to id of the item(in db)
+              new_cart_item.dataset.id = my_id;
+              total_sum = total_sum + my_item.price * times[my_id];
+              //create item in html
+              new_cart_item.innerHTML =
+                `
                     <div class="my_image">
                             <img src=${my_item.picture_link} />
                         </div>
@@ -96,17 +126,19 @@ async function get_cart() {
                             <span class="more">+</span>
                         </div>
                     `;
-          list_cart_html.appendChild(new_cart_item);
-          total_price.innerHTML = '';
-          let final_sum = document.createElement('div');
-          final_sum.classList.add('sum_all');
-          final_sum.innerHTML = `Total: ${total_sum}`;
-          total_price.appendChild(final_sum);
-          // final_cart_json to put final cart in memory and before payment sends it to payment so we can show it in payment page
-          final_cart_json.push({ 'id': my_id, 'product_name': my_item.product_name, 'quantity': times[my_id], 'price': my_item.price, 'picture': my_item.picture_link });
-        })
-      }
-    }
+              list_cart_html.appendChild(new_cart_item);
+              total_price.innerHTML = '';
+              let final_sum = document.createElement('div');
+              final_sum.classList.add('sum_all');
+              final_sum.innerHTML = `Total: ${total_sum}`;
+              total_price.appendChild(final_sum);
+              // final_cart_json to put final cart in memory and before payment sends it to payment so we can show it in payment page
+              final_cart_json.push({ 'id': my_id, 'product_name': my_item.product_name, 'quantity': times[my_id], 'price': my_item.price, 'picture': my_item.picture_link });
+            })
+          }
+        }
+      })
+    } get_user_info();
   })
 }
 
@@ -114,11 +146,11 @@ async function get_cart() {
 //goes to pay page and upload before final cart to use
 function pay_page() {
   $.ajax({
-    url: `payment`,
+    url: '/cart/payment',
     method: 'GET',
     success: function () {
       sessionStorage.setItem('final_cart', JSON.stringify(final_cart_json));
-      window.location.href = `${page_name}`;
+      window.location.href = `${url}`;
 
     },
     error: function (xhr, status, error) {
@@ -147,11 +179,11 @@ payment_cart.addEventListener('click', function () {
 
 
 //checks if you press on + or - button in cart and update db and html
-list_cart_html.addEventListener('click',async (event) => {
+list_cart_html.addEventListener('click', async (event) => {
   let clicked_position = event.target;
   if (clicked_position.classList.contains('less')) {
     let product_id = clicked_position.parentElement.parentElement.dataset.id;
-    dburl = `http://localhost/API/basket/MyBasket/Remove/${product_id}`;
+    /*dburl = `http://localhost/API/basket/MyBasket/Remove/${product_id}`;
     await fetch(dburl, {
       method: "POST",
       body: JSON.stringify({
@@ -162,11 +194,41 @@ list_cart_html.addEventListener('click',async (event) => {
     }).then(function (response) {
       return response
     }).then(function () {
-    })
+    })*/
+    $.ajax({
+      url: `http://localhost/API/Basket/MyBasket/Remove/${product_id}`,
+      method: 'POST',
+      withCredentials: true,
+      success: function () {
+        //alert('Product added to cart!');
+      },
+      error: function (xhr, status, error) {
+        console.error('Error fetching product page:', error);
+        if (xhr.status == 401 || xhr.status == 403)
+          alert("You need login first");
+        else
+          alert(`error ${xhr.status}: ${error}`)
+      }
+    });
   }
   else if (clicked_position.classList.contains('more')) {
     let product_id = clicked_position.parentElement.parentElement.dataset.id;
-    dburl = `http://localhost/API/basket/MyBasket/Add/${product_id}`;
+    $.ajax({
+      url: `http://localhost/API/Basket/MyBasket/Add/${product_id}`,
+      method: 'POST',
+      withCredentials: true,
+      success: function () {
+        //alert('Product added to cart!');
+      },
+      error: function (xhr, status, error) {
+        console.error('Error fetching product page:', error);
+        if (xhr.status == 401 || xhr.status == 403)
+          alert("You need login first");
+        else
+          alert(`error ${xhr.status}: ${error}`)
+      }
+    });
+    /*dburl = `http://localhost/API/basket/MyBasket/Add/${product_id}`;
     await fetch(dburl, {
       method: "POST",
       body: JSON.stringify({
@@ -177,7 +239,7 @@ list_cart_html.addEventListener('click',async (event) => {
     }).then(function (response) {
       return response
     }).then(function () {
-    })
+    })*/
   }
   get_cart();
 })
