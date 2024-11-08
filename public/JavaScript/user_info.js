@@ -2,7 +2,7 @@
 const name_pattern = /^[a-z\sA-Z ,.'-]+$/;
 const phone_pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 
-//const user_email = 'idonoam@gmail.com';
+
 let per_info_html = document.querySelector('.info');
 
 
@@ -16,15 +16,10 @@ $(document).ready(function () {
             withCredentials: true,
             success: function (data) {
                 user_email = data[0].email
-                console.log("d1 " + data)
-                console.log("d2 " + data[0])
-                console.log("d3 " + data[0].email)
             }
         })
-        //async function get_user_info() {
         if (user_email) {
             var dburl = `http://localhost/API/users/${user_email}`
-            //var dburl=`http://localhost/API/basket/history/${user}`
             await $.ajax({
                 url: dburl,
                 method: "GET",
@@ -105,11 +100,8 @@ async function editData(kind, change) {
                 }
             })
             var dburl = "http://localhost/API/users"
-            //console.log("ch "+ change)
-            //console.log("data " + data.user_email)
             if (kind == 1) {
                 if (change != null) {
-                    console.log("1")
                     await $.ajax({
                         url: dburl,
                         method: "PUT",
@@ -128,25 +120,6 @@ async function editData(kind, change) {
                 }
                 else { alert(`No Value`) }
             }
-            /*else if (kind=2){
-                if(change!=null){
-                await fetch(dburl, {
-                    method: "PUT",
-                    body: JSON.stringify({
-                        fieldsearch:"email",
-                        phone:change,
-                        email:data
-                      }),
-                      headers: {
-                        "Content-type": "application/json; charset=UTF-8"
-                      }
-                    }).then(function (response) {
-                    return response}).then(function () {
-                        alert(`Changed Last Name Successfully`);
-                        location.reload()
-                    })}
-                    else{alert(`No Value`)}
-            }*/
             else if (kind == 3) {
                 if (change != null) {
                     await $.ajax({
@@ -170,7 +143,7 @@ async function editData(kind, change) {
         } get_user_email()
     })
 }
-//console.log("try " + user_email)
+
 
 
 
@@ -182,10 +155,6 @@ function change_info(get_kind) {
         document.getElementById('first_name_id').style.display = 'block';
 
     }
-    /*if (get_kind == 2) {
-        document.getElementById('show_change_fname').style.display = 'block';
-        document.getElementById('last_name_id').style.display = 'block';
-    }*/
     if (get_kind == 3) {
         document.getElementById('show_change_fname').style.display = 'block';
         document.getElementById('phone_id').style.display = 'block';
@@ -198,7 +167,6 @@ function change_info(get_kind) {
 function func_close_up() {
     document.getElementById('show_change_fname').style.display = 'none';
     document.getElementById('first_name_id').style.display = 'none';
-    //document.getElementById('last_name_id').style.display = 'none';
     document.getElementById('phone_id').style.display = 'none';
 }
 
@@ -213,13 +181,9 @@ function check_info() {
                 withCredentials: true,
                 success: function (data) {
                     user_email = data[0].email
-                    console.log("user " + user_email)
-                    //return user_email
                 }
             })
         }
-        //user_email=get_user_email()
-        //console.log(user_email)
         let my_input;
         if (document.getElementById('first_name_id').style.display == 'block') {
             my_input = document.getElementById("my_input_first").value;
@@ -227,25 +191,11 @@ function check_info() {
                 alert("Value is Invalid");
             }
             else {
-                //add update to db
                 editData(1, my_input);
                 func_close_up();
                 my_input = null;
             }
         }
-        /*else if(document.getElementById('last_name_id').style.display == 'block'){
-            my_input = document.getElementById("my_input_last").value;
-            alert(my_input + 2);
-            if (!name_pattern.test(my_input)) {
-                alert("Value is Invalid");
-            }
-            else {
-                //add update to db
-                editData(2,my_input,user_email);
-                func_close_up();
-                my_input = null;
-            }
-        }*/
         else if (document.getElementById('phone_id').style.display == 'block') {
             my_input = document.getElementById("my_input_phone").value;
             if (!phone_pattern.test(my_input)) {
@@ -264,7 +214,6 @@ function check_info() {
 
 }
 
-//delete user
 
 async function delete_user() {
     $(document).ready(function () {
@@ -276,12 +225,9 @@ async function delete_user() {
                 withCredentials: true,
                 success: function (data) {
                     user_email = data[0].email
-                    console.log("user " + user_email)
-                    //return user_email
                 }
             })
             var dburl = "http://localhost/API/users";
-            //let data = user_email;
             let confirmation = prompt('To Confirm The Deletion Enter Confirm:');
             if (confirmation.toLowerCase() == "confirm") {
                 await fetch(dburl, {
@@ -324,54 +270,9 @@ async function delete_user() {
             }
         }
         get_user_email()
-        //calls a page
     })
 
 
 }
 
-//function call_the_page(page_name){
-
-//}
-
-// function delete_user(){}
-//delete user
-/*async function delete_user() {
-    $(document).ready(async function () {
-        async function get_user_email(){
-            var user_email=""
-            await $.ajax({url:"http://localhost/API/users/CurrentUser", 
-                method: "GET",
-                withCredentials: true,
-                success: async function (data) {
-                    user_email=data[0].email
-                    var dburl = "http://localhost/API/users";
-    //let data = get_user_email();
-    console.log("try " + user_email)
-    let confirmation = prompt('To Confirm The Deletion Enter Confirm:');
-    var dburl = "http://localhost/API/users"
-    if (confirmation.toLowerCase() == "confirm") {
-        await fetch(dburl, {
-            method: "DELETE",
-            body: JSON.stringify({
-                email: user_email
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        }).then(function (response) {
-            return response
-        }).then(function () {
-            alert(`Deleted ${data} Successfully`);
-            location.reload()
-        })
-    }
-    else {
-        alert(`Did Not Delete`);
-    }
-                    //return user_email
-                }})}
-                //user_email=get_user_email()
-    
-get_user_email()})}*/
 

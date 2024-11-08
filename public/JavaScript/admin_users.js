@@ -17,7 +17,6 @@ async function GetUsers() {
           <th class="text">email</th>
           <th class="text">phoneNum</th>
           <th class="text">dateBirth</th>
-          <th class="text">password</th>
           <th class="text">Edits</th>
           </tr>
         </thead>`
@@ -31,7 +30,6 @@ async function GetUsers() {
               <td class="text">${model.email}</td>
               <td class="text">${model.phoneNum}</td>
               <td class="text">${model.dateBirth}</td>
-              <td class="text">${model.password}</td>
               <td>
 <button id='${index}_edit' class="btn btn-default" type="button"><i class="glyphicon glyphicon-pencil"></i></button>
 <button id='${index}_del' class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button><td>
@@ -165,7 +163,7 @@ async function editData(data) {
     let dateBirth_date=""
     while(field_value === "" || isNaN(dateBirth_date))
       {
-        dateBirth = prompt('Enter The Date Of Birth (in the format (DD/MM/YYYY)):');
+        dateBirth = prompt('Enter The Date Of Birth (in the format (MM/DD/YYYY)):');
         dateBirth_date = new Date(field_value);
         if(field_value===null){
           break
