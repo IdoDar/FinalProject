@@ -57,9 +57,10 @@ const handleNewUser = async (req, res) => {
     if (duplicate) return res.sendStatus(409); //conflict
     try {
         //encrypt password
-
+        console.log("encrypt");
         const hashpwd = await bcrypt.hash(password, 10);
         //Create store new user
+        console.log("before create");
         const result = await User.create({
             "name": FirstName + " " + LastName,
             "sex": sex,
@@ -68,12 +69,13 @@ const handleNewUser = async (req, res) => {
             "dateBirth": Bdate,
             "password": hashpwd
         });
+        console.log("after");
 
-        res.status(201).json({ 'success': `New User ${user} created with email ${email}` });;
+        res.sendStatus(201);
         console.log("User Created");
     }
     catch (err) {
-        res.status(500).json({ 'Message': err.Message });
+        res.status(500).json({ 'Message': err });
     }
 }
 

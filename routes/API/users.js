@@ -5,8 +5,6 @@ const mongoose = require('mongoose')
 const Schemas = require('../../models/Schemas');
 const DBcon = require('../../config/dbconn')
 const bcrypt = require('bcrypt');
-const verifyJWT = require('../../middleware/verifyJWT');
-const authController = require('../../controllers/authJWTController');
 
 const dbClient = mongoose.connection.useDb(DBcon.dbName)
 const User = dbClient.model('users', Schemas.userSchema);
@@ -82,7 +80,7 @@ router.delete("/", async (req, res) => {
         res.send(data)
 })
 
-router.get("/CurrentUser", verifyJWT, async (req, res) => {
+router.get("/CurrentUser", async (req, res) => {
     const query = { "refreshToken": req.cookies.refreshToken };
     const out = await mongoose_api.ReadData("users", query, { ...{ _id: 0, email: 1 } })
     var err = out[0]

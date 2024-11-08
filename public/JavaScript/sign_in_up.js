@@ -4,8 +4,15 @@ const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phone_pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 
 document.getElementById('inside_in').addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent default form submission behavior  
+    event.preventDefault(); // Prevent default form submission behavior 
     check_input_in();
+
+});
+
+document.getElementById('inside_up').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent default form submission behavior 
+    check_input_up();
+
 });
 
 
@@ -23,7 +30,7 @@ function func_close_in() {
 function func_close_up() {
     document.getElementById('sign_up_id').style.display = 'none';
 }
-function check_input_up() {
+async function check_input_up() {
 
     console.log("clicked");
     let my_message = '';
@@ -72,7 +79,7 @@ function check_input_up() {
             "rpwd": pass2
         };
         registerUser(jsondata);
-        loginUser(a_email, pass1);
+
     }
 }
 
@@ -99,12 +106,13 @@ function registerUser(RegisterJson) {
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             console.log('User registered successfully:', xhr.responseText);
+            loginUser(RegisterJson.email, RegisterJson.password);
         } else {
             console.error('Request failed with status:', xhr.status);
             if (xhr.status == 409)
                 alert("Invalid Credentials");
             else
-                alert(`error ${xhr.status}: ${error}`)
+                alert(`error ${xhr.status}: ${xhr.responseText}`)
         }
 
     };
@@ -121,48 +129,71 @@ async function loginUser(email, password) {
         "email": email,
         "password": password
     };
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost/auth/login');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.withCredentials = true;
-    xhr.onload = await function () {
-        console.log('XHR loaded:', xhr.status, xhr.responseText);
-        if (xhr.status >= 200 && xhr.status < 300) {
-            const response = JSON.parse(xhr.responseText);
-            console.log('Parsed Response:', response);
-            // Save the accessToken and email
-            console.log('User logged in successfully:', response);
+
+    try {
+        const response = await fetch('http://localhost/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include', // Include cookies in the request
+            body: JSON.stringify(jsondata)
+
+        });
+
+        if (response.ok) {
+            const responseData = await response.json();
+            // Assuming the server sends the updated cookie in the response
+            // You might need to handle cookie updates based on your server-side setup
+            console.log('User logged in successfully:', responseData);
             alert("Success! You Redirect to home page");
-            xhr = new XMLHttpRequest();
-            xhr.open('GET', 'http://localhost/home');
-            xhr.withCredentials = true;
-            xhr.onload = function () {
-                console.log('XHR loaded:', xhr.status, xhr.responseText);
-                window.location.href("http://localhost/home")
-            };
-
-            xhr.onerror = function () {
-                console.error('Network error');
-            };
-
-            xhr.send();
+            window.location.href = '/home';
         } else {
-            if (xhr.status == 401) {
-                alert("Invalid Credentials");
-            }
-            else
-                console.error('Request failed with status:', xhr.status);
+            // Handle error, e.g., display an error message to the user
+            alert("Invalid credential")
+            console.error('Login failed:', response.statusText);
         }
-    };
-
-    xhr.onerror = function () {
-        console.error('Network error');
-    };
-
-    console.log('Sending JSON data:', JSON.stringify(jsondata));
-    xhr.send(JSON.stringify(jsondata));
+    } catch (error) {
+        console.error('Error:', error);
+    }
 
 
+
+
+    /*
+        var res = "";
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost/auth/login');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.withCredentials = true;
+        xhr.onload = await function () {
+            console.log('XHR loaded:', xhr.status, xhr.responseText);
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const response = JSON.parse(xhr.responseText);
+                console.log('Parsed Response:', response);
+                // Save the accessToken and email
+                console.log('User logged in successfully:', response);
+                res = response;
+                alert("Success! You Redirect to home page");
+    
+            }
+            else {
+                if (xhr.status == 401 || xhr.status == 403) {
+                    alert("Invalid Credentials")
+                    return;
+                }
+            }
+        };
+    
+        xhr.onerror = function () {
+            console.error('Network error');
+        };
+    
+        console.log('Sending JSON data:', JSON.stringify(jsondata));
+        xhr.send(JSON.stringify(jsondata));
+        console.log(res);
+    
+    */
     /**/
 
 }

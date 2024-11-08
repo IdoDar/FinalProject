@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const router = express.Router();
 const authController = require('../controllers/authJWTController');
-const verifyJWT = require('../middleware/verifyJWT')
+const { verifyJWT } = require('../middleware/verifyJWT')
 
 
 router.get("/", (req, res) => {

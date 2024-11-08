@@ -1,6 +1,5 @@
 const mongoose_api = require('../../controllers/moongose_api')
 const express = require("express");
-const verifyJWT = require('../../middleware/verifyJWT');
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -75,7 +74,7 @@ router.get("/historys/All", async (req, res) => {
     res.send(data)
 })
 
-router.post("/MyBasket/Add/:id", verifyJWT, async (req, res) => {
+router.post("/MyBasket/Add/:id", async (req, res) => {
     const productID = req.params.id.replace(/"/g, '');
     console.log("try" + productID);
     console.log(productID);
@@ -88,7 +87,7 @@ router.post("/MyBasket/Add/:id", verifyJWT, async (req, res) => {
         res.send(data)
 })
 
-router.post("/MyBasket/Remove/:id", verifyJWT, async (req, res) => {
+router.post("/MyBasket/Remove/:id", async (req, res) => {
     const productID = req.params.id.replace(/"/g, '');
     console.log("try" + productID);
     const out = await mongoose_api.RemoveFromCurrentBasket(req.email, productID);

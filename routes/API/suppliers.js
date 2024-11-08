@@ -1,7 +1,6 @@
 const mongoose_api = require('../../controllers/moongose_api')
 const express = require("express");
 const router = express.Router();
-const bodyParser = require('body-parser')
 
 
 router.get("/", async (req, res) => {

@@ -1,4 +1,11 @@
+const mongoose = require('mongoose')
+const Schemas = require('../models/Schemas');
+const DBcon = require('../config/dbconn')
+
 const jwt = require('jsonwebtoken');
+
+const dbClient = mongoose.connection.useDb(DBcon.dbName)
+const User = dbClient.model('users', Schemas.userSchema);
 
 
 const verifyJWT = (req, res, next) => {
@@ -23,5 +30,4 @@ const verifyJWT = (req, res, next) => {
     )
 
 }
-
-module.exports = verifyJWT;
+module.exports = { verifyJWT };
