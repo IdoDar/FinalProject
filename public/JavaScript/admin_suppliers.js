@@ -61,7 +61,14 @@ $(document).ready(function () {
   async function editData(data) {
     let field_name = prompt('Enter The Field Name That You Want To Change:');
     if (field_name.toLowerCase() == "companyname") {
-      let field_value = prompt('Enter The Value You Want:');
+      let field_value = ""
+      while(field_value === "")
+        {
+          field_value = prompt('Enter The Value You Want:');
+          if(field_value===null){
+            break
+          }
+        }
       if (field_value != null) {
         await $.ajax({
           url: dburl,
@@ -76,13 +83,21 @@ $(document).ready(function () {
           success: function () {
             alert(`Changed ${field_name} Successfully`);
             location.reload()
-          }
+          },
+          error: function (xhr, status, error) {alert(`Failed ${error}`);}
         })
       }
       else { alert(`No Value`) }
     }
     else if (field_name.toLowerCase() == "contact") {
-      let field_value = prompt('Enter The Value You Want:');
+      let field_value = ""
+      while(field_value === "")
+        {
+          field_value = prompt('Enter The Value You Want:');
+          if(field_value===null){
+            break
+          }
+        }
       if (field_value != null) {
         await $.ajax({
           url: dburl,
@@ -97,14 +112,25 @@ $(document).ready(function () {
           success: function () {
             alert(`Changed ${field_name} Successfully`);
             location.reload()
-          }
+          },
+          error: function (xhr, status, error) {alert(`Failed ${error}`);}
         })
       }
       else { alert(`No Value`) }
 
     }
     else if (field_name.toLowerCase() == "phonenum") {
-      let field_value = prompt('Enter The Value You Want:');
+      const phone_pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+      let field_value = ""
+      while(field_value === "" || !phone_pattern.test(field_value))
+        {
+          field_value = prompt('Enter The Value You Want:');
+          if(field_value===null){
+            break
+          }
+          if (phone_pattern.test(field_value))
+            break
+        }
       if (field_value != null) {
         await $.ajax({
           url: dburl,
@@ -119,7 +145,8 @@ $(document).ready(function () {
           success: function () {
             alert(`Changed ${field_name} Successfully`);
             location.reload()
-          }
+          },
+          error: function (xhr, status, error) {alert(`Failed ${error}`);}
         })
       }
       else { alert(`No Value`) }
@@ -132,16 +159,61 @@ $(document).ready(function () {
 
   async function addData() {
     var dburl = `http://localhost/API/suppliers`
-    let companyName = prompt('Enter The Company Name:');
-    let numCompany = prompt('Enter The Number Company:');
-    let contact = prompt('Enter The Name Of Your Contact:');
-    let phoneNum = prompt('Enter The Phone Number:');
-    let locations = []
-    let latlng = prompt('Enter The locations (In This Format lat,lng) (When You Are Done Enter Done):');
-    while (latlng.toLowerCase() != "done") {
-      locations.push({ lat: parseFloat(latlng.split(",")[0]), lng: parseFloat(latlng.split(",")[1]) })
-      latlng = prompt('Enter The locations (In This Format lat,lng) (When You Are Done Enter Done):');
+    const phone_pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+    const isNumeric = (string) => /^[+-]?\d+(\.\d+)?$/.test(string)
+    try{
+    let companyName = ""
+  while(companyName === "")
+  {
+    companyName = prompt('Enter The Company Name:');
+    if(companyName===null){
+      throw "No companyName"
     }
+  }
+    let numCompany = ""
+    while(numCompany === "" )
+      {
+        numCompany = prompt('Enter The Number Company:');
+        if(numCompany===null){
+          throw "No numCompany"
+        }
+        if(!isNumeric(numCompany)){
+          numCompany=""
+          continue}
+      }
+    let contact = ""
+    while(contact === "")
+    {
+      contact = prompt('Enter The Name Of Your Contact:');
+      if(contact===null){
+        throw "No contact"
+      }
+    }
+    let phoneNum = ""
+    while(phoneNum === "" || !phone_pattern.test(phoneNum))
+      {
+        phoneNum = prompt('Enter The Phone Number:');
+        if(phoneNum===null){
+          throw "No Phone"
+        }
+        if (phone_pattern.test(phoneNum))
+          break
+      }
+    let locations = []
+    let latlng = ""
+    while(latlng === "" || (latlng.toLowerCase() != "done" || locations.length == 0))
+      {
+        latlng = prompt('Enter The locations (In This Format lat,lng) (When You Are Done Enter Done):');
+        if(latlng===null){
+          throw "No LatLng"
+        }
+        if(((!isNumeric(latlng.split(",")[0]) || !isNumeric(latlng.split(",")[1])) || !latlng.split(",")[1] || !latlng.split(",")[0])){
+          if (latlng.toLowerCase() === "done" && locations.length != 0)
+            continue
+          latlng=""
+          continue}
+        locations.push({ lat: parseFloat(latlng.split(",")[0]), lng: parseFloat(latlng.split(",")[1]) })
+      }
     await $.ajax({
       url: dburl,
       method: "POST",
@@ -159,6 +231,8 @@ $(document).ready(function () {
         location.reload()
       }, error: function (xhr, status, error) { alert(`Failed To Add ${error}`); }
     })
+  }catch(err){
+    alert("Canceled Operation: "+err)}
   }
 
   async function deleteData(data) {

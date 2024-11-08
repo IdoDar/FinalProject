@@ -49,9 +49,21 @@ async function GetProducts() {
 }})
 }
 async function editData(data) {
+  const url_pattern = /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
+  const isNumeric = (string) => /^[+-]?\d+(\.\d+)?$/.test(string)
   let field_name = prompt('Enter The Field Name That You Want To Change:');
   if (field_name.toLowerCase() == "price") {
-    let field_value = prompt('Enter The Value You Want:');
+    let field_value = ""
+    while(field_value === "" )
+      {
+        field_value = prompt('Enter The Value You Want:');
+        if(field_value===null){
+          break
+        }
+        if(!isNumeric(field_value)){
+          field_value=""
+          continue}
+      }
     if (field_value != null) {
       await $.ajax({url:dburl, 
         method: "PUT",
@@ -65,13 +77,24 @@ async function editData(data) {
         success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      }})
+      },
+      error: function (xhr, status, error) {alert(`Failed ${error}`);}})
     }
     else { alert(`No Value`) }
 
   }
   else if (field_name.toLowerCase() == "weight") {
-    let field_value = prompt('Enter The Value You Want:');
+    let field_value = ""
+    while(field_value === "" )
+      {
+        field_value = prompt('Enter The Value You Want:');
+        if(field_value===null){
+          break
+        }
+        if(!isNumeric(field_value)){
+          field_value=""
+          continue}
+      }
     if (field_value != null) {
       await $.ajax({url:dburl, 
         method: "PUT",
@@ -85,33 +108,21 @@ async function editData(data) {
         success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      }})
-    }
-    else { alert(`No Value`) }
-
-  }
-  else if (field_name.toLowerCase() == "quantity") {
-    let field_value = prompt('Enter The Value You Want:');
-    if (field_value != null) {
-      await $.ajax({url:dburl, 
-        method: "PUT",
-        withCredentials: true,
-        contentType: 'application/json',
-        data: JSON.stringify({
-          fieldsearch: "product_name",
-          quantity: field_value,
-          product_name: data.data
-        }),
-        success: function () {
-        alert(`Changed ${field_name} Successfully`);
-        location.reload()
-      }})
+      },
+      error: function (xhr, status, error) {alert(`Failed ${error}`);}})
     }
     else { alert(`No Value`) }
 
   }
   else if (field_name.toLowerCase() == "description") {
-    let field_value = prompt('Enter The Value You Want:');
+    let field_value = ""
+    while(field_value === "")
+      {
+        field_value = prompt('Enter The Value You Want:');
+        if(field_value===null){
+          break
+        }
+      }
     if (field_value != null) {
       await $.ajax({url:dburl, 
         method: "PUT",
@@ -125,13 +136,23 @@ async function editData(data) {
         success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      }})
+      },
+      error: function (xhr, status, error) {alert(`Failed ${error}`);}})
     }
     else { alert(`No Value`) }
 
   }
   else if (field_name.toLowerCase() == "picture_link") {
-    let field_value = prompt('Enter The Value You Want:');
+    let field_value = ""
+    while(field_value === "" || !url_pattern.test(field_value))
+      {
+        field_value = prompt('Enter The Value You Want:');
+        if(field_value===null){
+          break
+        }
+        if (url_pattern.test(field_value))
+          break
+      }
     if (field_value != null) {
       await $.ajax({url:dburl, 
         method: "PUT",
@@ -145,13 +166,21 @@ async function editData(data) {
         success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      }})
+      },
+      error: function (xhr, status, error) {alert(`Failed ${error}`);}})
     }
     else { alert(`No Value`) }
 
   }
   else if (field_name.toLowerCase() == "category") {
-    let field_value = prompt('Enter The Value You Want:');
+    let field_value = ""
+    while(field_value === "")
+      {
+        field_value = prompt('Enter The Value You Want:');
+        if(field_value===null){
+          break
+        }
+      }
     if (field_value != null) {
       await $.ajax({url:dburl, 
         method: "PUT",
@@ -165,7 +194,8 @@ async function editData(data) {
         success: function () {
         alert(`Changed ${field_name} Successfully`);
         location.reload()
-      }})
+      },
+      error: function (xhr, status, error) {alert(`Failed ${error}`);}})
     }
     else { alert(`No Value`) }
 
@@ -177,16 +207,82 @@ async function editData(data) {
 
 async function addData() {
   var dburl = `http://localhost/API/products`
-  let product_name = prompt('Enter The Product Name:');
-  let company_name = prompt('Enter The Company Number:');
-  await $.ajax({url:`http://localhost/API/suppliers/${company_name}`, method: "GET",withCredentials: true,
-    success: function (data) { company_name = data[0]._id }})
-  console.log(company_name)
-  let price = prompt('Enter The Price:');
-  let weight = prompt('Enter The Weight:');
-  let description = prompt('Enter The Description:');
-  let picture_link = prompt('Enter The Picture_link:');
-  let category = prompt('Enter The Category:');
+  const url_pattern = /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
+    const isNumeric = (string) => /^[+-]?\d+(\.\d+)?$/.test(string)
+  try{
+  let product_name = ""
+  while(product_name === "")
+    {
+      product_name = prompt('Enter The Product Name:');
+      if(product_name===null){
+        throw "No Product Name"
+      }
+    }
+  let company_name = ""
+  while(company_name === "" )
+    {
+      company_name = prompt('Enter The Company Number:');
+      if(company_name===null){
+        throw "No Company Number"
+      }
+      if(!isNumeric(company_name)){
+        company_name=""
+        continue}
+      await $.ajax({url:`http://localhost/API/suppliers/${company_name}`, method: "GET",withCredentials: true,
+          success: function (data) { try{company_name = data[0]._id}
+            catch{
+              company_name=""}
+           },
+          error: function (xhr, status, error) {alert(`No Company with this number`);company_name=""}})
+    }
+  let price = ""
+  while(price === "" )
+    {
+      price = prompt('Enter The Price:');
+      if(price===null){
+        throw "No Price"
+      }
+      if(!isNumeric(price)){
+        price=""
+        continue}
+    }
+  let weight = ""
+  while(weight === "" )
+    {
+      weight = prompt('Enter The Weight:');
+      if(weight===null){
+        throw "No Weight"
+      }
+      if(!isNumeric(weight)){
+        weight=""
+        continue}
+    }
+  let description = ""
+  while(description === "")
+    {
+      description = prompt('Enter The Description:');
+      if(description===null){
+        throw "No Description"
+      }
+    }
+  let picture_link = ""
+  while(picture_link === "" || !url_pattern.test(picture_link))
+    {
+      picture_link = prompt('Enter The Picture_link:');
+      if(picture_link===null){
+        throw "No Email"
+      }
+      if (url_pattern.test(picture_link))
+        break
+    }
+  let category = ""
+  while(category === "")
+    {
+      category = prompt('Enter The Category:');
+      if(category===null){
+        throw "No Category"
+      }
+    }
   await $.ajax({url:dburl, 
     method: "POST",
     withCredentials: true,
@@ -205,6 +301,8 @@ async function addData() {
     location.reload()
   },
   error: function (xhr, status, error) {alert(`Failed To Add ${error}`);}})
+}catch(err){
+  alert("Canceled Operation: "+err)}
 }
 
 async function deleteData(data) {
