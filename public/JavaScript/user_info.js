@@ -8,32 +8,36 @@ let per_info_html = document.querySelector('.info');
 
 //gets user info from db and puts it html
 $(document).ready(function () {
-    async function get_user_info(){
-        var user_email=""
-        await $.ajax({url:"http://localhost/API/users/CurrentUser", 
+    async function get_user_info() {
+        var user_email = ""
+        await $.ajax({
+            url: "http://localhost/API/users/CurrentUser",
             method: "GET",
             withCredentials: true,
             success: function (data) {
-                user_email=data[0].email
-                console.log("d1 " +data)
-                console.log("d2 " +data[0])
-                console.log("d3 " +data[0].email)
-            }})
-//async function get_user_info() {
-    var dburl = `http://localhost/API/users/${user_email}`
-    //var dburl=`http://localhost/API/basket/history/${user}`
-    await $.ajax({url:dburl, 
-        method: "GET",
-        withCredentials: true,
-        success: function (data) {
-        let my_usr = data[0];
-        per_info_html.innerHTML = '';
-        //create item in html
-        let my_info = document.createElement('div');
-        my_info.classList.add('me');
-        let Bdate = my_usr.dateBirth.substring(0, 10)
-        my_info.innerHTML =
-            `
+                user_email = data[0].email
+                console.log("d1 " + data)
+                console.log("d2 " + data[0])
+                console.log("d3 " + data[0].email)
+            }
+        })
+        //async function get_user_info() {
+        if (user_email) {
+            var dburl = `http://localhost/API/users/${user_email}`
+            //var dburl=`http://localhost/API/basket/history/${user}`
+            await $.ajax({
+                url: dburl,
+                method: "GET",
+                withCredentials: true,
+                success: function (data) {
+                    let my_usr = data[0];
+                    per_info_html.innerHTML = '';
+                    //create item in html
+                    let my_info = document.createElement('div');
+                    my_info.classList.add('me');
+                    let Bdate = my_usr.dateBirth.substring(0, 10)
+                    my_info.innerHTML =
+                        `
             &nbsp;
            <div >
                 <label>First Name: </label> <small>${my_usr.name}</small>
@@ -77,84 +81,97 @@ $(document).ready(function () {
             <div class="half">
                 <button type="button" onclick='delete_user()' class="cancel_button">Delete User</button>
             `;
-        per_info_html.appendChild(my_info);
-    }})
-}get_user_info();})
+                    per_info_html.appendChild(my_info);
+                }
+            })
+        }
+    }
+    get_user_info();
+
+})
 
 
 //changes info - name or phone
 async function editData(kind, change) {
     $(document).ready(async function () {
-        async function get_user_email(){
-            var user_email=""
-            await $.ajax({url:"http://localhost/API/users/CurrentUser", 
+        async function get_user_email() {
+            var user_email = ""
+            await $.ajax({
+                url: "http://localhost/API/users/CurrentUser",
                 method: "GET",
                 withCredentials: true,
                 success: async function (data) {
-                    user_email=data[0].email}})
-                    var dburl = "http://localhost/API/users"
-    //console.log("ch "+ change)
-    //console.log("data " + data.user_email)
-    if (kind == 1) {
-        if (change != null) {
-            console.log("1")
-            await $.ajax({url:dburl, 
-                method: "PUT",
-                withCredentials: true,
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    fieldsearch: "email",
-                    name: change,
-                    email: user_email
-                }),
-                success: function (data){
-                    alert(`Changed First Name Successfully`);
-                location.reload()
-                }
-                })
-        }
-        else { alert(`No Value`) }
-    }
-    /*else if (kind=2){
-        if(change!=null){
-        await fetch(dburl, {
-            method: "PUT",
-            body: JSON.stringify({
-                fieldsearch:"email",
-                phone:change,
-                email:data
-              }),
-              headers: {
-                "Content-type": "application/json; charset=UTF-8"
-              }
-            }).then(function (response) {
-            return response}).then(function () {
-                alert(`Changed Last Name Successfully`);
-                location.reload()
-            })}
-            else{alert(`No Value`)}
-    }*/
-    else if (kind == 3) {
-        if (change != null) {
-            await $.ajax({url:dburl, 
-                method: "PUT",
-                withCredentials: true,
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    fieldsearch: "email",
-                    phoneNum: change,
-                    email: user_email
-                }),
-                success: function (data){
-                    alert(`Changed phone number Successfully`);
-                    location.reload()
+                    user_email = data[0].email
                 }
             })
-        }
-        else { alert(`No Value`) }
-    }}get_user_email()})}
-    //console.log("try " + user_email)
-    
+            var dburl = "http://localhost/API/users"
+            //console.log("ch "+ change)
+            //console.log("data " + data.user_email)
+            if (kind == 1) {
+                if (change != null) {
+                    console.log("1")
+                    await $.ajax({
+                        url: dburl,
+                        method: "PUT",
+                        withCredentials: true,
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            fieldsearch: "email",
+                            name: change,
+                            email: user_email
+                        }),
+                        success: function (data) {
+                            alert(`Changed First Name Successfully`);
+                            location.reload()
+                        }
+                    })
+                }
+                else { alert(`No Value`) }
+            }
+            /*else if (kind=2){
+                if(change!=null){
+                await fetch(dburl, {
+                    method: "PUT",
+                    body: JSON.stringify({
+                        fieldsearch:"email",
+                        phone:change,
+                        email:data
+                      }),
+                      headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                      }
+                    }).then(function (response) {
+                    return response}).then(function () {
+                        alert(`Changed Last Name Successfully`);
+                        location.reload()
+                    })}
+                    else{alert(`No Value`)}
+            }*/
+            else if (kind == 3) {
+                if (change != null) {
+                    await $.ajax({
+                        url: dburl,
+                        method: "PUT",
+                        withCredentials: true,
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            fieldsearch: "email",
+                            phoneNum: change,
+                            email: user_email
+                        }),
+                        success: function (data) {
+                            alert(`Changed phone number Successfully`);
+                            location.reload()
+                        }
+                    })
+                }
+                else { alert(`No Value`) }
+            }
+        } get_user_email()
+    })
+}
+//console.log("try " + user_email)
+
 
 
 
@@ -188,113 +205,119 @@ function func_close_up() {
 //checks input with regex and add to db
 function check_info() {
     $(document).ready(function () {
-        async function get_user_email(){
-            var user_email=""
-            await $.ajax({url:"http://localhost/API/users/CurrentUser", 
+        async function get_user_email() {
+            var user_email = ""
+            await $.ajax({
+                url: "http://localhost/API/users/CurrentUser",
                 method: "GET",
                 withCredentials: true,
                 success: function (data) {
-                    user_email=data[0].email
+                    user_email = data[0].email
                     console.log("user " + user_email)
                     //return user_email
-                }})}
-                //user_email=get_user_email()
-                //console.log(user_email)
-                let my_input;
-    if (document.getElementById('first_name_id').style.display == 'block') {
-        my_input = document.getElementById("my_input_first").value;
-        if (!name_pattern.test(my_input)) {
-            alert("Value is Invalid");
+                }
+            })
         }
-        else {
-            //add update to db
-            editData(1, my_input);
-            func_close_up();
-            my_input = null;
+        //user_email=get_user_email()
+        //console.log(user_email)
+        let my_input;
+        if (document.getElementById('first_name_id').style.display == 'block') {
+            my_input = document.getElementById("my_input_first").value;
+            if (!name_pattern.test(my_input)) {
+                alert("Value is Invalid");
+            }
+            else {
+                //add update to db
+                editData(1, my_input);
+                func_close_up();
+                my_input = null;
+            }
         }
-    }
-    /*else if(document.getElementById('last_name_id').style.display == 'block'){
-        my_input = document.getElementById("my_input_last").value;
-        alert(my_input + 2);
-        if (!name_pattern.test(my_input)) {
-            alert("Value is Invalid");
+        /*else if(document.getElementById('last_name_id').style.display == 'block'){
+            my_input = document.getElementById("my_input_last").value;
+            alert(my_input + 2);
+            if (!name_pattern.test(my_input)) {
+                alert("Value is Invalid");
+            }
+            else {
+                //add update to db
+                editData(2,my_input,user_email);
+                func_close_up();
+                my_input = null;
+            }
+        }*/
+        else if (document.getElementById('phone_id').style.display == 'block') {
+            my_input = document.getElementById("my_input_phone").value;
+            if (!phone_pattern.test(my_input)) {
+                alert("Value is Invalid");
+            }
+            else {
+                //add update to db
+                editData(3, my_input);
+                func_close_up();
+                my_input = null;
+            }
         }
-        else {
-            //add update to db
-            editData(2,my_input,user_email);
-            func_close_up();
-            my_input = null;
-        }
-    }*/
-    else if (document.getElementById('phone_id').style.display == 'block') {
-        my_input = document.getElementById("my_input_phone").value;
-        if (!phone_pattern.test(my_input)) {
-            alert("Value is Invalid");
-        }
-        else {
-            //add update to db
-            editData(3, my_input);
-            func_close_up();
-            my_input = null;
-        }
-    }
 
-            get_user_email()})
-    
+        get_user_email()
+    })
+
 }
 
 //delete user
 
 async function delete_user() {
     $(document).ready(function () {
-        async function get_user_email(){
-            var user_email=""
-            await $.ajax({url:"http://localhost/API/users/CurrentUser", 
+        async function get_user_email() {
+            var user_email = ""
+            await $.ajax({
+                url: "http://localhost/API/users/CurrentUser",
                 method: "GET",
                 withCredentials: true,
                 success: function (data) {
-                    user_email=data[0].email
+                    user_email = data[0].email
                     console.log("user " + user_email)
                     //return user_email
-                }})
-                var dburl = "http://localhost/API/users";
-                //let data = user_email;
-                let confirmation = prompt('To Confirm The Deletion Enter Confirm:');
-                if (confirmation.toLowerCase() == "confirm") {
-                    await fetch(dburl, {
-                        method: "DELETE",
-                        body: JSON.stringify({
-                            email: user_email
-                        }),
-                        headers: {
-                            "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            var dburl = "http://localhost/API/users";
+            //let data = user_email;
+            let confirmation = prompt('To Confirm The Deletion Enter Confirm:');
+            if (confirmation.toLowerCase() == "confirm") {
+                await fetch(dburl, {
+                    method: "DELETE",
+                    body: JSON.stringify({
+                        email: user_email
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                }).then(function (response) {
+                    return response
+                }).then(function () {
+                    alert(`Deleted Successfully`);
+                    $.ajax({
+                        url: `http://localhost/auth`,
+                        method: 'GET',
+                        success: function () {
+                            // Redirect to the product page
+                            window.location.href = `http://localhost/auth`;
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching product page:', error);
                         }
-                    }).then(function (response) {
-                        return response
-                    }).then(function () {
-                        alert(`Deleted Successfully`);
-                        $.ajax({
-                            url: `localhost/auth`, 
-                            method: 'GET',
-                            success: function () {
-                                // Redirect to the product page
-                                window.location.href = `localhost/auth`;
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error fetching product page:', error);
-                            }
-                        });
-                    })
-                }
-                else {
-                    alert(`Did Not Delete`);
-                }
+                    });
+                })
             }
-            get_user_email()
-            //calls a page
-        })
-    
-    
+            else {
+                alert(`Did Not Delete`);
+            }
+        }
+        get_user_email()
+        //calls a page
+    })
+
+
 }
 
 //function call_the_page(page_name){

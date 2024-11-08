@@ -3,6 +3,15 @@ const path = require("path");
 const router = express.Router();
 
 
+//Payments Routes
+router.get('/payment', (req, res) => {
+  res.sendFile(path.join(__dirname, '../Views/cart', `payment.html`));
+});
+
+router.get('/cart/shopping_cart', (req, res) => {
+  res.sendFile(path.join(__dirname, '../Views/cart', `shopping_cart.html`));
+});
+
 //home Routes
 router.get('/about_us', (req, res) => {
   res.sendFile(path.join(__dirname, '../Views/main', `about_us.html`));
@@ -26,14 +35,6 @@ router.get('/user_info', (req, res) => {
 
 
 
-//Payments Routes
-router.get('/cart/payment', (req, res) => {
-  res.sendFile(path.join(__dirname, '../Views/cart', `payment.html`));
-});
-
-router.get('/cart/shopping_cart', (req, res) => {
-  res.sendFile(path.join(__dirname, '../Views/cart', `shopping_cart.html`));
-});
 
 
 //Products Routes
