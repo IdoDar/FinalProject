@@ -27,7 +27,7 @@ const handleLogIn = async (req, res) => {
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '30m' }
+            { expiresIn: '1h' }
         );
         const refreshToken = jwt.sign(
             { "email": foundUser.email },
@@ -39,7 +39,7 @@ const handleLogIn = async (req, res) => {
         foundUser.refreshToken = refreshToken;
         await foundUser.save();
         res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 30 * 60 * 1000 });
+        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 60 * 60 * 1000 });
         res.json("Successful Login");
         console.log("User Login");
     }
@@ -101,9 +101,9 @@ const handleRefreshToken = async (req, res) => {
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '30m' }
+                { expiresIn: '1h' }
             );
-            res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 30 * 60 * 1000 })
+            res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 60 * 60 * 1000 })
         }
     )
 }
