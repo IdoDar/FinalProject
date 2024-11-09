@@ -1,6 +1,7 @@
 const mongoose_api = require('../../controllers/moongose_api')
 const express = require("express");
 const router = express.Router();
+const twitterclient = require("../../controllers/twitterClient.js");
 
 
 router.get("/", async (req, res) => {
@@ -75,9 +76,9 @@ router.get("/Fields", async (req, res) => {
 })
 
 
-router.get("/tweet/:info",async (req, res) => {
-const { twitterClient } = require("../twitterClient.js")
-const productName = req.params.info.replace(/"/g, '');
+router.get("/tweet/:info", async (req, res) => {
+    const { twitterClient } = twitterclient
+    const productName = req.params.info.replace(/"/g, '');
     const jsonreq = { product_name: productName };
     const out = await mongoose_api.ReadData("products", jsonreq, { ...{ _id: 0, __v: 0 } })
     console.log(out);
@@ -90,13 +91,13 @@ const productName = req.params.info.replace(/"/g, '');
         try {
             await twitterClient.v2.tweet(`We have a new product!\n It is in the ${data[0].category} category, \n We call it ${data[0].product_name} \n and its description is: ${data[0].description}. \n Thank you for our supplier: ${companyname[1][0].companyName}`);
             res.send("Tweet was sent!");
-          } catch (err) {
+        } catch (err) {
             console.log(err)
             res.status(500).json(err)
 
-          }
+        }
     }
-  
+
 })
 
 
