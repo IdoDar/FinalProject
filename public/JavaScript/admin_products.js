@@ -296,14 +296,50 @@ async function addData() {
       picture_link: picture_link,
       category: category
     }),
-    success: function () {
+    success: async function () {
     alert(`Added ${product_name} Successfully`);
+    await $.ajax({url:`http://localhost/API/products/tweet/${product_name}`, 
+      method: "GET",
+      withCredentials: true,
+    success: function(){
+      alert("tweet uploaded!")
+    },
+    error: function (xhr, status, error) {alert(`Failed To Tweet ${error}`);}
+  })
     location.reload()
   },
   error: function (xhr, status, error) {alert(`Failed To Add ${error}`);}})
 }catch(err){
   alert("Canceled Operation: "+err)}
 }
+
+/*async function tweet() {
+  let product_name = ""
+  while(product_name === "" || )
+    {
+      product_name = prompt('Enter The Product Name:');
+      if(product_name===null ){
+        throw "No Product Name"
+      }
+    }
+      await $.ajax({url:dburl, 
+      method: "DELETE",
+      withCredentials: true,
+      contentType: 'application/json',
+      data: JSON.stringify({
+        product_name: data.data
+      }),
+      success: function () {
+      alert(`Deleted ${data.data} Successfully`);
+      location.reload()
+  }})
+  }
+  else {
+    alert(`Did Not Delete`);
+  }
+}*/
+
+
 
 async function deleteData(data) {
   let confirmation = prompt('To Confirm The Deletion Enter Confirm:');

@@ -6,6 +6,7 @@ const zip_pattern = /\b\d{5,10}\b/;
 const card_pattern = /^4[0-9]{12}(?:[0-9]{3})?$/;
 const id_pattern = /\b\d{9}\b/;
 const cvv_pattern = /\b\d{3}\b/;
+//var user_email = 'idonoam@gmail.com';
 
 
 let list_cart_html = document.querySelector('.cart-list');
@@ -13,6 +14,7 @@ let total_price = document.querySelector('.sum-all')
 
 //checks input woth regex
 async function check_input() {
+    console.log("clicked");
     let my_message = '';
     let problem = false;
     let f_name = document.getElementById("first_name").value;
@@ -85,6 +87,9 @@ async function delete_and_save_cart() {
                 withCredentials: true,
                 success: function (data) {
                     user_email = data[0].email
+                    console.log("d1 " + data)
+                    console.log("d2 " + data[0])
+                    console.log("d3 " + data[0].email)
                 }
             })
             var dburl = `http://localhost/API/users/${user_email}`;
@@ -94,10 +99,12 @@ async function delete_and_save_cart() {
             }).then(function (response) {
                 return response.json()
             }).then(function (data) {
+                console.log("stahe 1");
                 let my_usr = data[0];
                 let my_cart = my_usr.currentBasket;
                 let my_user_id = my_usr._id;
                 let today = new Date();
+                console.log(my_cart + today + my_user_id);
                 let for_post = JSON.stringify({
                     user: my_user_id,
                     date: today,
@@ -136,6 +143,7 @@ function cart_html() {
     list_cart_html.innerHTML = '';
     let total_sum = 0;
     cart.forEach(my_item_info => {
+        console.log("my item " + my_item_info.product_name);
         let new_cart_item = document.createElement('div');
         new_cart_item.classList.add('item');
         new_cart_item.dataset.id = my_item_info.id;

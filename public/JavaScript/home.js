@@ -63,11 +63,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             const filterSection = document.createElement('div');
             filterSection.innerHTML = `<h3>${key}</h3>`;
 
-            if(key=="description" || key=="product_name"){continue;}
             values.forEach(value => {
                 let displayValue = value;
                 let valueToSend = value;
-                
 
                 // If key is 'company_name', use companyName for display and _id for value to send
                 if (key === 'company_name') {

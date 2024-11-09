@@ -32,6 +32,7 @@ function func_close_up() {
 }
 async function check_input_up() {
 
+    console.log("clicked");
     let my_message = '';
     let problem = false;
     let f_name = document.getElementById("fname").value;
@@ -83,6 +84,7 @@ async function check_input_up() {
 }
 
 function check_input_in() {
+    console.log("clicked");
     let my_email = document.getElementById("email_id").value;
     if (!email_pattern.test(my_email)) {
 
@@ -154,6 +156,45 @@ async function loginUser(email, password) {
     } catch (error) {
         console.error('Error:', error);
     }
+
+
+
+
+    /*
+        var res = "";
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost/auth/login');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.withCredentials = true;
+        xhr.onload = await function () {
+            console.log('XHR loaded:', xhr.status, xhr.responseText);
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const response = JSON.parse(xhr.responseText);
+                console.log('Parsed Response:', response);
+                // Save the accessToken and email
+                console.log('User logged in successfully:', response);
+                res = response;
+                alert("Success! You Redirect to home page");
+    
+            }
+            else {
+                if (xhr.status == 401 || xhr.status == 403) {
+                    alert("Invalid Credentials")
+                    return;
+                }
+            }
+        };
+    
+        xhr.onerror = function () {
+            console.error('Network error');
+        };
+    
+        console.log('Sending JSON data:', JSON.stringify(jsondata));
+        xhr.send(JSON.stringify(jsondata));
+        console.log(res);
+    
+    */
+    /**/
 
 }
 

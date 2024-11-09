@@ -42,6 +42,8 @@ router.get("/product/:id", (req, res) => {
   res.sendFile(path.join(__dirname, '../Views/main', 'productPage.html'));
 });
 
+
+
 router.all('*', (req, res) => {
   res.sendStatus(404);
 });

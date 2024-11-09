@@ -74,6 +74,32 @@ router.get("/Fields", async (req, res) => {
         res.send(data)
 })
 
+//require("dotenv").config({ path: __dirname + "/.env" });
+router.get("/tweet/:info",async (req, res) => {
+const { twitterClient } = require("../twitterClient.js")
+const productName = req.params.info.replace(/"/g, '');
+    const jsonreq = { product_name: productName };
+    const out = await mongoose_api.ReadData("products", jsonreq, { ...{ _id: 0, __v: 0 } })
+    console.log(out);
+    var err = out[0]
+    var data = out[1]
+    if (err)
+        res.status(500).json(err)
+    else {
+        const companyname = await mongoose_api.ReadData("suppliers", { _id: data[0].company_name }, { ...{ _id: 0, companyName: 1 } })
+        try {
+            await twitterClient.v2.tweet(`We have a new product!\n It is in the ${data[0].category} category, \n We call it ${data[0].product_name} \n and its description is: ${data[0].description}. \n Thank you for our supplier: ${companyname[1][0].companyName}`);
+            res.send("Tweet was sent!");
+          } catch (err) {
+            console.log(err)
+            res.status(500).json(err)
+
+          }
+    }
+  
+})
+
+
 router.get("/:Product", async (req, res) => {
     const productName = req.params.Product.replace(/"/g, '');
     const jsonreq = { _id: productName };
@@ -89,6 +115,8 @@ router.get("/:Product", async (req, res) => {
         res.send({ data: data[0], "conpanyName": companyname[1][0].companyName });
     }
 })
+
+
 
 router.all('*', (req, res) => {
     res.sendStatus(404);
