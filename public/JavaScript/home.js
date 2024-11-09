@@ -62,7 +62,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         for (const [key, values] of Object.entries(filters)) {
             const filterSection = document.createElement('div');
             filterSection.innerHTML = `<h3>${key}</h3>`;
-
+            if (key == "description" || key == "product_name")
+                continue;
             values.forEach(value => {
                 let displayValue = value;
                 let valueToSend = value;
