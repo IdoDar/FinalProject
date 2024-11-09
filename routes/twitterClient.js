@@ -8,9 +8,8 @@ const client = new TwitterApi({
   accessSecret: process.env.ACCESS_SECRET_TWITTER,
 });
 
-//const bearer = new TwitterApi(process.env.BEARER_TOKEN_TWITTER);
 
 const twitterClient = client.readWrite;
-//const twitterBearer = bearer.readOnly;
+
 
 module.exports = { twitterClient };

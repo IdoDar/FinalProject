@@ -74,7 +74,7 @@ router.get("/Fields", async (req, res) => {
         res.send(data)
 })
 
-//require("dotenv").config({ path: __dirname + "/.env" });
+
 router.get("/tweet/:info",async (req, res) => {
 const { twitterClient } = require("../twitterClient.js")
 const productName = req.params.info.replace(/"/g, '');
