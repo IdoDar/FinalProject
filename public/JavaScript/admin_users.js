@@ -18,7 +18,7 @@ $(document).ready(function () {
           <th class="text">email</th>
           <th class="text">phoneNum</th>
           <th class="text">dateBirth</th
-          <th class="text">Edits</th>
+          
           </tr>
         </thead>`
         data.forEach((model) => {
@@ -173,7 +173,7 @@ $(document).ready(function () {
       let field_value = ""
       let dateBirth_date = ""
       while (field_value === "" || isNaN(dateBirth_date)) {
-        dateBirth = prompt('Enter The Date Of Birth (in the format (DD/MM/YYYY)):');
+        dateBirth = prompt('Enter The Date Of Birth (in the format (MM/DD/YYYY)):');
         dateBirth_date = new Date(field_value);
         if (field_value === null) {
           break
@@ -262,7 +262,7 @@ $(document).ready(function () {
       let dateBirth = ""
       let dateBirth_date = ""
       while (dateBirth === "" || isNaN(dateBirth_date)) {
-        dateBirth = prompt('Enter The Date Of Birth (in the format (DD/MM/YYYY)):');
+        dateBirth = prompt('Enter The Date Of Birth (in the format (MM/DD/YYYY)):');
         dateBirth_date = new Date(dateBirth);
         if (dateBirth === null) {
           throw "No DateBirth"

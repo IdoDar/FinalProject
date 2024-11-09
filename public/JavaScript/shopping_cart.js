@@ -11,9 +11,6 @@ let final_cart_json = [];
 let total_quantity = get_cart_len();
 let total_sum = 0;
 
-//var user_email = 'idonoam@gmail.com';
-//var user_email = 'yarden@test.test';
-
 //Shows cart
 function show() { show_cart.classList.toggle('show-cart'); }
 
@@ -28,9 +25,6 @@ async function get_cart_len() {
         withCredentials: true,
         success: function (data) {
           user_email = data[0].email
-          console.log("d1 " + data)
-          console.log("d2 " + data[0])
-          console.log("d3 " + data[0].email)
         }
       })
       var dburl = `http://localhost/API/users/${user_email}`;
@@ -74,9 +68,6 @@ async function get_cart() {
         withCredentials: true,
         success: function (data) {
           user_email = data[0].email
-          console.log("d1 " + data)
-          console.log("d2 " + data[0])
-          console.log("d3 " + data[0].email)
         }
       })
       //get user cart - current basket
@@ -102,7 +93,6 @@ async function get_cart() {
             }).then(function (response) {
               return response.json()
             }).then(function (my_data) {
-              console.log(data);
               var obj = JSON.stringify(my_data.data);
               var my_item = JSON.parse(obj);
               total_quantity = get_cart_len();
@@ -183,24 +173,11 @@ list_cart_html.addEventListener('click', async (event) => {
   let clicked_position = event.target;
   if (clicked_position.classList.contains('less')) {
     let product_id = clicked_position.parentElement.parentElement.dataset.id;
-    /*dburl = `http://localhost/API/basket/MyBasket/Remove/${product_id}`;
-    await fetch(dburl, {
-      method: "POST",
-      body: JSON.stringify({
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    }).then(function (response) {
-      return response
-    }).then(function () {
-    })*/
     $.ajax({
       url: `http://localhost/API/Basket/MyBasket/Remove/${product_id}`,
       method: 'POST',
       withCredentials: true,
       success: function () {
-        //alert('Product added to cart!');
       },
       error: function (xhr, status, error) {
         console.error('Error fetching product page:', error);
@@ -218,7 +195,6 @@ list_cart_html.addEventListener('click', async (event) => {
       method: 'POST',
       withCredentials: true,
       success: function () {
-        //alert('Product added to cart!');
       },
       error: function (xhr, status, error) {
         console.error('Error fetching product page:', error);
@@ -228,18 +204,6 @@ list_cart_html.addEventListener('click', async (event) => {
           alert(`error ${xhr.status}: ${error}`)
       }
     });
-    /*dburl = `http://localhost/API/basket/MyBasket/Add/${product_id}`;
-    await fetch(dburl, {
-      method: "POST",
-      body: JSON.stringify({
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    }).then(function (response) {
-      return response
-    }).then(function () {
-    })*/
   }
   get_cart();
 })
