@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const filters = await fetchJson(filtersUrl);
 
     // Load initial data
+
     loadProducts(initialProducts);
     loadFilters(filters);
 });
